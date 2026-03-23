@@ -427,6 +427,7 @@ canvas {
     justify-content: flex-start; /* Začne nahoře, aby se dalo scrollovat dolů */
     text-align: center;
     box-sizing: border-box; /* Zajistí, že padding "nevyfoukne" stránku do stran */
+    padding: 0;
 }
 
 
@@ -465,6 +466,7 @@ canvas {
     border-bottom: 1px solid rgba(0,0,0,0.1);
     box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
+
 
 .info-subtitlet {
     font-family: 'Great Vibes', cursive; /* Stejné ozdobné písmo */
@@ -537,10 +539,13 @@ canvas {
     text-align: center;
     font-size: 1.1rem;
     line-height: 1.2;
-    width: 100%; /* Roztažení na dostupnou šířku */
-    max-width: 300px; /* Aby text nebyl na širokých mobilech moc roztažený */
+    width: 90%; /* Roztažení na dostupnou šířku */
+    max-width: 350px; /* Aby text nebyl na širokých mobilech moc roztažený */
     margin: 0 auto; /* Pojistka pro vycentrování bloku */
+    padding: 0;
     color: black;
+    display: block;
+    box-sizing: border-box; /* Důležité: aby padding nerošiřoval prvek */
 }
 
 .info-content p {
@@ -596,16 +601,17 @@ canvas {
 
 /* Hlavní ohraničený box - TADY JE TEN ČTVEREC */
 .schedule-box {
-    width: 100%;
+    width: 90%; /* Místo 100% dáme 90%, aby měl box po stranách fuky */
     max-width: 380px;
-    margin: 0 auto 30px auto; /* Horní margin na 0 */
+    margin: 20px auto !important; /* Toto ho vycentruje vodorovně */
     background: white;
     border: 1px solid rgba(0,0,0,0.1);
     border-radius: 10px;
-    padding: 30px 10px 10px 10px; /* Větší horní padding, aby text nezačínal pod štítkem */
+    padding: 30px 15px 15px 15px; /* Srovnané vnitřní okraje */
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
     position: relative;
     z-index: 1;
+    display: block;
 }
 
  .schedule-box .schedule-item:first-of-type {
@@ -682,7 +688,6 @@ canvas {
     font-size: 1.05rem;
     line-height: 1.6;
     margin-top: 30px;
-    padding: 0 20px;
 }
 
 
@@ -690,9 +695,55 @@ canvas {
     display: flex;
     flex-direction: column;
     gap: 15px;
-    margin-top: 10px;
-    padding-bottom: 30px;
+    width: 90%;
+    max-width: 380px;
+    margin: 40px auto !important;
+    border: 1px solid rgba(0,0,0,0.1); /* Tenká linka */
+    border-radius: 15px; /* Tady budou fungovat ty kulaté rohy */
+    padding: 30px 20px;
+    position: relative; /* Důležité pro ty kytky v rozích */
 }
+
+#rsvp-form h3 {
+    font-family: 'Great Vibes', cursive;
+    color: #000000;
+    font-weight: normal;
+    font-size: 2.2rem;     /* Zvětšený nadpis */
+    margin: 10px 0 20px 0;
+    position: relative;    /* Nutné pro umístění květů */
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+/* Květina VLEVO */
+#rsvp-form h3::before {
+    content: "";
+    position: absolute;
+    left: -20px;          /* Posune květ blíž ke kraji boxu */
+    top: 1%;
+    transform: translateY(-50%); /* Vycentruje svisle na střed textu */
+    width: 100px;          /* Větší velikost, jak jsi chtěla */
+    height: 100px;
+    background: url('kvety.png') no-repeat center;
+    background-size: contain;
+    pointer-events: none; /* Aby kytka nebránila klikání */
+}
+
+/* Květina VPRAVO */
+#rsvp-form h3::after {
+    content: "";
+    position: absolute;
+    right: -20px;          /* Posune květ blíž ke kraji boxu */
+    top: 1%;
+    transform: translateY(-50%); /* Vycentruje svisle na střed textu */
+    width: 100px;          /* Větší velikost, jak jsi chtěla */
+    height: 100px;
+    background: url('kvety_prava.png') no-repeat center;
+    background-size: contain;
+    pointer-events: none; /* Aby kytka nebránila klikání */
+}
+
 
 .rsvp-input {
     width: 100%;
