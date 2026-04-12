@@ -1115,13 +1115,13 @@ canvas {
     /* Růže vlevo - přilepená na úplný levý okraj obrazovky */
     .relative-title::before {
         background-image: url('kvet.png'); /* Tvůj název souboru */
-        left: -120px; /* Pokud chceš, aby kousek růže "vyčníval" ven z displeje */
+        left: -100px; /* Pokud chceš, aby kousek růže "vyčníval" ven z displeje */
     }
 
     /* Růže vpravo - přilepená na úplný pravý okraj obrazovky */
     .relative-title::after {
         background-image: url('kvet_vpravo.png'); /* Tvůj název souboru */
-        right: -120px; /* Pokud chceš, aby kousek růže "vyčníval" ven z displeje */
+        right: -100px; /* Pokud chceš, aby kousek růže "vyčníval" ven z displeje */
     }
 
 /* Pojistka pro mobil: aby růže nezpůsobily vodorovné posouvání stránky */
