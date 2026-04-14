@@ -687,6 +687,16 @@ function setupDresscodeLightbox() {
         image.addEventListener("click", () => openLightbox(image));
     });
 
+    [
+        { button: "[data-dress-women-more]", imageId: "dress-women-second-img" },
+        { button: "[data-dress-men-more]", imageId: "dress-men-second-img" }
+    ].forEach(({ button, imageId }) => {
+        const moreBtn = document.querySelector(button);
+        const targetImg = document.getElementById(imageId);
+        if (!moreBtn || !targetImg) return;
+        moreBtn.addEventListener("click", () => openLightbox(targetImg));
+    });
+
     closeButton.addEventListener("click", closeLightbox);
 
     lightbox.addEventListener("click", (event) => {
@@ -757,6 +767,83 @@ window.addEventListener("resize", () => {
     if (!isRevealed) initCanvas();
 });
 
+function setupBackgroundMusic() {
+    const audio = document.getElementById("invite-bg-audio");
+    const muteBtn = document.getElementById("music-mute");
+    const volumeInput = document.getElementById("music-volume");
+    if (!audio || !muteBtn || !volumeInput) return;
+
+    const storage = {
+        volume: "inviteBgMusicVol",
+        muted: "inviteBgMusicMuted",
+    };
+
+    const readStored = (key, fallback) => {
+        try {
+            return localStorage.getItem(key) ?? fallback;
+        } catch {
+            return fallback;
+        }
+    };
+
+    const writeStored = (key, value) => {
+        try {
+            localStorage.setItem(key, value);
+        } catch {
+            /* ignore */
+        }
+    };
+
+    const persist = () => {
+        writeStored(storage.volume, String(audio.volume));
+        writeStored(storage.muted, audio.muted ? "1" : "0");
+    };
+
+    const tryPlay = () => {
+        const playAttempt = audio.play();
+        if (playAttempt && typeof playAttempt.catch === "function") {
+            playAttempt.catch(() => {});
+        }
+    };
+
+    const setMutedUi = (muted) => {
+        muteBtn.setAttribute("aria-pressed", muted ? "true" : "false");
+        muteBtn.classList.toggle("is-muted", muted);
+    };
+
+    const rawVol = Number.parseFloat(readStored(storage.volume, "0.35"));
+    const vol = Number.isFinite(rawVol) ? Math.min(1, Math.max(0, rawVol)) : 0.35;
+    volumeInput.value = String(vol);
+    audio.volume = vol;
+    audio.muted = readStored(storage.muted, "0") === "1";
+    setMutedUi(audio.muted);
+
+    muteBtn.addEventListener("click", () => {
+        audio.muted = !audio.muted;
+        setMutedUi(audio.muted);
+        persist();
+        tryPlay();
+    });
+
+    volumeInput.addEventListener("input", () => {
+        const next = Number.parseFloat(volumeInput.value);
+        audio.volume = Number.isFinite(next) ? next : audio.volume;
+        audio.muted = false;
+        setMutedUi(false);
+        persist();
+        tryPlay();
+    });
+
+    const unlockPlayback = () => tryPlay();
+    document.addEventListener("pointerdown", unlockPlayback, { once: true });
+    document.addEventListener("keydown", unlockPlayback, { once: true });
+
+    tryPlay();
+    window.addEventListener("pageshow", (event) => {
+        if (event.persisted) tryPlay();
+    });
+}
+
 window.addEventListener("DOMContentLoaded", () => {
     ensureInitOnContainerResize();
     if (!hasInitializedCanvas) scheduleCanvasInit();
@@ -764,6 +851,7 @@ window.addEventListener("DOMContentLoaded", () => {
     showInfo();
     setupModernScrollbar();
     setupDresscodeLightbox();
+    setupBackgroundMusic();
 });
 
 window.addEventListener("load", () => {

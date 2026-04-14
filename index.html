@@ -70,20 +70,20 @@
 
                     <div id="countdown" style="display: flex; justify-content: center; gap: 12px; margin-top: 5px; font-family: 'Montserrat', sans-serif;">
                         <div style="text-align: center; min-width: 45px;">
-                            <span id="days" style="display: block; font-size: 1.4rem; font-weight: bold; color: #b68a2f;">00</span>
-                            <small style="font-size: 0.6rem; text-transform: uppercase; color: #7f6a5a;">Dní</small>
+                            <span id="days" style="display: block; font-size: 1.4rem; font-weight: bold; color: #b28924;">00</span>
+                            <small style="font-size: 0.6rem; text-transform: uppercase; color: #9a7418;">Dní</small>
                         </div>
                         <div style="text-align: center; min-width: 45px;">
-                            <span id="hours" style="display: block; font-size: 1.4rem; font-weight: bold; color: #b68a2f;">00</span>
-                            <small style="font-size: 0.6rem; text-transform: uppercase; color: #7f6a5a;">Hod</small>
+                            <span id="hours" style="display: block; font-size: 1.4rem; font-weight: bold; color: #b28924;">00</span>
+                            <small style="font-size: 0.6rem; text-transform: uppercase; color: #9a7418;">Hod</small>
                         </div>
                         <div style="text-align: center; min-width: 45px;">
-                            <span id="minutes" style="display: block; font-size: 1.4rem; font-weight: bold; color: #b68a2f; ">00</span>
-                            <small style="font-size: 0.6rem; text-transform: uppercase; color: #7f6a5a;">Min</small>
+                            <span id="minutes" style="display: block; font-size: 1.4rem; font-weight: bold; color: #b28924; ">00</span>
+                            <small style="font-size: 0.6rem; text-transform: uppercase; color: #9a7418;">Min</small>
                         </div>
                         <div style="text-align: center; min-width: 45px;">
-                            <span id="seconds" style="display: block; font-size: 1.4rem; font-weight: bold; color: #b68a2f; ">00</span>
-                            <small style="font-size: 0.6rem; text-transform: uppercase; color: #7f6a5a;">Sek</small>
+                            <span id="seconds" style="display: block; font-size: 1.4rem; font-weight: bold; color: #b28924; ">00</span>
+                            <small style="font-size: 0.6rem; text-transform: uppercase; color: #9a7418;">Sek</small>
                         </div>
                     </div>
                 </div>
@@ -111,8 +111,8 @@
 
 
         <div id="info-page" class="hidden">
-            <div class="side-flowers left"></div>
-            <div class="side-flowers right"></div>
+            <div class="side-flowers left" aria-hidden="true"></div>
+            <div class="side-flowers right" aria-hidden="true"></div>
             <div class="header-row">
                 <span class="header-item header-left">P & A</span>
                 <img src="heart.png" class="info-heart-icon" alt="srdíčko">
@@ -120,20 +120,13 @@
             </div>
 
             <h2 class="info-titlet">Budeme se brát!</h2>
-            <div class="info-titlett">Milá rodino a přátelé, tímto bychom Vás rádi pozvali na naši svatbu. Pojďte oslavit náš nejlepší den v životě s námi!</div>
+            <div class="info-titlett">Milá rodino a přátelé, srdečně Vás zveme na naši svatbu a těšíme se, že náš výjimečný den prožijete spolu s námi.</div>
             <div class="fade-image-wrapper">
                 <img src="svatebni.jpg" alt="Svatební fotka" class="fade-image">
             </div>
 
             <div class="info-content">
                 <h3 class="info-subtitle">Základní informace</h3>
-                <div class="info-section">
-                    <div class="info-text-airy">
-                        <p>Afterparty at 22:00</p>
-                    </div>
-                    <h3 class="info-title-airy relative-title">Harmonogram dne</h3>
-                </div>
-
                 <div class="schedule-box">
 
                     <div class="schedule-item">
@@ -149,7 +142,7 @@
                         <div class="schedule-time">14:30</div>
                         <div class="schedule-text">
                             <h4>Svatební focení</h4>
-                            <p>Zámecké náměstí,<br>Zámecká zahrada<br>Teplice</p>
+                            <p>Zámecké náměstí,<br>Zámecká zahrada,<br>Teplice</p>
                         </div>
                     </div>
 
@@ -162,14 +155,114 @@
                         </div>
                     </div>
 
+                    <div class="schedule-item">
+                        <div class="schedule-time">22:00</div>
+                        <div class="schedule-text">
+                            <h4>Afterparty</h4>
+                            <p>Private Becher's Bar,<br>Teplice</p>
+                            <a href="https://www.google.com/maps/place/Becher%27s+Bar/@50.6400627,13.8276407,18z/data=!3m1!4b1!4m6!3m5!1s0x47098ff575e30673:0x164179419a3251a8!8m2!3d50.6400615!4d13.8285319!16s%2Fg%2F11p6xhhkb3?entry=ttu&g_ep=EgoyMDI2MDQwOC4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="map-link">📍 Otevřít v mapách</a>
+                        </div>
+                    </div>
+
                 </div>
 
+                <section class="harmonogram harmonogram-timeline" aria-labelledby="harmonogram-heading">
+                    <h3 id="harmonogram-heading" class="info-title-airy harmonogram-section-title">Harmonogram dne</h3>
+
+                    <!-- Harmonogram icons: Lucide (ISC) — copies in /icons/ -->
+                    <div class="harmonogram-timeline-track">
+                        <article class="harmonogram-timeline-item harmonogram-timeline-item--text-right">
+                            <div class="harmonogram-timeline-cell harmonogram-timeline-cell--icon" aria-hidden="true">
+                                <svg class="harmonogram-timeline-svg" viewBox="0 0 24 24" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/>
+                                    <circle cx="12" cy="13" r="3"/>
+                                </svg>
+                            </div>
+                            <div class="harmonogram-timeline-cell harmonogram-timeline-cell--axis">
+                                <span class="harmonogram-timeline-dot"></span>
+                            </div>
+                            <div class="harmonogram-timeline-cell harmonogram-timeline-cell--text">
+                                <p class="harmonogram-timeline-time">13:30</p>
+                                <h4 class="harmonogram-timeline-label">Svatební obřad</h4>
+                                <ul class="harmonogram-sub">
+                                    <li>Gratulace novomanželům</li>
+                                    <li>Společné focení</li>
+                                </ul>
+                            </div>
+                        </article>
+
+                        <article class="harmonogram-timeline-item harmonogram-timeline-item--text-left harmonogram-timeline-item--banquet">
+                            <div class="harmonogram-timeline-cell harmonogram-timeline-cell--text">
+                                <p class="harmonogram-timeline-time">16:00</p>
+                                <h4 class="harmonogram-timeline-label">Slavnostní hostina</h4>
+                                <ul class="harmonogram-sub">
+                                    <li>Svatební hry a zábava</li>
+                                    <li>Krájení svatebního dortu</li>
+                                    <li>První tanec novomanželů</li>
+                                    <li>Hod svatební kytice</li>
+                                    <li>Večerní raut</li>
+                                    <li>Volná zábava a tanec</li>
+                                </ul>
+                            </div>
+                            <div class="harmonogram-timeline-cell harmonogram-timeline-cell--axis">
+                                <span class="harmonogram-timeline-dot"></span>
+                            </div>
+                            <div class="harmonogram-timeline-cell harmonogram-timeline-cell--icon" aria-hidden="true">
+                                <svg class="harmonogram-timeline-svg" viewBox="0 0 24 24" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8"/>
+                                    <path d="M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2-1 2-1"/>
+                                    <path d="M2 21h20"/>
+                                    <path d="M7 8v3M12 8v3M17 8v3"/>
+                                    <path d="M7 4h.01M12 4h.01M17 4h.01"/>
+                                </svg>
+                            </div>
+                            <div class="harmonogram-banquet-heart" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" focusable="false" fill="currentColor">
+                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                </svg>
+                            </div>
+                        </article>
+
+                        <article class="harmonogram-timeline-item harmonogram-timeline-item--text-right harmonogram-timeline-item--last">
+                            <div class="harmonogram-timeline-cell harmonogram-timeline-cell--icon" aria-hidden="true">
+                                <svg class="harmonogram-timeline-svg" viewBox="0 0 48 48" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <g transform="translate(15,26) rotate(-18) scale(1.15) translate(-12,-12)">
+                                        <circle cx="12" cy="5" r="1"/>
+                                        <path d="m9 20 3-6 3 6"/>
+                                        <path d="m6 8 6 2 6-2"/>
+                                        <path d="M12 10v4"/>
+                                    </g>
+                                    <g transform="translate(33,26) rotate(18) scale(1.15) translate(-12,-12)">
+                                        <circle cx="12" cy="5" r="1"/>
+                                        <path d="m9 20 3-6 3 6"/>
+                                        <path d="m6 8 6 2 6-2"/>
+                                        <path d="M12 10v4"/>
+                                    </g>
+                                </svg>
+                            </div>
+                            <div class="harmonogram-timeline-cell harmonogram-timeline-cell--axis">
+                                <span class="harmonogram-timeline-dot"></span>
+                            </div>
+                            <div class="harmonogram-timeline-cell harmonogram-timeline-cell--text">
+                                <p class="harmonogram-timeline-time">22:00 – 04:00</p>
+                                <h4 class="harmonogram-timeline-label">Afterparty v Becher's baru</h4>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+
                 <div class="info-section">
-                    <h3 class="info-title-airy relative-title">Instrukce</h3>
+                    <div class="info-heading-with-florals">
+                        <span class="info-heading-floral info-heading-floral--left" aria-hidden="true"></span>
+                        <h3 class="info-title-airy info-heading-with-florals__title">Instrukce</h3>
+                        <span class="info-heading-floral info-heading-floral--right" aria-hidden="true"></span>
+                    </div>
                     <div class="info-text-airy">
-                        Bude nám potěšením, když se u kostela sv. Jana Křtitele sejdeme již v <strong>13:00</strong>, abychom se společně připravili na začátek obřadu.<br><br />
-                        Doprava ke kostelu je individuální, z obřadu na hostinu je již vše zajištěno námi.<br><br />
-                        <span class="morning-tip">✨ Nezapomeňte se ráno pořádně nasnídat!</span>
+                        <p>Bude nám potěšením, když se u kostela sv. Jana Křtitele sejdeme již ve <strong>13:00</strong>, abychom se společně připravili na začátek obřadu. Samotný obřad začíná ve <strong>13:30</strong>.</p>
+                        <p>Doprava ke kostelu je individuální. Parkování je možné v okolí Zámeckého náměstí (ulice U Zámku, Rooseveltova a Dlouhá).</p>
+                        <p>Po obřadu bude následovat společné focení a poté se přesuneme na místo hostiny, kam je pro Vás doprava zajištěna námi.</p>
+                        <p class="morning-tip">✨ Nezapomeňte se ráno pořádně nasnídat – slavnostní hostina nás čeká až kolem <strong>16:00</strong>.</p>
+                        <p>Prosíme hosty, aby během obřadu odložili mobilní telefony a užili si tento okamžik s námi.</p>
                     </div>
                     <hr class="fade-divider">
                 </div>
@@ -177,20 +270,20 @@
                 <h2 class="info-titlet">Užijte si s námi naší svatbu za:</h2>
                 <div class="countdown-container" style="display: flex; justify-content: center; gap: 12px; margin-top: 5px; font-family: 'Montserrat', sans-serif;">
                     <div style="text-align: center; min-width: 45px;">
-                        <span class="days-val" style="display: block; font-size: 1.4rem; font-weight: bold; color: #b68a2f;">00</span>
-                        <small style="font-size: 0.6rem; text-transform: uppercase; color: #7f6a5a;">Dní</small>
+                        <span class="days-val" style="display: block; font-size: 1.4rem; font-weight: bold; color: #b28924;">00</span>
+                        <small style="font-size: 0.6rem; text-transform: uppercase; color: #9a7418;">Dní</small>
                     </div>
                     <div style="text-align: center; min-width: 45px;">
-                        <span class="hours-val" style="display: block; font-size: 1.4rem; font-weight: bold; color: #b68a2f;">00</span>
-                        <small style="font-size: 0.6rem; text-transform: uppercase; color: #7f6a5a;">Hod</small>
+                        <span class="hours-val" style="display: block; font-size: 1.4rem; font-weight: bold; color: #b28924;">00</span>
+                        <small style="font-size: 0.6rem; text-transform: uppercase; color: #9a7418;">Hod</small>
                     </div>
                     <div style="text-align: center; min-width: 45px;">
-                        <span class="minutes-val" style="display: block; font-size: 1.4rem; font-weight: bold; color: #b68a2f;">00</span>
-                        <small style="font-size: 0.6rem; text-transform: uppercase; color: #7f6a5a;">Min</small>
+                        <span class="minutes-val" style="display: block; font-size: 1.4rem; font-weight: bold; color: #b28924;">00</span>
+                        <small style="font-size: 0.6rem; text-transform: uppercase; color: #9a7418;">Min</small>
                     </div>
                     <div style="text-align: center; min-width: 45px;">
-                        <span class="seconds-val" style="display: block; font-size: 1.4rem; font-weight: bold; color: #b68a2f;">00</span>
-                        <small style="font-size: 0.6rem; text-transform: uppercase; color: #7f6a5a;">Sek</small>
+                        <span class="seconds-val" style="display: block; font-size: 1.4rem; font-weight: bold; color: #b28924;">00</span>
+                        <small style="font-size: 0.6rem; text-transform: uppercase; color: #9a7418;">Sek</small>
                     </div>
                 </div>
 
@@ -200,25 +293,35 @@
 
                 <div class="info-section">
                     <h3 class="info-title-airy">Dresscode</h3>
-                    <div class="info-text-airy">
-                        <p>Téměř všechny barvy jsou na naší svatbě povoleny, důležité je pohodlí. Budeme rádi, pokud se vyhnete bíle a červené.</p>
-
-                        <div class="dresscode-colors">
-                            <div class="color-dot" style="background: #e58a9c;"></div>
-                            <div class="color-dot" style="background: #bc8ef5;"></div>
-                            <div class="color-dot" style="background: #6bd884;"></div>
-                            <div class="color-dot" style="background: #39b0be;"></div>
-                            <div class="color-dot" style="background: #e0ef5c;"></div>
-                            <div class="color-dot" style="background: #a19f9f;"></div>
-
-                        </div>
-                    </div>
 
                     <div class="dresscode-gallery">
-                        <img src="dresscode-men-palette.png" class="dress-gallery-img" alt="Barevné inspirace pánských obleků">
-                        <img src="dresscode-women-palette.png" class="dress-gallery-img" alt="Barevné inspirace dámských šatů">
-                        <img src="dresscode-men-examples.png" class="dress-gallery-img" alt="Ukázky pánského dresscodu">
-                        <img src="dresscode-women-examples.png" class="dress-gallery-img" alt="Ukázky dámského dresscodu">
+                        <section class="dresscode-gender-section" aria-labelledby="dresscode-women-heading">
+                            <h4 id="dresscode-women-heading" class="dresscode-gender-title">Dámy</h4>
+                            <div class="info-text-airy dresscode-women-intro">
+                                <p>Zvolte dlouhé šaty v různých letních barvách.</p>
+                                <p>Vítané jsou světlé i tmavší tóny – důležitá je elegance a pohodlí.</p>
+                                <p>Splývavé materiály, volány či jemné detaily celkový vzhled krásně doplní.</p>
+                                <p>Prosíme, vyhněte se bílé a červené barvě šatů.</p>
+                            </div>
+                            <img src="dresscode-women-examples.png" class="dress-gallery-img" alt="Ukázky dámského dresscodu">
+                            <button type="button" class="dress-more-inspo-btn" data-dress-women-more aria-haspopup="dialog" aria-controls="dress-women-second-img">
+                                Zobrazit další inspirace
+                            </button>
+                            <img id="dress-women-second-img" src="dresscode-women-palette.png" class="dress-gallery-img" alt="Barevné inspirace dámských šatů" hidden>
+                        </section>
+                        <section class="dresscode-gender-section" aria-labelledby="dresscode-men-heading">
+                            <h4 id="dresscode-men-heading" class="dresscode-gender-title">Pánové</h4>
+                            <div class="info-text-airy dresscode-men-intro">
+                                <p>Zvolte oblek v klasických barvách.</p>
+                                <p>Vítané jsou i barevnější varianty – důležitá je elegance a pohodlí.</p>
+                                <p>Kravata, motýlek nebo další doplňky mohou outfit jemně doladit.</p>
+                            </div>
+                            <img src="dresscode-men-palette.png" class="dress-gallery-img" alt="Barevné inspirace pánských obleků">
+                            <button type="button" class="dress-more-inspo-btn" data-dress-men-more aria-haspopup="dialog" aria-controls="dress-men-second-img">
+                                Zobrazit další inspirace
+                            </button>
+                            <img id="dress-men-second-img" src="dresscode-men-examples.png" class="dress-gallery-img" alt="Ukázky pánského dresscodu" hidden>
+                        </section>
                     </div>
 
                 </div>
@@ -227,14 +330,14 @@
                 <div class="info-section">
                     <h3 class="info-title-airy">Svatební dary</h3>
                     <div class="info-text-airy">
-                        <p>🎁Největším darem pro nás bude vaše přítomnost.🎁</p>
-                        <p>Pokud byste nás přesto chtěli obdarovat, budeme vděčni za příspěvek na naši další společnou cestu.</p>
+                        <p>Největším darem pro nás bude, když tento den strávíte s námi a užijete si ho.</p>
+                        <p>Pokud byste nám chtěli něco darovat, budeme rádi za finanční příspěvek na naše první společné bydlení.</p>
                     </div>
                 </div>
 
                 <div class="rsvp-outer-container">
                     <div class="google-form-box">
-                        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSeB6836I1Y_afzV-SkNjj3HC-W9_LFHDI9M2kyJjvBVcAU8zw/viewform"
+                        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScs83Y63vLOTGweQJbv2Lkf2O4z27Ukatf5iACxOGYfPLXQ7A/viewform"
                                 class="google-iframe"
                                 width="100%" height="900" frameborder="0" marginheight="0" marginwidth="0">
                         </iframe>
@@ -254,8 +357,31 @@
         <div id="confetti-container"></div>
     </div>
     </div>
+
+    <audio id="invite-bg-audio" loop preload="metadata" playsinline>
+        <source src="background-music.m4a" type="audio/mp4">
+    </audio>
+    <div class="music-controls" role="group" aria-label="Hudba na pozadí">
+        <button type="button" class="music-mute-btn" id="music-mute" aria-pressed="false" aria-label="Přepnout ztlumení hudby">
+            <svg class="music-icon music-icon--on" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M11 5L6 9H2v6h4l5 4V5z"/>
+                <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+            </svg>
+            <svg class="music-icon music-icon--muted" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M11 5L6 9H2v6h4l5 4V5z"/>
+                <line x1="23" y1="9" x2="17" y2="15"/>
+                <line x1="17" y1="9" x2="23" y2="15"/>
+            </svg>
+        </button>
+        <label class="music-volume-label">
+            <span class="music-visually-hidden">Hlasitost hudby</span>
+            <input type="range" class="music-volume" id="music-volume" min="0" max="1" step="0.05" value="0.35" aria-orientation="vertical">
+        </label>
+    </div>
+
     <div id="vue-app" style="display: none;"></div>
     <script type="module" src="/main.js"></script>
-    <script src="script.js?v=5.89"></script>
+    <script src="script.js?v=5.92"></script>
 </body>
 </html>

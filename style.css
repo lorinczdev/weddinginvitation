@@ -234,7 +234,7 @@ h1 {
     justify-content: center;
     gap: 15px;
     width: fit-content; /* Zůstane jen tak široký, jak je text */
-    margin: 15px auto 25px auto; /* Trochu víc místa kolem */
+    margin: 20px auto 36px auto; /* Více místa kolem hlavičky */
 
     padding-bottom: 8px; /* Mezera mezi textem a tou linkou */
     /* MAGICKÁ ČÁRA DO ZTRACENA */
@@ -576,7 +576,7 @@ canvas {
 
 /* Přidá mezeru jen nad ten úplně první nápis v bloku */
 .info-titlet:first-of-type {
-    margin-top: 20px; 
+    margin-top: 32px;
 }
 
 .info-titlett {
@@ -616,10 +616,10 @@ canvas {
     border: 1px solid rgba(182, 138, 47, 0.18);
     border-radius: 20px; /* Kulaté rohy */
     /* MAGICKÁ ČÁST: Posunutí a vrstvení */
-    margin: 0 auto -30px auto; /* Záporných -20px ho posadí na hranu boxu pod ním */
-    margin-top: 40px;
+    margin: 0 auto -40px auto; /* Překrývá horní okraj schedule-boxu pod ním */
+    margin-top: 52px;
     position: relative; /* Aby fungoval z-index */
-    z-index: 2; /* Aby byl nad bílým boxem */
+    z-index: 3; /* Nad schedule-boxem, aby titulek vizuálně „ležel“ na boxu */
     /* Zrušíme ty čáry a stíny, co jsme tam měli předtím */
     border-bottom: 1px solid rgba(182, 138, 47, 0.18);
     box-shadow: 0 4px 10px rgba(182, 138, 47, 0.12);
@@ -643,6 +643,7 @@ canvas {
     padding-right: 0 !important;
     margin-left: auto !important;
     margin-right: auto !important;
+    margin-block: 40px;
 }
 
 /* Elegantní nadpis bez růžového pozadí */
@@ -684,60 +685,41 @@ canvas {
     line-height: 1.5; /* Volitelné: přitáhne řádky ještě blíž k sobě */
 }
 
-/* Kontejner, který drží instrukce - teď slouží jako mantinel pro kytky */
-.relative-title {
-    position: relative;
-    width: 90%; /* Stejná šířka jako RSVP form */
-    max-width: 380px;
-    margin: 40px auto 0 auto !important;
-    overflow: visible;
-    padding: 20px 20px;
-    z-index: 1;
-}
-
-    /* Společný základ pro růže u krajů */
-    .relative-title::before,
-    .relative-title::after {
-        content: "";
-        position: absolute;
-        width: 290px; /* Větší rozměr, aby růže byla výrazná */
-        height: 290px;
-        background-size: contain;
-        background-repeat: no-repeat;
-        opacity: 0.6; /* Jemná průhlednost, aby text zůstal čitelný */
-        z-index: -1; /* Šoupne růži dospod pod všechen text */
-        pointer-events: none; /* Kliknutí projdou skrz růži na odkazy/text */
-        top: 10px; /* Pozice odshora - uprav podle potřeby */
-    }
-
-    /* Růže vlevo - přilepená na úplný levý okraj obrazovky */
-    .relative-title::before {
-        background-image: url('kvet.png'); /* Tvůj název souboru */
-        left: -100px; /* Pokud chceš, aby kousek růže "vyčníval" ven z displeje */
-    }
-
-    /* Růže vpravo - přilepená na úplný pravý okraj obrazovky */
-    .relative-title::after {
-        background-image: url('kvet_vpravo.png'); /* Tvůj název souboru */
-        right: -100px; /* Pokud chceš, aby kousek růže "vyčníval" ven z displeje */
-    }
-
-/* Styl pro kolečka barev u dresscodu */
-.dresscode-colors {
+/* „Instrukce“: květy a nadpis jako jeden vycentrovaný řádek (vejde se do úzkého .screen) */
+.info-heading-with-florals {
     display: flex;
+    align-items: center;
     justify-content: center;
-    gap: 10px;
-    margin: 15px 0;
+    gap: clamp(6px, 2.5vw, 14px);
+    margin: 52px 0 0;
+    width: 100%;
 }
 
-.color-dot {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    border: 1px solid rgba(0,0,0,0.05);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+.info-heading-with-florals__title {
+    margin-top: 0;
+    margin-bottom: 5px;
+    flex: 0 1 auto;
+    text-align: center;
 }
 
+.info-heading-floral {
+    flex: 0 0 auto;
+    width: clamp(64px, 17vw, 118px);
+    height: clamp(64px, 17vw, 118px);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.info-heading-floral--left {
+    background-image: url('kvet.png');
+}
+
+.info-heading-floral--right {
+    background-image: url('kvet_vpravo.png');
+}
 
 /* Kontejner pro cik-cak bloky 
 .info-block {
@@ -792,19 +774,228 @@ canvas {
 .schedule-box {
     width: 70%; /* Místo 100% dáme 90%, aby měl box po stranách fuky */
     max-width: 380px;
-    margin: 20px auto !important; /* Toto ho vycentruje vodorovně */
+    margin: 12px auto 44px auto !important; /* Těsněji pod nadpisem, lehce pod překrytem */
     background: #fff8fc;
     border: 1px solid rgba(182, 138, 47, 0.2);
     border-radius: 10px;
     padding: 30px 15px 15px 15px; /* Srovnané vnitřní okraje */
     box-shadow: 0 10px 24px rgba(182, 138, 47, 0.12);
     position: relative;
-    z-index: 1;
+    z-index: 2;
     display: block;
 }
 
 .schedule-box .schedule-item:first-of-type {
     padding-top: 10px; /* Snížíme horní padding u prvního řádku (obřadu) */
+}
+
+/* Harmonogram — časová osa přímo na růžovém pozadí stránky */
+.harmonogram-timeline {
+    --harm-tl-line: rgba(154, 116, 24, 0.42);
+    --harm-tl-dot-border: var(--pink-bg);
+    width: 92%;
+    max-width: 400px;
+    margin: 0 auto 40px !important;
+    padding: 0 10px 8px;
+    background: transparent;
+    border-radius: 0;
+    box-shadow: none;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 2;
+    font-family: 'Archivo Narrow', sans-serif;
+    color: var(--text-muted);
+    text-align: left;
+}
+
+.harmonogram-section-title {
+    margin-top: 56px !important;
+    margin-bottom: 24px !important;
+    text-align: center;
+}
+
+.harmonogram-timeline-track {
+    position: relative;
+    padding: 4px 0 2px;
+}
+
+.harmonogram-timeline-track::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 8px;
+    bottom: 8px;
+    width: 3px;
+    background: var(--harm-tl-line);
+    border-radius: 2px;
+}
+
+.harmonogram-timeline-item {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 20px minmax(0, 1fr);
+    gap: 8px 8px;
+    align-items: start;
+    margin-bottom: 26px;
+    position: relative;
+    z-index: 1;
+}
+
+.harmonogram-timeline-item--last {
+    margin-bottom: 0;
+}
+
+/* Velké růžové srdce přes blok hostiny (výplň + průhlednost) */
+.harmonogram-timeline-item--banquet .harmonogram-banquet-heart {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 4;
+    pointer-events: none;
+    width: min(560px, 168%, 94vw);
+    max-width: none;
+    color: #d27285;
+    opacity: 0.07;
+}
+
+.harmonogram-timeline-item--banquet .harmonogram-banquet-heart svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    overflow: visible;
+}
+
+.harmonogram-timeline-item--text-right .harmonogram-timeline-cell--icon {
+    grid-column: 1;
+    justify-self: end;
+    align-self: center;
+}
+
+.harmonogram-timeline-item--text-right .harmonogram-timeline-cell--axis {
+    grid-column: 2;
+}
+
+.harmonogram-timeline-item--text-right .harmonogram-timeline-cell--text {
+    grid-column: 3;
+    text-align: left;
+}
+
+.harmonogram-timeline-item--text-left .harmonogram-timeline-cell--text {
+    grid-column: 1;
+    text-align: right;
+}
+
+.harmonogram-timeline-item--text-left .harmonogram-timeline-cell--axis {
+    grid-column: 2;
+}
+
+.harmonogram-timeline-item--text-left .harmonogram-timeline-cell--icon {
+    grid-column: 3;
+    justify-self: start;
+    align-self: center;
+}
+
+.harmonogram-timeline-cell--axis {
+    display: flex;
+    justify-content: center;
+    padding-top: 6px;
+    position: relative;
+    z-index: 2;
+}
+
+.harmonogram-timeline-dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: var(--gold-text);
+    border: 3px solid var(--harm-tl-dot-border);
+    box-sizing: content-box;
+    flex-shrink: 0;
+}
+
+.harmonogram-timeline-cell--icon {
+    color: var(--gold-text-soft);
+}
+
+.harmonogram-timeline-svg {
+    width: 42px;
+    height: 42px;
+    display: block;
+    opacity: 0.92;
+}
+
+.harmonogram-timeline-time {
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--gold-text);
+    margin: 0 0 4px;
+    line-height: 1.2;
+}
+
+.harmonogram-timeline-label {
+    font-family: 'Archivo Narrow', sans-serif !important;
+    font-weight: 600;
+    font-size: 0.72rem;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--gold-text);
+    margin: 0 0 10px;
+    line-height: 1.35;
+}
+
+.harmonogram-timeline .harmonogram-sub {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.harmonogram-timeline .harmonogram-sub li {
+    position: relative;
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.45;
+    padding-left: 1em;
+    color: var(--text-muted);
+}
+
+.harmonogram-timeline .harmonogram-sub li::before {
+    content: "";
+    position: absolute;
+    left: 0.15em;
+    top: 0.55em;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--gold-text-soft);
+    opacity: 0.95;
+}
+
+.harmonogram-timeline .harmonogram-sub li + li {
+    margin-top: 6px;
+}
+
+.harmonogram-timeline-item--text-left .harmonogram-sub li {
+    text-align: right;
+    padding-left: 0;
+    padding-right: 1em;
+}
+
+.harmonogram-timeline-item--text-left .harmonogram-sub li::before {
+    left: auto;
+    right: 0.15em;
+}
+
+@media (max-width: 360px) {
+    .harmonogram-timeline-item {
+        grid-template-columns: minmax(0, 1fr) 16px minmax(0, 1fr);
+        gap: 6px 4px;
+    }
+
+    .harmonogram-timeline-svg {
+        width: 34px;
+        height: 34px;
+    }
 }
 
 /* Styl pro jeden řádek události */
@@ -876,7 +1067,7 @@ canvas {
     height: 1px;
     background-image: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.15), transparent);
     width: 90%;
-    margin: 40px auto;
+    margin: 52px auto;
 }
 
 .dresscode-container {
@@ -917,6 +1108,65 @@ canvas {
     grid-template-columns: 1fr;
     gap: 16px;
     padding: 12px 0 8px;
+}
+
+.dresscode-gender-section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.dresscode-gender-section + .dresscode-gender-section {
+    margin-top: 8px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+h4.dresscode-gender-title {
+    font-family: 'Archivo Narrow', sans-serif !important;
+    font-weight: 600 !important;
+    font-size: 1.1rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--gold-text);
+    margin: 0;
+    text-align: center;
+}
+
+.dresscode-women-intro,
+.dresscode-men-intro {
+    margin-bottom: 4px !important;
+}
+
+.dress-more-inspo-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin: 4px 0 0;
+    padding: 10px 16px;
+    box-sizing: border-box;
+    font-family: 'Archivo Narrow', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: #2f2531;
+    background: #fff7fb;
+    border: 1px solid rgba(210, 114, 133, 0.35);
+    border-radius: 999px;
+    box-shadow: 0 8px 20px rgba(210, 114, 133, 0.2);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.dress-more-inspo-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 24px rgba(210, 114, 133, 0.28);
+    border-color: rgba(210, 114, 133, 0.55);
+}
+
+.dress-more-inspo-btn:active {
+    transform: scale(0.98);
 }
 
 .dress-gallery-img {
@@ -1051,12 +1301,11 @@ canvas {
     overflow: hidden !important; /* Ořízne rohy i Google formuláři */
     border: 1px solid rgba(182, 138, 47, 0.2);
     position: relative;
-    z-index: 5; /* Box bude pod kytkami (pokud chceš kytky NAD box) */
+    z-index: 5;
     box-shadow: 0 10px 24px rgba(182, 138, 47, 0.12);
 }
 
- /* GOOGLE FORMS a kytky */
- .google-form-box iframe {
+.google-form-box iframe {
     display: block;
     border: none;
     /* Pojistka pro některé prohlížeče */
@@ -1067,8 +1316,8 @@ canvas {
     position: relative;
     width: 90%;
     max-width: 380px; /* Tímto nastavíš šířku jako u původního form */
-    margin: 100px auto 60px auto !important; /* Vycentruje box a dá mu místo shora/zdola */
-    overflow: visible; /* Důležité: aby kytky mohly vykouknout ven */
+    margin: 120px auto 72px auto !important; /* Vycentruje box a dá mu místo shora/zdola */
+    overflow: visible;
 }
 
 .rsvp-outer-container::before,
@@ -1081,21 +1330,20 @@ canvas {
     background-position: center;
     background-repeat: no-repeat;
     opacity: 0.88;
-    z-index: 10; /* Kytky budou nahoře */
-    pointer-events: none; /* Proklikneš skrz ně na formulář */
+    z-index: 10;
+    pointer-events: none;
 }
 
 .rsvp-outer-container::before {
     background-image: url('kvet_nahoru.png');
-    top: -175px; /* Posun vlevo mimo box */
+    top: -175px;
     left: 50%;
     transform: translateX(-50%);
 }
 
-
-/* 4. Pojistka pro bílý box (aby kytky nebyly uříznuté) */
+/* Květ nad formulářem – nechat „vykukovat“ mimo oříznutý iframe box */
 .google-form-box {
-    overflow: visible !important; /* DŮLEŽITÉ: musí pouštět kytky ven */
+    overflow: visible !important;
     position: relative;
     z-index: 5;
 }
@@ -1116,8 +1364,18 @@ canvas {
     width: 100%;
     height: auto;
     margin: -30px auto;
-    margin-bottom: 10px;
+    margin-bottom: 28px;
     overflow: visible; /* Pojistka */
+}
+
+/* Odpočet a další nadpisy uvnitř obsahu */
+.info-content > h2.info-titlet {
+    margin-top: 44px;
+}
+
+/* Fotka pod celým obsahem info stránky */
+#info-page > .info-content + .fade-image-wrapper {
+    margin-top: 36px;
 }
 
 /* Samotný obrázek */

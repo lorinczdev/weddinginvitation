@@ -54,11 +54,11 @@ body {
   #hours,
   #minutes,
   #seconds {
-    color: var(--accent) !important;
+    color: var(--gold-text-soft) !important;
   }
 
   small {
-    color: var(--muted) !important;
+    color: var(--gold-text) !important;
   }
 }
 
@@ -93,5 +93,135 @@ body {
 @media (max-width: 360px) {
   .calendar-btn {
     font-size: 0.85rem;
+  }
+}
+
+.music-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.music-controls {
+  position: fixed;
+  top: max(12px, env(safe-area-inset-top, 0px));
+  right: max(12px, env(safe-area-inset-right, 0px));
+  z-index: 11000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  background: none;
+  border: none;
+  box-shadow: none;
+}
+
+.music-mute-btn {
+  @include flex-center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #5c3d45;
+  background: transparent;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+
+  svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  &:hover {
+    background: rgba(45, 38, 52, 0.06);
+    color: #3d252c;
+  }
+
+  &:active {
+    transform: scale(0.96);
+  }
+
+  .music-icon--muted {
+    display: none;
+  }
+
+  &.is-muted .music-icon--on {
+    display: none;
+  }
+
+  &.is-muted .music-icon--muted {
+    display: block;
+  }
+}
+
+.music-volume-label {
+  @include flex-center;
+  width: 28px;
+  height: 132px;
+  margin: 0;
+}
+
+.music-volume {
+  $track-thickness: 4px;
+  $track-length: 120px;
+  $thumb-size: 12px;
+
+  width: $track-length;
+  height: $track-thickness;
+  border-radius: 999px;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+  transform: rotate(-90deg);
+  transform-origin: center center;
+
+  &::-webkit-slider-runnable-track {
+    height: $track-thickness;
+    border-radius: 999px;
+    background: rgba(210, 114, 133, 0.28);
+  }
+
+  &::-webkit-slider-thumb {
+    appearance: none;
+    width: $thumb-size;
+    height: $thumb-size;
+    margin-top: calc(($track-thickness - $thumb-size) / 2);
+    border-radius: 50%;
+    background: linear-gradient(145deg, #e8b86a 0%, #b88924 100%);
+    border: 1px solid rgba(255, 254, 248, 0.95);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+  }
+
+  &::-moz-range-thumb {
+    width: $thumb-size;
+    height: $thumb-size;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #e8b86a 0%, #b88924 100%);
+    border: 1px solid rgba(255, 254, 248, 0.95);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+  }
+
+  &::-moz-range-track {
+    height: $track-thickness;
+    border-radius: 999px;
+    background: rgba(210, 114, 133, 0.28);
+  }
+}
+
+@media (max-width: 380px) {
+  .music-volume-label {
+    height: 112px;
+  }
+
+  .music-volume {
+    width: 100px;
   }
 }
