@@ -2,8 +2,18 @@
     box-sizing: border-box;
 }
 
+:root {
+    --pink-bg: #fae5f1;
+    --pink-bg-soft: #fdf1f8;
+    --pink-bg-blush: #f3d6e6;
+    --gold-text: #9a7418;
+    --gold-text-soft: #b28924;
+    --gold-shadow: rgba(154, 116, 24, 0.24);
+    --text-muted: #6a5541;
+}
+
 body {
-    background: #f4d8e6; /* Pozadí celé stránky */
+    background: var(--pink-bg); /* Pozadí celé stránky */
     margin: 0;
     padding: 0;
     min-height: 100vh;
@@ -12,7 +22,16 @@ body {
     align-items: center;
     font-family: 'Great Vibes', cursive;
     overflow-x: hidden; /* Zabrání vodorovnému posouvání */
-    color: #2d2d2d;
+    color: var(--gold-text);
+}
+
+img {
+    opacity: 0;
+    transition: opacity 0.35s ease;
+}
+
+body.images-ready img {
+    opacity: 1;
 }
 
 .screen {
@@ -27,7 +46,7 @@ body {
     position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: center; /* TOTO vrátí všechno doprostřed svisle */
+    justify-content: center; /* Drží srdce ve středu */
     align-items: center; /* Vycentruje vodorovně */
     overflow: hidden;
 }
@@ -39,32 +58,81 @@ h1, h2.info-titlet, h3.info-subtitle, h3.info-title-airy, .initials, h4 {
 }
 
 h1 {
-    color: black;
+    color: var(--gold-text);
     font-size: 4.0rem;
-    margin-top: 0;
-    margin-bottom: 10px;
+    margin: 0;
     padding: 0 10px;
     min-height: 1.2em; 
     line-height: 1.2;
+    position: absolute;
+    top: 16vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    z-index: 3;
+}
+
+#main-title {
+    font-family: 'Ephesis', 'Mollaroid', 'Lucida Handwriting', 'Brush Script MT', cursive !important;
+    color: var(--gold-text);
+    text-shadow: 0 2px 10px rgba(127, 63, 96, 0.18);
+    white-space: nowrap;
+    font-size: clamp(1.9rem, 8.2vw, 4.6rem);
+    letter-spacing: 0.01em;
+    line-height: 1.05;
+    /* Keep title anchored even if JS or stale inline styles modify position */
+    position: absolute !important;
+    top: 16vh !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: min(calc(100% - 28px), calc(100vw - 28px));
+    max-width: 470px;
+}
+
+@media (max-width: 360px) {
+    #main-title {
+        font-size: clamp(1.65rem, 7.8vw, 2.5rem);
+        width: min(calc(100% - 20px), calc(100vw - 20px));
+    }
 }
 
 
 .initials {
     font-family: 'Great Vibes', cursive;
     font-size: 3rem; /* Velikost podle tvého gusta */
-    color: black;
+    color: #7a7a7a;
     margin-top: 0; /* Mezera od srdíčka */
     margin-bottom: 0; /* Přitáhne nápis "Setři srdíčko" blíž k iniciálám */
+    display: none;
 }
 
 #instruction {
-    margin-top: 0;
-    color: rgba(0,0,0,0.3);
+    margin: 0;
+    color: #c77997;
     font-style: normal;
     font-family: 'Archivo Narrow', sans-serif;
     font-size: 1.5rem;
-    font-weight: 400;
+    font-weight: 500;
     letter-spacing: 2px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    position: absolute;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    z-index: 3;
+}
+
+#instruction-icon {
+    display: inline-block;
+    font-size: 1.35rem;
+    line-height: 1;
+    filter: drop-shadow(0 1px 2px rgba(148, 74, 109, 0.2));
+    transform-origin: 75% 80%;
+    will-change: transform;
 }
 
 .invite-text h2 {
@@ -106,6 +174,11 @@ h1 {
     opacity: 0;
     transition: opacity 0.5s ease;
     contain: layout size; /* Pomůže prohlížeči držet místo pro srdce */
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-touch-callout: none;
 }
 
 .heart-wrapper.ready {
@@ -120,8 +193,10 @@ h1 {
     height: 100%;
     object-fit: contain;
     z-index: 1; /* Nejnižší vrstva */
-    opacity: 1 !important;
-    visibility: visible !important;
+    opacity: 1;
+    visibility: visible;
+    user-select: none;
+    -webkit-user-drag: none;
 }
 
 #scratch {
@@ -177,7 +252,7 @@ h1 {
     font-size: 1rem;
     text-transform: uppercase;
     letter-spacing: 2px;
-    color: #000;
+    color: var(--gold-text);
     white-space: nowrap; /* Aby se datum nezalomilo na dva řádky */
 }
 
@@ -245,6 +320,13 @@ canvas {
     box-shadow: 1px 1px 3px rgba(0,0,0,0.2);
 }
 
+.confetti.heart-particle {
+    width: auto;
+    height: auto;
+    background: transparent !important;
+    box-shadow: none;
+}
+
 /* Nastavení pro tablety a počítače (obrazovka širší než 768px) */
 @media (min-width: 768px) {
     .screen {
@@ -263,29 +345,40 @@ canvas {
 
 .sparkle {
     position: absolute;
-    width: 4px;
-    height: 4px;
-    background: #f4d8e6;
-    border-radius: 50%;
+    width: 6px;
+    height: 6px;
+    --sparkle-rotate: 0deg;
+    background: linear-gradient(180deg, #fffdf3 0%, #f8da8f 48%, #e7b84e 100%);
+    clip-path: polygon(50% 0%,
+            60% 35%,
+            98% 35%,
+            68% 55%,
+            80% 92%,
+            50% 70%,
+            20% 92%,
+            32% 55%,
+            2% 35%,
+            40% 35%);
     pointer-events: none;
-    z-index: 1000;
-    box-shadow: 0 0 5px #fff, 0 0 10px #ffd700;
+    z-index: 5;
+    box-shadow: 0 0 10px rgba(255, 248, 218, 0.95), 0 0 16px rgba(240, 201, 106, 0.85);
+    filter: drop-shadow(0 0 8px rgba(240, 201, 106, 0.7));
 }
 
 /* Animace pro bliknutí jiskry */
 @keyframes sparkleAnim {
     0% {
-        transform: scale(0);
+        transform: rotate(var(--sparkle-rotate)) scale(0);
         opacity: 0;
     }
 
     50% {
-        transform: scale(1.5);
+        transform: rotate(var(--sparkle-rotate)) scale(1.5);
         opacity: 1;
     }
 
     100% {
-        transform: scale(0);
+        transform: rotate(var(--sparkle-rotate)) scale(0);
         opacity: 0;
     }
 }
@@ -293,9 +386,9 @@ canvas {
 
 #calendar-wrapper {
     position: absolute;
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 15px !important;
+    display: none;
+    flex-direction: column;
+    gap: 15px;
     bottom: 5vh;
     left: 50%;
     transform: translateX(-50%);
@@ -308,11 +401,19 @@ canvas {
     pointer-events: none;
 }
 
-    #calendar-wrapper.visible {
-        opacity: 1 !important;
-        visibility: visible !important;
-        pointer-events: auto !important;
-    }
+#calendar-wrapper.visible {
+    display: flex !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+}
+
+#calendar-wrapper.hidden {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
 
 .calendar-btn {
     display: flex !important;
@@ -321,7 +422,7 @@ canvas {
     justify-content: flex-start !important;
     gap: 12px;
     padding: 10px 14px;
-    background: linear-gradient(180deg, #ffffff 0%, #fff8fb 100%);
+    background: #fff7fb;
     color: #2f2531 !important;
     border: 1px solid rgba(210, 114, 133, 0.35);
     text-decoration: none !important;
@@ -434,7 +535,7 @@ canvas {
     left: 0;
     width: 100%;
     height: 100%;
-    background: #f4d8e6;
+    background: var(--pink-bg);
     z-index: 10000; /* Musí být nad vším */
     display: flex;
     flex-direction: column;
@@ -448,7 +549,7 @@ canvas {
 
 
 /* Zajistíme, aby obsah byl nad kytkami */
-.info-content, .header-row, .info-titlet, .fade-image-wrapper, .countdown-container, .back-btn {
+.info-content, .header-row, .info-titlet, .fade-image-wrapper, .countdown-container {
     position: relative;
     z-index: 2;
 }
@@ -457,7 +558,7 @@ canvas {
 .info-title {
     font-family: 'Great Vibes', cursive;
     font-size: 2.5rem;
-    color: black;
+    color: var(--gold-text);
     font-weight: normal;
     margin-top: 40px;
     margin-bottom: 20px;
@@ -466,7 +567,7 @@ canvas {
 .info-titlet {
     font-family: 'Great Vibes', cursive;
     font-size: 2rem;
-    color: black;
+    color: var(--gold-text);
     font-weight: normal;
     margin-top: 0;
     margin-bottom: 0;
@@ -481,7 +582,7 @@ canvas {
 .info-titlett {
     font-family: 'Archivo Narrow', sans-serif;
     font-size: 1rem;
-    color: black;
+    color: var(--gold-text);
     font-weight: normal;
     margin-top: 0;
     margin-bottom: 0;
@@ -499,7 +600,7 @@ canvas {
     width: 100%; /* Roztažení na dostupnou šířku */
     margin: 0 auto; /* Pojistka pro vycentrování bloku */
     padding: 0;
-    color: black;
+    color: var(--gold-text);
     display: block;
     box-sizing: border-box; /* Důležité: aby padding nerošiřoval prvek */
 }
@@ -508,11 +609,11 @@ canvas {
     font-family: 'Great Vibes', cursive; /* Stejné ozdobné písmo */
     display: table;
     font-size: 2rem;
-    color: #000;
+    color: var(--gold-text);
     font-weight: normal;
-    background-color: #fceef2; /* Růžové pozadí štítku */
+    background: #fbeaf3; /* Růžové pozadí štítku */
     padding: 8px 30px; /* Prostor kolem textu */
-    border: 1px solid rgba(0,0,0,0.1);
+    border: 1px solid rgba(182, 138, 47, 0.18);
     border-radius: 20px; /* Kulaté rohy */
     /* MAGICKÁ ČÁST: Posunutí a vrstvení */
     margin: 0 auto -30px auto; /* Záporných -20px ho posadí na hranu boxu pod ním */
@@ -520,8 +621,8 @@ canvas {
     position: relative; /* Aby fungoval z-index */
     z-index: 2; /* Aby byl nad bílým boxem */
     /* Zrušíme ty čáry a stíny, co jsme tam měli předtím */
-    border-bottom: 1px solid rgba(0,0,0,0.1);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    border-bottom: 1px solid rgba(182, 138, 47, 0.18);
+    box-shadow: 0 4px 10px rgba(182, 138, 47, 0.12);
 }
 
 
@@ -529,7 +630,7 @@ canvas {
     font-family: 'Great Vibes', cursive; /* Stejné ozdobné písmo */
     display: table;
     font-size: 2rem;
-    color: #000;
+    color: var(--gold-text);
     font-weight: normal;
     padding: 8px 30px; /* Prostor kolem textu */
     position: relative; /* Aby fungoval z-index */
@@ -548,7 +649,7 @@ canvas {
 .info-title-airy {
     font-family: 'Great Vibes', cursive;
     font-size: 2.2rem;
-    color: #000;
+    color: var(--gold-text);
     margin-bottom: 5px;
     display: block;
     /* Jemná linka pod nadpisem, která se ztrácí do stran */
@@ -562,7 +663,7 @@ canvas {
 .info-text-airy {
     font-family: 'Archivo Narrow', sans-serif;
     font-size: 1.05rem;
-    color: #444;
+    color: var(--text-muted);
     line-height: 1.1; /* Volitelné: přitáhne řádky ještě blíž k sobě */
     padding-left: 100px; /* Odsazení zleva */
     padding-right: 100px; /* Odsazení zprava */
@@ -577,7 +678,7 @@ canvas {
 /* Zvýraznění tipu o snídani */
 .morning-tip {
     font-style: italic;
-    color: #d27285;
+    color: var(--gold-text-soft);
     margin-top: 15px;
     font-size: 0.95rem;
     line-height: 1.5; /* Volitelné: přitáhne řádky ještě blíž k sobě */
@@ -680,7 +781,7 @@ canvas {
 
 /* Styl pro mapový odkaz, aby se nepletl */
 .map-link {
-    color: #234dda;
+    color: var(--gold-text-soft);
     font-size: 0.85rem;
     text-decoration: underline;
     display: inline-block;
@@ -692,11 +793,11 @@ canvas {
     width: 70%; /* Místo 100% dáme 90%, aby měl box po stranách fuky */
     max-width: 380px;
     margin: 20px auto !important; /* Toto ho vycentruje vodorovně */
-    background: white;
-    border: 1px solid rgba(0,0,0,0.1);
+    background: #fff8fc;
+    border: 1px solid rgba(182, 138, 47, 0.2);
     border-radius: 10px;
     padding: 30px 15px 15px 15px; /* Srovnané vnitřní okraje */
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    box-shadow: 0 10px 24px rgba(182, 138, 47, 0.12);
     position: relative;
     z-index: 1;
     display: block;
@@ -724,7 +825,7 @@ canvas {
 .schedule-time {
     font-family: 'Great Vibes', cursive;
     font-size: 1.8rem;
-    color: black;
+    color: var(--gold-text);
     width: 70px; /* Pevná šířka pro čas, aby text vedle začínal ve stejné rovině */
     text-align: center; /* Vycentruje čas na střed sloupce */
     padding-top: 5px; /* Pojistka pro vertikální zarovnání */
@@ -743,7 +844,7 @@ canvas {
         font-size: 1.6rem;
         font-weight: 400;
         margin: 0;
-        color: black;
+        color: var(--gold-text);
     }
 
     /* Text pod nadpisem (Kde:...) */
@@ -752,13 +853,13 @@ canvas {
         font-size: 1rem;
         line-height: 1.4;
         margin: 2px 0 0 0 !important; /* Minimalizuje mezery */
-        color: #444; /* Jemnější barva pro popis */
+        color: var(--text-muted); /* Jemnější barva pro popis */
     }
 
     /* Odkaz na mapy v tomto stylu */
     .schedule-text .map-link {
         display: inline-block;
-        color: #234dda;
+        color: var(--gold-text-soft);
         font-size: 0.8rem;
         text-decoration: underline;
         margin-top: 2px;
@@ -767,7 +868,7 @@ canvas {
 /* Úprava pro dary */
 .schedule-item.gifts .schedule-time {
     font-size: 2.2rem;
-    color: rgba(0,0,0,0.5);
+    color: rgba(182, 138, 47, 0.6);
 }
 
 .fade-divider {
@@ -811,6 +912,93 @@ canvas {
     padding: 10px;
 }
 
+.dresscode-gallery {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 12px 0 8px;
+}
+
+.dress-gallery-img {
+    width: 100%;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.14);
+    cursor: zoom-in;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.dress-gallery-img:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.2);
+}
+
+.dress-lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(21, 16, 26, 0.82);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 12000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.24s ease;
+}
+
+.dress-lightbox.is-open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.dress-lightbox-image {
+    max-width: min(92vw, 700px);
+    max-height: 86vh;
+    width: auto;
+    height: auto;
+    border-radius: 14px;
+    box-shadow: 0 16px 38px rgba(0, 0, 0, 0.42);
+    transform-origin: center center;
+    transition: transform 0.12s ease;
+    cursor: zoom-in;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+.dress-lightbox.is-zoomed .dress-lightbox-image {
+    cursor: grab;
+}
+
+.dress-lightbox.is-zoomed .dress-lightbox-image.is-dragging {
+    cursor: grabbing;
+}
+
+.dress-lightbox-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 40px;
+    height: 40px;
+    border: 0;
+    border-radius: 999px;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.2);
+    font-size: 1.8rem;
+    line-height: 1;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.dress-lightbox-close:hover {
+    background: rgba(255, 255, 255, 0.32);
+    transform: scale(1.04);
+}
+
 /* Nastavení šipek */
 .arrow {
     position: absolute;
@@ -849,18 +1037,22 @@ canvas {
     font-size: 1rem;
     width: 100px;
 }
+
+.dresscode-gallery {
+    gap: 12px;
+}
 }
 
 
 /* Bílý box s formulářem */
 .google-form-box {
-    background: white;
+    background: #fff8fc;
     border-radius: 20px !important;
     overflow: hidden !important; /* Ořízne rohy i Google formuláři */
-    border: 1px solid rgba(0,0,0,0.1);
+    border: 1px solid rgba(182, 138, 47, 0.2);
     position: relative;
     z-index: 5; /* Box bude pod kytkami (pokud chceš kytky NAD box) */
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    box-shadow: 0 10px 24px rgba(182, 138, 47, 0.12);
 }
 
  /* GOOGLE FORMS a kytky */
@@ -918,53 +1110,6 @@ canvas {
     filter: blur(10px);
 }
 
-/* Hlavní kontejner fotostránky */
-#photo-page {
-    position: absolute; /* Stejné jako #info-page */
-    top: 0;
-    left: 0;
-    width: 100%;
-    min-height: 100vh;
-    background: #f4d8e6;
-    z-index: 10001; /* O stupínek nad info-page, aby ji překryla */
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding: 0; /* Padding si řeší vnitřní info-content */
-}
-
-    /* Když není skrytá, vynutíme flex */
-    #photo-page:not(.hidden) {
-        display: flex !important;
-    }
-
-.photo-container {
-    width: 100%;
-    max-width: 380px; /* Stejná šířka jako tvůj schedule-box */
-    margin: -30px auto;
-}
-
-    /* Samotná fotka */
-    .photo-container img {
-        width: 100%;
-        height: auto;
-        display: block;
-        border-radius: 10px 10px 0 0; /* Volitelné: jemně zaoblené rohy, ladí s formulářem */
-        /* MAGICKÁ ČÁST: Plynulý přechod do ztracena nahoře */
-        -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%);
-        mask-image: linear-gradient(to top, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
-    }
-
-
-/* Tlačítko zpět  */
-.back-btn {
-    margin-top: 30px;
-    margin-bottom: 50px; /* Extra místo dole, aby se dalo doscrolovat */
-    flex-shrink: 0; /* Zabráni tlačítku, aby se "smrsklo" */
-}
-
 /* Kontejner pro obrázek s přechodem */
 .fade-image-wrapper {
     position: relative;
@@ -984,6 +1129,14 @@ canvas {
     /* MAGICKÁ ČÁST: Plynulý přechod do ztracena nahoře */
     -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%);
     mask-image: linear-gradient(to top, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
+}
+
+/* OverlayScrollbars theme tweak for invite palette */
+.os-theme-light {
+    --os-size: 8px;
+    --os-handle-bg: rgba(154, 116, 24, 0.45);
+    --os-handle-bg-hover: rgba(154, 116, 24, 0.58);
+    --os-handle-bg-active: rgba(154, 116, 24, 0.72);
 }
 
 

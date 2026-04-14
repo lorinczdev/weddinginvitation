@@ -24,16 +24,26 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=block" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Allura&family=Caveat:wght@600&family=Ephesis&family=Great+Vibes&family=Parisienne&family=Sacramento&display=block" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=9.999">
 
     <script>
-        // Počkáme, až se načtou všechna písma, než zobrazíme tělo stránky
-        document.fonts.ready.then(function () {
-            document.body.style.visibility = "visible";
-        });
+        // Stránku ukážeme až po inicializaci hero vrstvy.
+        (function () {
+            let revealed = false;
+            const revealPage = function () {
+                if (revealed) return;
+                revealed = true;
+                document.body.style.visibility = "visible";
+            };
+
+            window.addEventListener("invite:ready", revealPage, { once: true });
+            window.addEventListener("load", function () {
+                // Pojistka: stránka nezůstane skrytá při chybě inicializace.
+                window.setTimeout(revealPage, 1400);
+            });
+        })();
     </script>
 
     <style>
@@ -50,7 +60,7 @@
         <div id="initials" class="initials">Zapište si datum</div>
 
         <div class="heart-wrapper">
-            <img src="listky.png" id="heart-background" class="hidden-at-start" alt="pozadi">
+            <img src="listky.png" id="heart-background" alt="pozadi">
             <div class="invite-container">
                 <div class="invite-text">
                     <h2>Srdečně Vás zveme na naši svatbu</h2>
@@ -60,20 +70,20 @@
 
                     <div id="countdown" style="display: flex; justify-content: center; gap: 12px; margin-top: 5px; font-family: 'Montserrat', sans-serif;">
                         <div style="text-align: center; min-width: 45px;">
-                            <span id="days" style="display: block; font-size: 1.4rem; font-weight: bold; color: #d27285;">00</span>
-                            <small style="font-size: 0.6rem; text-transform: uppercase; color: #666;">Dní</small>
+                            <span id="days" style="display: block; font-size: 1.4rem; font-weight: bold; color: #b68a2f;">00</span>
+                            <small style="font-size: 0.6rem; text-transform: uppercase; color: #7f6a5a;">Dní</small>
                         </div>
                         <div style="text-align: center; min-width: 45px;">
-                            <span id="hours" style="display: block; font-size: 1.4rem; font-weight: bold; color: #d27285;">00</span>
-                            <small style="font-size: 0.6rem; text-transform: uppercase; color: #666;">Hod</small>
+                            <span id="hours" style="display: block; font-size: 1.4rem; font-weight: bold; color: #b68a2f;">00</span>
+                            <small style="font-size: 0.6rem; text-transform: uppercase; color: #7f6a5a;">Hod</small>
                         </div>
                         <div style="text-align: center; min-width: 45px;">
-                            <span id="minutes" style="display: block; font-size: 1.4rem; font-weight: bold; color: #d27285; ">00</span>
-                            <small style="font-size: 0.6rem; text-transform: uppercase; color: #666;">Min</small>
+                            <span id="minutes" style="display: block; font-size: 1.4rem; font-weight: bold; color: #b68a2f; ">00</span>
+                            <small style="font-size: 0.6rem; text-transform: uppercase; color: #7f6a5a;">Min</small>
                         </div>
                         <div style="text-align: center; min-width: 45px;">
-                            <span id="seconds" style="display: block; font-size: 1.4rem; font-weight: bold; color: #d27285; ">00</span>
-                            <small style="font-size: 0.6rem; text-transform: uppercase; color: #666;">Sek</small>
+                            <span id="seconds" style="display: block; font-size: 1.4rem; font-weight: bold; color: #b68a2f; ">00</span>
+                            <small style="font-size: 0.6rem; text-transform: uppercase; color: #7f6a5a;">Sek</small>
                         </div>
                     </div>
                 </div>
@@ -82,7 +92,10 @@
             <canvas id="scratch"></canvas>
         </div>
 
-        <p id="instruction">Setřete srdíčko</p>
+        <p id="instruction">
+            <span id="instruction-icon" aria-hidden="true">✋</span>
+            <span>Setřete srdíčko</span>
+        </p>
 
         <div id="calendar-wrapper" class="hidden">
             <a href="javascript:void(0)" class="calendar-btn calendar-btn-info" onclick="showInfo()">
@@ -114,6 +127,12 @@
 
             <div class="info-content">
                 <h3 class="info-subtitle">Základní informace</h3>
+                <div class="info-section">
+                    <div class="info-text-airy">
+                        <p>Afterparty at 22:00</p>
+                    </div>
+                    <h3 class="info-title-airy relative-title">Harmonogram dne</h3>
+                </div>
 
                 <div class="schedule-box">
 
@@ -130,12 +149,12 @@
                         <div class="schedule-time">14:30</div>
                         <div class="schedule-text">
                             <h4>Svatební focení</h4>
-                            <p>Zámecké náměstí, Zámecká zahrada<br>Teplice</p>
+                            <p>Zámecké náměstí,<br>Zámecká zahrada<br>Teplice</p>
                         </div>
                     </div>
 
                     <div class="schedule-item">
-                        <div class="schedule-time">15:30</div>
+                        <div class="schedule-time">16:00</div>
                         <div class="schedule-text">
                             <h4>Svatební hostina</h4>
                             <p>Krušnohorský Maskaron,<br>Teplice</p>
@@ -158,20 +177,20 @@
                 <h2 class="info-titlet">Užijte si s námi naší svatbu za:</h2>
                 <div class="countdown-container" style="display: flex; justify-content: center; gap: 12px; margin-top: 5px; font-family: 'Montserrat', sans-serif;">
                     <div style="text-align: center; min-width: 45px;">
-                        <span class="days-val" style="display: block; font-size: 1.4rem; font-weight: bold; color: #d27285;">00</span>
-                        <small style="font-size: 0.6rem; text-transform: uppercase; color: #666;">Dní</small>
+                        <span class="days-val" style="display: block; font-size: 1.4rem; font-weight: bold; color: #b68a2f;">00</span>
+                        <small style="font-size: 0.6rem; text-transform: uppercase; color: #7f6a5a;">Dní</small>
                     </div>
                     <div style="text-align: center; min-width: 45px;">
-                        <span class="hours-val" style="display: block; font-size: 1.4rem; font-weight: bold; color: #d27285;">00</span>
-                        <small style="font-size: 0.6rem; text-transform: uppercase; color: #666;">Hod</small>
+                        <span class="hours-val" style="display: block; font-size: 1.4rem; font-weight: bold; color: #b68a2f;">00</span>
+                        <small style="font-size: 0.6rem; text-transform: uppercase; color: #7f6a5a;">Hod</small>
                     </div>
                     <div style="text-align: center; min-width: 45px;">
-                        <span class="minutes-val" style="display: block; font-size: 1.4rem; font-weight: bold; color: #d27285;">00</span>
-                        <small style="font-size: 0.6rem; text-transform: uppercase; color: #666;">Min</small>
+                        <span class="minutes-val" style="display: block; font-size: 1.4rem; font-weight: bold; color: #b68a2f;">00</span>
+                        <small style="font-size: 0.6rem; text-transform: uppercase; color: #7f6a5a;">Min</small>
                     </div>
                     <div style="text-align: center; min-width: 45px;">
-                        <span class="seconds-val" style="display: block; font-size: 1.4rem; font-weight: bold; color: #d27285;">00</span>
-                        <small style="font-size: 0.6rem; text-transform: uppercase; color: #666;">Sek</small>
+                        <span class="seconds-val" style="display: block; font-size: 1.4rem; font-weight: bold; color: #b68a2f;">00</span>
+                        <small style="font-size: 0.6rem; text-transform: uppercase; color: #7f6a5a;">Sek</small>
                     </div>
                 </div>
 
@@ -195,22 +214,11 @@
                         </div>
                     </div>
 
-                    <div class="dresscode-container">
-                        <div class="dress-item item-left">
-                            <div class="dress-note">
-                                Obleky, smart casual pro muže
-                                <img src="sipka_doleva.png" class="arrow arrow-left" alt="šipka">
-                            </div>
-                            <img src="muzi.png" class="dress-img" alt="Pánský dresscode">
-                        </div>
-
-                        <div class="dress-item item-right">
-                            <img src="zeny.png" class="dress-img" alt="Dámský dresscode">
-                            <div class="dress-note">
-                                <img src="sipka_doprava.png" class="arrow arrow-right" alt="šipka">
-                                Dlouhé a elegantní šaty pro ženy
-                            </div>
-                        </div>
+                    <div class="dresscode-gallery">
+                        <img src="dresscode-men-palette.png" class="dress-gallery-img" alt="Barevné inspirace pánských obleků">
+                        <img src="dresscode-women-palette.png" class="dress-gallery-img" alt="Barevné inspirace dámských šatů">
+                        <img src="dresscode-men-examples.png" class="dress-gallery-img" alt="Ukázky pánského dresscodu">
+                        <img src="dresscode-women-examples.png" class="dress-gallery-img" alt="Ukázky dámského dresscodu">
                     </div>
 
                 </div>
@@ -238,41 +246,9 @@
 
 
             </div>
-            <button onclick="showPhotoPage()" class="calendar-btn" style="background: #d27285">
-                Pokračovat na další stránku
-            </button>
-
-            <button onclick="backToInvite()" class="calendar-btn back-btn">Zpět na pozvánku</button>
-
-        </div> <div id="photo-page" class="hidden">
-                   <div class="info-content">
-
-                       <h2 class="info-titlet">Do svatby zbývá:</h2>
-                       <div class="countdown-container_two" style="display: flex; justify-content: center; gap: 12px; margin-top: 5px; font-family: 'Montserrat', sans-serif;">
-                           <div style="text-align: center; min-width: 45px;">
-                               <span class="days-val" style="display: block; font-size: 1.4rem; font-weight: bold; color: #d27285;">00</span>
-                               <small style="font-size: 0.6rem; text-transform: uppercase; color: #666;">Dní</small>
-                           </div>
-                           <div style="text-align: center; min-width: 45px;">
-                               <span class="hours-val" style="display: block; font-size: 1.4rem; font-weight: bold; color: #d27285;">00</span>
-                               <small style="font-size: 0.6rem; text-transform: uppercase; color: #666;">Hod</small>
-                           </div>
-                           <div style="text-align: center; min-width: 45px;">
-                               <span class="minutes-val" style="display: block; font-size: 1.4rem; font-weight: bold; color: #d27285;">00</span>
-                               <small style="font-size: 0.6rem; text-transform: uppercase; color: #666;">Min</small>
-                           </div>
-                           <div style="text-align: center; min-width: 45px;">
-                               <span class="seconds-val" style="display: block; font-size: 1.4rem; font-weight: bold; color: #d27285;">00</span>
-                               <small style="font-size: 0.6rem; text-transform: uppercase; color: #666;">Sek</small>
-                           </div>
-                       </div>
-
-                       <div class="photo-container">
-                           <img src="savethedate.jpg" alt="Naše fotka">
-                       </div>
-                   </div>
-
-            <button onclick="closePhotoPage()" class="calendar-btn back-btn" style="margin-top: 40px; margin-bottom: 40px;">Zpět k informacím</button>
+            <div class="fade-image-wrapper">
+                <img src="bottom-photo.jpg" alt="Společná fotografie" class="fade-image">
+            </div>
         </div>
 
         <div id="confetti-container"></div>
@@ -280,6 +256,6 @@
     </div>
     <div id="vue-app" style="display: none;"></div>
     <script type="module" src="/main.js"></script>
-    <script src="script.js?v=5.88"></script>
+    <script src="script.js?v=5.89"></script>
 </body>
 </html>

@@ -1,0 +1,97 @@
+$color-page-bg: #f4d8e6;
+$color-text: #2d2d2d;
+$color-accent: #d27285;
+$color-link: #234dda;
+$color-muted: #666;
+$font-script: "Great Vibes", cursive;
+$font-handwritten: "Ephesis", "Mollaroid", "Lucida Handwriting", "Brush Script MT", cursive;
+$font-body: "Archivo Narrow", sans-serif;
+
+@mixin flex-center($direction: row) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: center;
+  align-items: center;
+}
+
+@import "./style.css";
+
+:root {
+  --page-bg: #{$color-page-bg};
+  --text-primary: #{$color-text};
+  --accent: #{$color-accent};
+  --muted: #{$color-muted};
+}
+
+body {
+  background: var(--page-bg);
+  color: var(--text-primary);
+  font-family: $font-script;
+}
+
+#main-title {
+  font-family: $font-handwritten !important;
+  font-size: clamp(4rem, 15vw, 6.6rem) !important;
+  top: 14vh;
+}
+
+#instruction,
+.calendar-btn,
+.schedule-text p,
+.info-content,
+.info-text-airy,
+.dress-note {
+  font-family: $font-body;
+}
+
+#countdown,
+.countdown-container {
+  .days-val,
+  .hours-val,
+  .minutes-val,
+  .seconds-val,
+  #days,
+  #hours,
+  #minutes,
+  #seconds {
+    color: var(--accent) !important;
+  }
+
+  small {
+    color: var(--muted) !important;
+  }
+}
+
+#calendar-wrapper {
+  &.visible {
+    pointer-events: auto !important;
+  }
+}
+
+.calendar-btn {
+  color: #2f2531 !important;
+
+  &:hover {
+    border-color: rgba($color-accent, 0.55);
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.map-link {
+  color: $color-link;
+}
+
+.schedule-item {
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+@media (max-width: 360px) {
+  .calendar-btn {
+    font-size: 0.85rem;
+  }
+}
