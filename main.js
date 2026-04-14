@@ -16,8 +16,8 @@ function startInstructionIconAnimation() {
   iconEl.dataset.waveStarted = "1";
 
   window.__instructionWaveAnimation = animate(iconEl, {
-    rotate: "22deg",
-    duration: 360,
+    rotate: "14deg",
+    duration: 320,
     loop: true,
     alternate: true,
     ease: "inOutSine",

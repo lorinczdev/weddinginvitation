@@ -31,8 +31,8 @@ body {
 
 #main-title {
   font-family: $font-handwritten !important;
-  font-size: clamp(4rem, 15vw, 6.6rem) !important;
-  top: 22vh !important;
+  font-size: clamp(2.25rem, calc(100vw / 7), 8.75rem) !important;
+  top: 18vh !important;
 }
 
 #instruction,
@@ -292,98 +292,5 @@ $music-ring-border-strong: rgba(218, 175, 120, 0.62);
 }
 
 .music-volume-label {
-  @include flex-center;
-  position: relative;
-  z-index: 1;
-  width: 28px;
-  height: 132px;
-  margin: 0;
-  transition: opacity 0.22s ease, max-height 0.28s ease, width 0.22s ease;
-}
-
-@media (hover: hover) {
-  .music-controls--volume-collapsed .music-volume-label {
-    opacity: 0;
-    max-height: 0;
-    height: 0;
-    min-height: 0;
-    width: 0;
-    margin: 0;
-    overflow: hidden;
-    pointer-events: none;
-  }
-
-  .music-controls--volume-collapsed:hover .music-volume-label,
-  .music-controls--volume-collapsed:focus-within .music-volume-label {
-    opacity: 1;
-    max-height: 132px;
-    height: 132px;
-    width: 28px;
-    pointer-events: auto;
-  }
-}
-
-.music-volume {
-  $track-thickness: 4px;
-  $track-length: 120px;
-  $thumb-size: 12px;
-
-  width: $track-length;
-  height: $track-thickness;
-  border-radius: 999px;
-  appearance: none;
-  background: transparent;
-  cursor: pointer;
-  transform: rotate(-90deg);
-  transform-origin: center center;
-
-  &::-webkit-slider-runnable-track {
-    height: $track-thickness;
-    border-radius: 999px;
-    background: rgba(210, 114, 133, 0.28);
-  }
-
-  &::-webkit-slider-thumb {
-    appearance: none;
-    width: $thumb-size;
-    height: $thumb-size;
-    margin-top: calc(($track-thickness - $thumb-size) / 2);
-    border-radius: 50%;
-    background: linear-gradient(145deg, #e8b86a 0%, #b88924 100%);
-    border: 1px solid rgba(255, 254, 248, 0.95);
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
-  }
-
-  &::-moz-range-thumb {
-    width: $thumb-size;
-    height: $thumb-size;
-    border-radius: 50%;
-    background: linear-gradient(145deg, #e8b86a 0%, #b88924 100%);
-    border: 1px solid rgba(255, 254, 248, 0.95);
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
-  }
-
-  &::-moz-range-track {
-    height: $track-thickness;
-    border-radius: 999px;
-    background: rgba(210, 114, 133, 0.28);
-  }
-}
-
-@media (max-width: 380px) {
-  .music-volume-label {
-    height: 112px;
-  }
-
-  .music-volume {
-    width: 100px;
-  }
-
-  @media (hover: hover) {
-    .music-controls--volume-collapsed:hover .music-volume-label,
-    .music-controls--volume-collapsed:focus-within .music-volume-label {
-      max-height: 112px;
-      height: 112px;
-    }
-  }
+  display: none;
 }

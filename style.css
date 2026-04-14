@@ -65,7 +65,7 @@ h1 {
     min-height: 1.2em; 
     line-height: 1.2;
     position: absolute;
-    top: 22vh;
+    top: 18vh;
     left: 50%;
     transform: translateX(-50%);
     width: 100%;
@@ -77,12 +77,12 @@ h1 {
     color: var(--gold-text);
     text-shadow: 0 2px 10px rgba(127, 63, 96, 0.18);
     white-space: nowrap;
-    font-size: clamp(1.9rem, 8.2vw, 4.6rem);
+    font-size: clamp(2.25rem, calc(100vw / 7), 8.75rem);
     letter-spacing: 0.01em;
     line-height: 1.05;
     /* Keep title anchored even if JS or stale inline styles modify position */
     position: absolute !important;
-    top: 22vh !important;
+    top: 18vh !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
     width: min(calc(100% - 28px), calc(100vw - 28px));
@@ -91,7 +91,7 @@ h1 {
 
 @media (max-width: 360px) {
     #main-title {
-        font-size: clamp(1.65rem, 7.8vw, 2.5rem);
+        font-size: clamp(1.85rem, calc(100vw / 7), 2.85rem);
         width: min(calc(100% - 20px), calc(100vw - 20px));
     }
 }
@@ -107,31 +107,31 @@ h1 {
 }
 
 #instruction {
-    margin: 0;
-    color: #c77997;
+    margin: 8px 0 0;
+    color: #dab6ca;
     font-style: normal;
     font-family: 'Archivo Narrow', sans-serif;
-    font-size: 1.5rem;
+    font-size: 1.05rem;
     font-weight: 500;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 6px;
-    position: absolute;
-    bottom: 28px;
-    left: 50%;
-    transform: translateX(-50%);
+    gap: 3px;
+    position: relative;
     width: 100%;
+    max-width: 400px;
+    align-self: center;
     z-index: 3;
+    flex-shrink: 0;
 }
 
 #instruction-icon {
     display: inline-block;
-    font-size: 1.35rem;
+    font-size: 0.95rem;
     line-height: 1;
     filter: drop-shadow(0 1px 2px rgba(148, 74, 109, 0.2));
-    transform-origin: 75% 80%;
+    transform-origin: 50% 100%;
     will-change: transform;
 }
 
@@ -367,6 +367,10 @@ canvas {
 
     .heart-wrapper {
         max-width: 450px; /* Srdce na desktopu může být o něco větší */
+    }
+
+    #instruction {
+        max-width: 450px;
     }
 }
 
@@ -677,7 +681,7 @@ canvas {
 .info-title-airy {
     font-family: 'Great Vibes', cursive;
     font-size: 2.2rem;
-    color: var(--gold-text);
+    color: #2d2d2d;
     margin-bottom: 5px;
     display: block;
     /* Jemná linka pod nadpisem, která se ztrácí do stran */
@@ -938,6 +942,22 @@ canvas {
     grid-column: 3;
     justify-self: start;
     align-self: center;
+}
+
+.harmonogram-timeline-item--last .harmonogram-timeline-cell--text {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+}
+
+.harmonogram-timeline-item--last .harmonogram-timeline-inline-icons {
+    flex-shrink: 0;
+    line-height: 0;
+}
+
+.harmonogram-timeline-item--last .harmonogram-timeline-last-copy {
+    min-width: 0;
 }
 
 .harmonogram-timeline-cell--axis {

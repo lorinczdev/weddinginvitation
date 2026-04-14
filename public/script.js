@@ -898,15 +898,6 @@ function setupBackgroundMusic() {
         if (readStored(storage.playing, "1") !== "1") return;
         tryPlay();
     });
-
-    const collapseVolumeAfterMs = 2200;
-    const prefersHoverUi =
-        typeof window.matchMedia === "function" && window.matchMedia("(hover: hover)").matches;
-    if (controls && prefersHoverUi) {
-        window.setTimeout(() => {
-            controls.classList.add("music-controls--volume-collapsed");
-        }, collapseVolumeAfterMs);
-    }
 }
 
 window.addEventListener("DOMContentLoaded", () => {
