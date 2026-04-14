@@ -191,9 +191,12 @@ function scratch(e) {
     const insideCanvas = x >= 0 && y >= 0 && x <= rect.width && y <= rect.height;
     if (!insideCanvas) return;
 
+    const side = Math.min(rect.width, rect.height);
+    const brushRadius = Math.round(Math.min(78, Math.max(40, side * 0.15)));
+
     ctx.globalCompositeOperation = "destination-out";
     ctx.beginPath();
-    ctx.arc(x, y, 60, 0, Math.PI * 2);
+    ctx.arc(x, y, brushRadius, 0, Math.PI * 2);
     ctx.fill();
 
     checkReveal();
@@ -294,8 +297,9 @@ function createConfetti() {
     const confContainer = document.getElementById("confetti-container");
     const colors = ["#f06292", "#f48fb1", "#ec407a", "#ffd1e1", "#ffffff"];
     const hearts = ["♥", "❤", "💕"];
+    const particleCount = window.matchMedia("(pointer: coarse)").matches ? 80 : 150;
 
-    for (let i = 0; i < 150; i++) {
+    for (let i = 0; i < particleCount; i++) {
         const confetti = document.createElement("div");
         confetti.className = "confetti";
         confetti.classList.add("heart-particle");

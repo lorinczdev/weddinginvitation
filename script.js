@@ -46,7 +46,39 @@ let infoPageScrollbar = null;
 /** Pixel snapshot of the scratch layer right after drawing heart.png (opaque = stíratelná plocha). */
 let scratchBaseline = null;
 
-// 1. Deklarujeme obr�zek jen JEDNOU
+const SCRATCH_SCROLL_LOCK = "scratch-scroll-lock";
+let scratchScrollLockY = 0;
+let scratchScrollLocked = false;
+
+function lockScratchScroll() {
+    if (scratchScrollLocked) return;
+    scratchScrollLocked = true;
+    scratchScrollLockY = window.scrollY || document.documentElement.scrollTop || 0;
+    document.documentElement.classList.add(SCRATCH_SCROLL_LOCK);
+    document.body.classList.add(SCRATCH_SCROLL_LOCK);
+    Object.assign(document.body.style, {
+        position: "fixed",
+        top: `-${scratchScrollLockY}px`,
+        left: "0",
+        right: "0",
+        width: "100%",
+    });
+}
+
+function unlockScratchScroll() {
+    if (!scratchScrollLocked) return;
+    scratchScrollLocked = false;
+    document.documentElement.classList.remove(SCRATCH_SCROLL_LOCK);
+    document.body.classList.remove(SCRATCH_SCROLL_LOCK);
+    document.body.style.position = "";
+    document.body.style.top = "";
+    document.body.style.left = "";
+    document.body.style.right = "";
+    document.body.style.width = "";
+    window.scrollTo(0, scratchScrollLockY);
+}
+
+// 1. Deklarzek jen JEDNOU
 const heartImg = new Image();
 
 // 2. Po�k�me na na�ten� obr�zku a pak spust�me v�e ostatn�
@@ -162,6 +194,7 @@ function dispatchStartupReady() {
 canvas.addEventListener("pointerdown", (e) => {
     if (isRevealed) return;
     if (e.cancelable) e.preventDefault();
+    lockScratchScroll();
     scratching = true;
     canvas.setPointerCapture(e.pointerId);
     scratch(e);
@@ -169,13 +202,16 @@ canvas.addEventListener("pointerdown", (e) => {
 
 canvas.addEventListener("pointermove", scratch);
 
+function endScratchPointer(e) {
+    scratching = false;
+    unlockScratchScroll();
+    if (canvas.hasPointerCapture(e.pointerId)) {
+        canvas.releasePointerCapture(e.pointerId);
+    }
+}
+
 ["pointerup", "pointercancel", "pointerleave"].forEach((evt) =>
-    canvas.addEventListener(evt, (e) => {
-        scratching = false;
-        if (canvas.hasPointerCapture(e.pointerId)) {
-            canvas.releasePointerCapture(e.pointerId);
-        }
-    })
+    canvas.addEventListener(evt, endScratchPointer)
 );
 
 function scratch(e) {
@@ -191,9 +227,12 @@ function scratch(e) {
     const insideCanvas = x >= 0 && y >= 0 && x <= rect.width && y <= rect.height;
     if (!insideCanvas) return;
 
+    const side = Math.min(rect.width, rect.height);
+    const brushRadius = Math.round(Math.min(78, Math.max(40, side * 0.15)));
+
     ctx.globalCompositeOperation = "destination-out";
     ctx.beginPath();
-    ctx.arc(x, y, 60, 0, Math.PI * 2);
+    ctx.arc(x, y, brushRadius, 0, Math.PI * 2);
     ctx.fill();
 
     checkReveal();
@@ -232,6 +271,8 @@ function checkReveal() {
 function revealEverything() {
     if (isRevealed) return;
     isRevealed = true;
+    scratching = false;
+    unlockScratchScroll();
     createConfetti();
 
     if (instruction) {
@@ -294,8 +335,9 @@ function createConfetti() {
     const confContainer = document.getElementById("confetti-container");
     const colors = ["#f06292", "#f48fb1", "#ec407a", "#ffd1e1", "#ffffff"];
     const hearts = ["♥", "❤", "💕"];
+    const particleCount = window.matchMedia("(pointer: coarse)").matches ? 80 : 150;
 
-    for (let i = 0; i < 150; i++) {
+    for (let i = 0; i < particleCount; i++) {
         const confetti = document.createElement("div");
         confetti.className = "confetti";
         confetti.classList.add("heart-particle");

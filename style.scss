@@ -27,12 +27,33 @@ body {
   background: var(--page-bg);
   color: var(--text-primary);
   font-family: $font-script;
+  min-height: 100dvh;
+  min-height: -webkit-fill-available;
 }
 
 #main-title {
   font-family: $font-handwritten !important;
   font-size: clamp(2.25rem, calc(100vw / 7), 8.75rem) !important;
   top: 18vh !important;
+}
+
+/* Intro heading on info page: match body text color */
+#info-page > h2.info-titlet {
+  color: var(--text-primary);
+}
+
+.info-subtitle {
+  color: var(--text-primary);
+}
+
+@media (max-width: 767px) {
+  #main-title {
+    top: max(10vh, calc(env(safe-area-inset-top, 0px) + 4vh)) !important;
+  }
+
+  .heart-wrapper {
+    margin-top: clamp(0.85rem, 4.5vmin, 1.75rem);
+  }
 }
 
 #instruction,
@@ -54,11 +75,11 @@ body {
   #hours,
   #minutes,
   #seconds {
-    color: var(--gold-text-soft) !important;
+    color: var(--accent) !important;
   }
 
   small {
-    color: var(--gold-text) !important;
+    color: var(--accent) !important;
   }
 }
 
@@ -293,4 +314,138 @@ $music-ring-border-strong: rgba(218, 175, 120, 0.62);
 
 .music-volume-label {
   display: none;
+}
+
+// Mobile-first: safe areas, readable copy width, touch targets
+.screen {
+  padding-top: max(10px, env(safe-area-inset-top, 0px));
+  padding-right: max(10px, env(safe-area-inset-right, 0px));
+  padding-bottom: max(10px, env(safe-area-inset-bottom, 0px));
+  padding-left: max(10px, env(safe-area-inset-left, 0px));
+}
+
+@media (max-width: 767px) {
+  html,
+  body {
+    overscroll-behavior-x: none;
+  }
+
+  #info-page {
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: max(12px, env(safe-area-inset-bottom, 0px));
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .info-titlett,
+  .info-text-airy {
+    padding-left: clamp(14px, 4.5vw, 22px) !important;
+    padding-right: clamp(14px, 4.5vw, 22px) !important;
+  }
+
+  .info-text-airy {
+    font-size: 1.08rem;
+    line-height: 1.45;
+  }
+
+  .schedule-box {
+    width: min(92%, calc(100vw - 24px));
+    max-width: none;
+  }
+
+  #calendar-wrapper {
+    bottom: max(12px, calc(env(safe-area-inset-bottom, 0px) + 10px));
+    width: min(340px, calc(100% - 28px));
+    max-width: none;
+  }
+
+  .calendar-btn {
+    align-items: center;
+    min-height: 48px;
+    padding: 12px 16px;
+    white-space: normal;
+    text-align: left;
+    touch-action: manipulation;
+  }
+
+  .calendar-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .dress-more-inspo-btn {
+    min-height: 48px;
+    padding: 12px 18px;
+    touch-action: manipulation;
+  }
+
+  .map-link {
+    display: inline-block;
+    padding: 0.45em 0;
+    margin-top: 0.35em;
+    min-height: 44px;
+    line-height: 1.35;
+    box-sizing: border-box;
+  }
+
+  .dress-lightbox {
+    padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right))
+      max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+  }
+
+  .dress-lightbox-close {
+    top: max(12px, env(safe-area-inset-top));
+    right: max(12px, env(safe-area-inset-right));
+    width: 44px;
+    height: 44px;
+  }
+
+  .harmonogram-timeline {
+    width: min(94%, calc(100vw - 20px));
+  }
+
+  .info-section--side-florals .info-section__inner {
+    padding-inline: clamp(14px, 6vw, 72px);
+  }
+
+  .info-section--side-florals .info-section-floral {
+    opacity: 0.42;
+    width: clamp(72px, 28vw, 160px);
+    height: clamp(72px, 28vw, 160px);
+  }
+
+  .music-mute-btn {
+    width: 44px;
+    height: 44px;
+
+    &::before {
+      width: 46px;
+      height: 46px;
+    }
+
+    svg {
+      width: 22px;
+      height: 22px;
+    }
+  }
+}
+
+@media (max-width: 420px) {
+  #main-title {
+    white-space: normal !important;
+    line-height: 1.08;
+  }
+}
+
+@media (max-width: 360px) {
+  .calendar-btn {
+    font-size: 0.9rem;
+    padding: 12px 14px;
+    min-height: 48px;
+  }
+
+  .calendar-icon {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+  }
 }
