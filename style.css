@@ -65,7 +65,7 @@ h1 {
     min-height: 1.2em; 
     line-height: 1.2;
     position: absolute;
-    top: 16vh;
+    top: 22vh;
     left: 50%;
     transform: translateX(-50%);
     width: 100%;
@@ -82,7 +82,7 @@ h1 {
     line-height: 1.05;
     /* Keep title anchored even if JS or stale inline styles modify position */
     position: absolute !important;
-    top: 16vh !important;
+    top: 22vh !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
     width: min(calc(100% - 28px), calc(100vw - 28px));
@@ -135,32 +135,59 @@ h1 {
     will-change: transform;
 }
 
-.invite-text h2 {
-    font-family: 'Great Vibes', cursive;
-    font-size: 1.8rem;
-    margin-bottom: 5px;
-    font-weight: 400;
+.invite-text--save-date {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.15em;
 }
 
-.invite-text p {
-    font-size: 1.2rem;
-    line-height: 1.2;
-    margin: 5px 0;
+.invite-heart-tagline,
+.invite-heart-date {
+    margin: 0;
+    font-family: "Great Vibes", cursive;
     font-weight: 400;
+    line-height: 1.15;
+    color: #1a1a1a;
+    text-shadow: 0 1px 3px rgba(255, 255, 255, 0.85);
 }
-/* SPECIFICKY DATUM */
-.invite-text .date {
-    font-weight: 700; /* Tučné písmo pro datum */
-    font-size: 2.2rem; /* Větší písmo jen pro datum */
+
+.invite-heart-tagline {
+    font-size: clamp(2.15rem, 7.8vw, 3.05rem);
+}
+
+.invite-heart-date .date {
+    font-size: clamp(2.55rem, 8.8vw, 3.65rem);
     display: inline-block;
-    margin-top: 1px;
-    margin-bottom: 7px;
+    font-weight: 400;
 }
 
-/* Úprava samotného odpočtu v srdíčku */
-#countdown {
-    gap: 8px !important; /* Zmenšíme mezery mezi políčky, aby se to lépe vešlo do špičky srdce */
-    margin-top: 0 !important;
+.invite-text--save-date .invite-heart-countdown {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 6px;
+    font-family: "Montserrat", sans-serif;
+}
+
+.invite-text--save-date .invite-heart-countdown > div {
+    text-align: center;
+    min-width: 36px;
+}
+
+.invite-text--save-date .invite-heart-countdown span[id] {
+    display: block;
+    font-size: clamp(0.9rem, 3vw, 1.2rem);
+    font-weight: bold;
+    line-height: 1.2;
+}
+
+.invite-text--save-date .invite-heart-countdown small {
+    display: block;
+    font-size: 0.55rem;
+    text-transform: uppercase;
+    line-height: 1.2;
+    margin-top: 2px;
 }
 
 .heart-wrapper {
@@ -278,7 +305,7 @@ h1 {
 
 .invite-text {
     position: relative;
-    top: -35px;
+    top: -30px;
     text-align: center;
     z-index: 2; /* Úplně vespod */
     width: 80%;
@@ -685,39 +712,48 @@ canvas {
     line-height: 1.5; /* Volitelné: přitáhne řádky ještě blíž k sobě */
 }
 
-/* „Instrukce“: květy a nadpis jako jeden vycentrovaný řádek (vejde se do úzkého .screen) */
-.info-heading-with-florals {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: clamp(6px, 2.5vw, 14px);
-    margin: 52px 0 0;
+/* „Instrukce“: květy v absolutní vrstvě — text jede přes celou šířku (grid dřív zužoval sloupec) */
+.info-section--side-florals {
+    position: relative;
     width: 100%;
 }
 
-.info-heading-with-florals__title {
-    margin-top: 0;
-    margin-bottom: 5px;
-    flex: 0 1 auto;
-    text-align: center;
+.info-section--side-florals .info-section__inner {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    /* Vyhrazení místa pod květy (absolutní, přes celou výšku sekce) — ~polovina až 60 % šířky dlaždice */
+    padding-inline: clamp(68px, 20.5vw, 136px);
 }
 
-.info-heading-floral {
-    flex: 0 0 auto;
-    width: clamp(64px, 17vw, 118px);
-    height: clamp(64px, 17vw, 118px);
+.info-section--side-florals .info-text-airy {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.info-section--side-florals .info-section-floral {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: clamp(100px, 36vw, 240px);
+    height: clamp(100px, 36vw, 240px);
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
     opacity: 0.6;
     pointer-events: none;
+    z-index: 0;
 }
 
-.info-heading-floral--left {
+.info-section--side-florals .info-section-floral--left {
+    left: 0;
+    transform: translateY(-50%) translateX(clamp(-10px, -2vw, -2px));
     background-image: url('kvet.png');
 }
 
-.info-heading-floral--right {
+.info-section--side-florals .info-section-floral--right {
+    right: 0;
+    transform: translateY(-50%) translateX(clamp(2px, 2vw, 10px));
     background-image: url('kvet_vpravo.png');
 }
 
@@ -814,9 +850,19 @@ canvas {
     text-align: center;
 }
 
+.harmonogram-icon-sprite {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+}
+
 .harmonogram-timeline-track {
     position: relative;
     padding: 4px 0 2px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
 }
 
 .harmonogram-timeline-track::before {
@@ -836,13 +882,9 @@ canvas {
     grid-template-columns: minmax(0, 1fr) 20px minmax(0, 1fr);
     gap: 8px 8px;
     align-items: start;
-    margin-bottom: 26px;
+    margin-bottom: 0;
     position: relative;
     z-index: 1;
-}
-
-.harmonogram-timeline-item--last {
-    margin-bottom: 0;
 }
 
 /* Velké růžové srdce přes blok hostiny (výplň + průhlednost) */
@@ -879,11 +921,13 @@ canvas {
 .harmonogram-timeline-item--text-right .harmonogram-timeline-cell--text {
     grid-column: 3;
     text-align: left;
+    padding-left: 14px;
 }
 
 .harmonogram-timeline-item--text-left .harmonogram-timeline-cell--text {
     grid-column: 1;
     text-align: right;
+    padding-right: 14px;
 }
 
 .harmonogram-timeline-item--text-left .harmonogram-timeline-cell--axis {
@@ -951,24 +995,27 @@ canvas {
 }
 
 .harmonogram-timeline .harmonogram-sub li {
-    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.45em;
     font-weight: 400;
     font-size: 1rem;
     line-height: 1.45;
-    padding-left: 1em;
+    padding-left: 0;
     color: var(--text-muted);
 }
 
-.harmonogram-timeline .harmonogram-sub li::before {
-    content: "";
-    position: absolute;
-    left: 0.15em;
-    top: 0.55em;
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background: var(--gold-text-soft);
-    opacity: 0.95;
+.harmonogram-sub-icon {
+    flex-shrink: 0;
+    color: var(--gold-text-soft);
+    line-height: 0;
+}
+
+.harmonogram-sub-svg {
+    display: block;
+    width: 1.125rem;
+    height: 1.125rem;
+    opacity: 0.92;
 }
 
 .harmonogram-timeline .harmonogram-sub li + li {
@@ -976,14 +1023,8 @@ canvas {
 }
 
 .harmonogram-timeline-item--text-left .harmonogram-sub li {
+    flex-direction: row-reverse;
     text-align: right;
-    padding-left: 0;
-    padding-right: 1em;
-}
-
-.harmonogram-timeline-item--text-left .harmonogram-sub li::before {
-    left: auto;
-    right: 0.15em;
 }
 
 @media (max-width: 360px) {

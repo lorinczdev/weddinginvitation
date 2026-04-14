@@ -3,7 +3,9 @@ import { animate } from "animejs";
 import { OverlayScrollbars } from "overlayscrollbars";
 import "overlayscrollbars/styles/overlayscrollbars.css";
 import "./style.scss";
+import scratchHeartUrl from "./heart.png?url";
 
+window.__inviteScratchHeartUrl = scratchHeartUrl;
 createApp({}).mount("#vue-app");
 window.__animeAnimate = animate;
 window.__OverlayScrollbars = OverlayScrollbars;
