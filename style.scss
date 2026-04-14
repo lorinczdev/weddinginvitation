@@ -37,9 +37,15 @@ body {
   top: 18vh !important;
 }
 
-/* Intro heading on info page: match body text color */
-#info-page > h2.info-titlet {
-  color: var(--text-primary);
+/* Intro pod hlavičkou — ne přímý potomek #info-page (OverlayScrollbars obalí scroll viewportem) */
+#info-page .header-row ~ h2.info-titlet,
+#info-page .info-titlett {
+  color: #000;
+}
+
+/* Nadpis nad odpočtem je uvnitř .info-content, takže neplatí pravidlo výše */
+h2.info-titlet:has(+ .countdown-container) {
+  color: #000;
 }
 
 .info-subtitle {
@@ -63,6 +69,25 @@ body {
 .info-text-airy,
 .dress-note {
   font-family: $font-body;
+}
+
+.info-text-airy .info-gift-line {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 0.5em;
+  align-items: start;
+}
+
+.info-gift-line__icon {
+  color: var(--gold-text-soft);
+  line-height: 0;
+}
+
+.info-gift-line__svg {
+  display: block;
+  width: 1.35em;
+  height: 1.35em;
+  margin-top: 0.1em;
 }
 
 #countdown,
@@ -108,6 +133,24 @@ body {
 .schedule-item {
   &:last-child {
     border-bottom: none;
+  }
+}
+
+.harmonogram-timeline {
+  .harmonogram-timeline-label {
+    color: var(--accent);
+
+    .harmonogram-timeline-title-icon {
+      color: inherit;
+    }
+  }
+
+  .harmonogram-timeline-time {
+    color: var(--accent);
+  }
+
+  .harmonogram-timeline-item--last .harmonogram-timeline-inline-icons {
+    color: var(--accent);
   }
 }
 
@@ -325,11 +368,6 @@ $music-ring-border-strong: rgba(218, 175, 120, 0.62);
 }
 
 @media (max-width: 767px) {
-  html,
-  body {
-    overscroll-behavior-x: none;
-  }
-
   #info-page {
     padding-top: env(safe-area-inset-top, 0px);
     padding-bottom: max(12px, env(safe-area-inset-bottom, 0px));
@@ -347,8 +385,13 @@ $music-ring-border-strong: rgba(218, 175, 120, 0.62);
     line-height: 1.45;
   }
 
+  .info-gift-line__svg {
+    width: 1.2em;
+    height: 1.2em;
+  }
+
   .schedule-box {
-    width: min(92%, calc(100vw - 24px));
+    width: min(92%, calc(100% - 24px));
     max-width: none;
   }
 
@@ -400,17 +443,17 @@ $music-ring-border-strong: rgba(218, 175, 120, 0.62);
   }
 
   .harmonogram-timeline {
-    width: min(94%, calc(100vw - 20px));
+    width: min(94%, calc(100% - 20px));
   }
 
   .info-section--side-florals .info-section__inner {
-    padding-inline: clamp(14px, 6vw, 72px);
+    padding-inline: clamp(18px, 7.5vw, 88px);
   }
 
   .info-section--side-florals .info-section-floral {
     opacity: 0.42;
-    width: clamp(72px, 28vw, 160px);
-    height: clamp(72px, 28vw, 160px);
+    width: clamp(92px, 35vw, 200px);
+    height: clamp(92px, 35vw, 200px);
   }
 
   .music-mute-btn {

@@ -670,6 +670,9 @@ function setupModernScrollbar() {
     if (infoPageScrollbar) return;
 
     infoPageScrollbar = createOverlayScrollbars(infoPage, {
+        overflow: {
+            x: "hidden",
+        },
         scrollbars: {
             autoHide: "scroll",
             autoHideDelay: 650,

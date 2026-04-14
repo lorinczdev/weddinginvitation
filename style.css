@@ -6,6 +6,14 @@ html {
     width: 100%;
     max-width: 100%;
     overflow-x: hidden;
+    overscroll-behavior-x: none;
+    touch-action: pan-y pinch-zoom;
+}
+
+@supports (overflow-x: clip) {
+    html {
+        overflow-x: clip;
+    }
 }
 
 :root {
@@ -25,12 +33,21 @@ body {
     min-height: 100vh;
     width: 100%;
     max-width: 100%;
+    min-width: 0; /* Umožní zúžení ve flexu — jinak široký obsah vytvoří horizontální scroll */
     display: flex;
     justify-content: center;
     align-items: center;
     font-family: 'Great Vibes', cursive;
     overflow-x: hidden; /* Zabrání vodorovnému posouvání */
+    overscroll-behavior-x: none;
+    touch-action: pan-y pinch-zoom;
     color: var(--gold-text);
+}
+
+@supports (overflow-x: clip) {
+    body {
+        overflow-x: clip;
+    }
 }
 
 img {
@@ -45,6 +62,7 @@ body.images-ready img {
 .screen {
     width: 100%;
     max-width: min(500px, 100%);
+    min-width: 0; /* Stejně jako u body — horizontální scroll z flex min-content */
     min-height: 100dvh; /* dvh lépe sedí na mobily */
     background: #f4d8e6;
     margin: 0 auto;
@@ -173,26 +191,26 @@ h1 {
 .invite-text--save-date .invite-heart-countdown {
     display: flex;
     justify-content: center;
-    gap: 6px;
+    gap: 8px;
     margin-top: 6px;
     font-family: "Montserrat", sans-serif;
 }
 
 .invite-text--save-date .invite-heart-countdown > div {
     text-align: center;
-    min-width: 36px;
+    min-width: 44px;
 }
 
 .invite-text--save-date .invite-heart-countdown span[id] {
     display: block;
-    font-size: clamp(0.9rem, 3vw, 1.2rem);
+    font-size: clamp(1.15rem, 4.2vw, 1.65rem);
     font-weight: bold;
     line-height: 1.2;
 }
 
 .invite-text--save-date .invite-heart-countdown small {
     display: block;
-    font-size: 0.55rem;
+    font-size: 0.7rem;
     text-transform: uppercase;
     line-height: 1.2;
     margin-top: 2px;
@@ -226,7 +244,8 @@ h1 {
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
+    object-position: center top;
     z-index: 1; /* Nejnižší vrstva */
     opacity: 1;
     visibility: visible;
@@ -336,13 +355,15 @@ canvas {
 
 #confetti-container {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0;
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    max-height: 100%;
     pointer-events: none !important;
     z-index: 999; /* Aby byly nad vším ostatním */
     overflow: hidden; /* Pojistka proti vyjíždění konfet ven */
+    overscroll-behavior: none;
 }
 
 .confetti {
@@ -437,6 +458,9 @@ canvas {
     z-index: 9999 !important;
     width: 90%;
     max-width: 320px;
+    min-width: 0;
+    overflow-x: hidden;
+    box-sizing: border-box;
     pointer-events: none;
 }
 
@@ -465,7 +489,7 @@ canvas {
     color: #2f2531 !important;
     border: 1px solid rgba(210, 114, 133, 0.35);
     text-decoration: none !important;
-    white-space: nowrap;
+    white-space: normal;
     flex-wrap: nowrap;
     font-style: normal;
     font-family: 'Archivo Narrow', sans-serif;
@@ -475,12 +499,14 @@ canvas {
     border-radius: 999px;
     box-shadow: 0 8px 20px rgba(210, 114, 133, 0.2);
     width: 100% !important;
-    min-width: 180px;
+    min-width: 0;
     pointer-events: auto !important;
     transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 .calendar-btn span {
+    flex: 1;
+    min-width: 0;
     text-align: left;
 }
 
@@ -574,6 +600,7 @@ canvas {
     left: 0;
     width: 100%;
     max-width: 100%;
+    min-width: 0; /* Sloupec flexu uvnitř .screen nesmí „natlačit“ šířku stránky */
     height: 100%;
     background: var(--pink-bg);
     z-index: 10000; /* Musí být nad vším */
@@ -582,6 +609,8 @@ canvas {
     align-items: center;
     overflow-y: auto; /* Kdyby bylo textu hodně, půjde scrollovat */
     overflow-x: hidden;
+    overscroll-behavior-x: none;
+    touch-action: pan-y pinch-zoom;
     justify-content: flex-start; /* Začne nahoře, aby se dalo scrollovat dolů */
     text-align: center;
     box-sizing: border-box; /* Zajistí, že padding "nevyfoukne" stránku do stran */
@@ -620,6 +649,12 @@ canvas {
     margin-top: 32px;
 }
 
+/* Intro pod hlavičkou — ne #info-page > … (OverlayScrollbars přesune obsah, přímé děti zmizí) */
+#info-page .header-row ~ h2.info-titlet,
+#info-page .info-titlett {
+    color: #000;
+}
+
 .info-titlett {
     font-family: 'Archivo Narrow', sans-serif;
     font-size: 1rem;
@@ -639,6 +674,7 @@ canvas {
     font-size: 1.1rem;
     line-height: 1.2;
     width: 100%; /* Roztažení na dostupnou šířku */
+    min-width: 0; /* Sloupec ve flex #info-page nesmí přetékat přes šířku viewportu */
     margin: 0 auto; /* Pojistka pro vycentrování bloku */
     padding: 0;
     color: var(--gold-text);
@@ -737,7 +773,7 @@ canvas {
     z-index: 1;
     width: 100%;
     /* Vyhrazení místa pod květy (absolutní, přes celou výšku sekce) — ~polovina až 60 % šířky dlaždice */
-    padding-inline: clamp(68px, 20.5vw, 136px);
+    padding-inline: clamp(82px, 24vw, 168px);
 }
 
 .info-section--side-florals .info-text-airy {
@@ -749,8 +785,8 @@ canvas {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    width: clamp(100px, 36vw, 240px);
-    height: clamp(100px, 36vw, 240px);
+    width: clamp(125px, 44vw, 300px);
+    height: clamp(125px, 44vw, 300px);
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
@@ -818,6 +854,8 @@ canvas {
     text-decoration: underline;
     display: inline-block;
     margin-top: 2px;
+    overflow-wrap: anywhere;
+    word-break: break-word;
 }
 
 /* Hlavní ohraničený box - TADY JE TEN ČTVEREC */
@@ -877,6 +915,7 @@ canvas {
     display: flex;
     flex-direction: column;
     gap: 40px;
+    overflow-x: hidden; /* dekorace (srdce) nesmí rozšířit šířku scrollu */
 }
 
 .harmonogram-timeline-track::before {
@@ -1019,6 +1058,39 @@ canvas {
     line-height: 1.35;
 }
 
+.harmonogram-timeline-label--with-icon {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.45em;
+}
+
+.harmonogram-timeline-label--with-icon-start {
+    justify-content: flex-start;
+}
+
+/* Ikona u nadpisu má být u středové osy (vpravo od textu v levém sloupci). */
+.harmonogram-timeline-item--text-left .harmonogram-timeline-label--with-icon {
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+}
+
+.harmonogram-timeline-title-icon {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 0;
+    color: var(--gold-text-soft);
+}
+
+.harmonogram-timeline-title-svg {
+    display: block;
+    width: 1.125rem;
+    height: 1.125rem;
+    opacity: 0.92;
+}
+
 .harmonogram-timeline .harmonogram-sub {
     list-style: none;
     padding: 0;
@@ -1098,6 +1170,7 @@ canvas {
 /* Sloupec s textem (Pravá strana) */
 .schedule-text {
     flex: 1; /* Zabere maximum místa */
+    min-width: 0; /* Dovolí zúžení řádku — jinak dlouhý text rozšíří horizontální scroll */
     text-align: left; /* Jako na fotce */
 }
 
@@ -1410,7 +1483,7 @@ h4.dresscode-gender-title {
     content: "";
     position: absolute;
     width: min(580px, 100%);
-    max-width: calc(100vw - 16px);
+    max-width: calc(100% - 16px);
     height: 370px;
     background-size: contain;
     background-position: center;
@@ -1470,9 +1543,15 @@ h4.dresscode-gender-title {
     height: auto;
     display: block;
     border-radius: 10px 10px 0 0; /* Volitelné: jemně zaoblené rohy, ladí s formulářem */
-    /* MAGICKÁ ČÁST: Plynulý přechod do ztracena nahoře */
-    -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%);
-    mask-image: linear-gradient(to top, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
+    /* Plynulý přechod do ztracena nahoře (společná fotka pod formulářem masku nemá) */
+    -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 100%);
+    mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 60%, rgba(0, 0, 0, 0) 100%);
+}
+
+/* Společná fotka pod formulářem — bez masky (tváře zůstávají plně vidět) */
+#info-page > .fade-image-wrapper:last-of-type .fade-image {
+    -webkit-mask-image: none;
+    mask-image: none;
 }
 
 /* OverlayScrollbars theme tweak for invite palette */
@@ -1481,6 +1560,19 @@ h4.dresscode-gender-title {
     --os-handle-bg: rgba(154, 116, 24, 0.45);
     --os-handle-bg-hover: rgba(154, 116, 24, 0.58);
     --os-handle-bg-active: rgba(154, 116, 24, 0.72);
+}
+
+/* Žádné vodorovné „šoupání“ uvnitř vlastního scrollu ani přes šířku obsahu */
+[data-overlayscrollbars~=host],
+[data-overlayscrollbars-padding] {
+    max-width: 100%;
+    min-width: 0;
+}
+
+[data-overlayscrollbars-viewport] {
+    overflow-x: hidden !important;
+    overscroll-behavior-x: none !important;
+    max-width: 100%;
 }
 
 
