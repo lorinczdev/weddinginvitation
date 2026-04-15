@@ -43,6 +43,10 @@ body {
   color: #000;
 }
 
+.info-titlett {
+  padding-bottom: 1rem;
+}
+
 /* Nadpis nad odpočtem je uvnitř .info-content, takže neplatí pravidlo výše */
 h2.info-titlet:has(+ .countdown-container) {
   color: #000;
@@ -71,25 +75,6 @@ h2.info-titlet:has(+ .countdown-container) {
   font-family: $font-body;
 }
 
-.info-text-airy .info-gift-line {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  gap: 0.5em;
-  align-items: start;
-}
-
-.info-gift-line__icon {
-  color: var(--gold-text-soft);
-  line-height: 0;
-}
-
-.info-gift-line__svg {
-  display: block;
-  width: 1.35em;
-  height: 1.35em;
-  margin-top: 0.1em;
-}
-
 #countdown,
 .countdown-container {
   .days-val,
@@ -109,6 +94,10 @@ h2.info-titlet:has(+ .countdown-container) {
 }
 
 #calendar-wrapper {
+  overflow: hidden;
+  padding-bottom: 24px;
+  bottom: calc(5vh - 24px);
+
   &.visible {
     pointer-events: auto !important;
   }
@@ -116,13 +105,50 @@ h2.info-titlet:has(+ .countdown-container) {
 
 .calendar-btn {
   color: #2f2531 !important;
+  box-shadow: none !important;
+  transition: transform 0.2s ease, border-color 0.2s ease;
 
   &:hover {
     border-color: rgba($color-accent, 0.55);
+    box-shadow: none !important;
   }
 
   &:active {
     transform: scale(0.98);
+  }
+}
+
+.calendar-btn-info .calendar-icon {
+  font-size: 0;
+  line-height: 0;
+  color: transparent;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 23%;
+    left: 50%;
+    width: 13%;
+    height: 13%;
+    min-width: 3px;
+    min-height: 3px;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    background: $color-accent;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 46%;
+    left: 50%;
+    width: 10%;
+    min-width: 2px;
+    height: 32%;
+    min-height: 6px;
+    transform: translateX(-50%);
+    border-radius: 999px;
+    background: $color-accent;
   }
 }
 
@@ -137,6 +163,15 @@ h2.info-titlet:has(+ .countdown-container) {
 }
 
 .harmonogram-timeline {
+  --harm-tl-line: #{rgba($color-accent, 0.4)};
+  --harm-tl-dot-border: #{$color-page-bg};
+
+  color: var(--text-primary);
+
+  .harmonogram-timeline-dot {
+    background: $color-accent;
+  }
+
   .harmonogram-timeline-label {
     color: var(--accent);
 
@@ -149,8 +184,37 @@ h2.info-titlet:has(+ .countdown-container) {
     color: var(--accent);
   }
 
+  .harmonogram-timeline-cell--icon {
+    color: rgba($color-accent, 0.88);
+  }
+
+  .harmonogram-timeline-svg {
+    opacity: 1;
+  }
+
   .harmonogram-timeline-item--last .harmonogram-timeline-inline-icons {
     color: var(--accent);
+  }
+
+  .harmonogram-sub-icon {
+    color: var(--accent);
+  }
+
+  .harmonogram-sub-svg {
+    opacity: 1;
+  }
+
+  .harmonogram-sub li {
+    color: var(--text-primary);
+  }
+
+  /* overflow-x:hidden alone forces overflow-y:auto (scrollport); lock both so #info-page scrolls */
+  .harmonogram-timeline-track {
+    overflow: hidden;
+  }
+
+  .harmonogram-timeline-item--banquet .harmonogram-banquet-heart {
+    width: min(430px, 108%);
   }
 }
 
@@ -188,9 +252,9 @@ h2.info-titlet:has(+ .countdown-container) {
   transform-origin: center top;
 }
 
-$music-ring-border: rgba(232, 205, 175, 0.48);
-$music-ring-border-mid: rgba(232, 200, 170, 0.42);
-$music-ring-border-strong: rgba(218, 175, 120, 0.62);
+$music-ring-border: rgba(235, 168, 195, 0.5);
+$music-ring-border-mid: rgba(232, 158, 188, 0.44);
+$music-ring-border-strong: rgba(218, 125, 165, 0.62);
 
 @keyframes music-playing-ring {
   0%,
@@ -243,7 +307,7 @@ $music-ring-border-strong: rgba(218, 175, 120, 0.62);
   &:has(.music-mute-btn:active)::after {
     animation: none;
     opacity: 0.55;
-    border-color: rgba(232, 200, 170, 0.5);
+    border-color: rgba(230, 155, 185, 0.55);
   }
 
   &:has(.music-mute-btn:active)::before {
@@ -261,7 +325,7 @@ $music-ring-border-strong: rgba(218, 175, 120, 0.62);
     &::after {
       animation: none;
       opacity: 0.68;
-      border-color: rgba(218, 175, 120, 0.52);
+      border-color: rgba(212, 145, 175, 0.55);
     }
 
     &::before {
@@ -330,7 +394,7 @@ $music-ring-border-strong: rgba(218, 175, 120, 0.62);
     animation: none;
     opacity: 0.65;
     transform: translate(-50%, -50%) scale(1);
-    border-color: rgba(232, 200, 170, 0.5);
+    border-color: rgba(230, 155, 185, 0.55);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -338,7 +402,7 @@ $music-ring-border-strong: rgba(218, 175, 120, 0.62);
       animation: none;
       opacity: 0.78;
       transform: translate(-50%, -50%) scale(1.04);
-      border-color: rgba(218, 175, 120, 0.52);
+      border-color: rgba(212, 145, 175, 0.55);
     }
   }
 
@@ -385,18 +449,13 @@ $music-ring-border-strong: rgba(218, 175, 120, 0.62);
     line-height: 1.45;
   }
 
-  .info-gift-line__svg {
-    width: 1.2em;
-    height: 1.2em;
-  }
-
   .schedule-box {
     width: min(92%, calc(100% - 24px));
     max-width: none;
   }
 
   #calendar-wrapper {
-    bottom: max(12px, calc(env(safe-area-inset-bottom, 0px) + 10px));
+    bottom: max(12px, calc(env(safe-area-inset-bottom, 0px) + 10px - 24px));
     width: min(340px, calc(100% - 28px));
     max-width: none;
   }
@@ -417,7 +476,7 @@ $music-ring-border-strong: rgba(218, 175, 120, 0.62);
 
   .dress-more-inspo-btn {
     min-height: 48px;
-    padding: 12px 18px;
+    padding: 12px 22px;
     touch-action: manipulation;
   }
 
@@ -447,13 +506,13 @@ $music-ring-border-strong: rgba(218, 175, 120, 0.62);
   }
 
   .info-section--side-florals .info-section__inner {
-    padding-inline: clamp(18px, 7.5vw, 88px);
+    padding-inline: clamp(54px, 20vw, 184px);
   }
 
   .info-section--side-florals .info-section-floral {
     opacity: 0.42;
-    width: clamp(92px, 35vw, 200px);
-    height: clamp(92px, 35vw, 200px);
+    width: clamp(112px, 42vw, 252px);
+    height: clamp(112px, 42vw, 252px);
   }
 
   .music-mute-btn {

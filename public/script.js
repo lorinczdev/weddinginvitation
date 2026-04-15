@@ -377,45 +377,33 @@ function addSparklesToText(elementId) {
             return;
         }
 
-        const sparkle = document.createElement("div");
-        sparkle.className = "sparkle";
-
-        // N�hodn� pozice v r�mci textu
         const x = rect.left + Math.max(2, Math.random() * rect.width);
         const y = rect.top + Math.max(2, Math.random() * rect.height);
-        sparkle.style.position = "fixed";
-        sparkle.style.left = `${x}px`;
-        sparkle.style.top = `${y}px`;
+        const sizePx = Math.random() * 5 + 4;
+        const durationMs = Math.random() * 550 + 650;
+        const peakOpacity = Math.random() * 0.35 + 0.65;
 
-        // N�hodn� animace
-        sparkle.style.animation = `sparkleAnim ${Math.random() * 0.55 + 0.65}s ease-out forwards`;
-        sparkle.style.width = `${Math.random() * 5 + 4}px`;
-        sparkle.style.height = sparkle.style.width;
-        sparkle.style.opacity = `${Math.random() * 0.35 + 0.65}`;
-        sparkle.style.setProperty("--sparkle-rotate", `${Math.random() * 360}deg`);
+        const sparkle = document.createElement("div");
+        sparkle.className = "sparkle";
+        const s = sparkle.style;
+        s.setProperty("--sparkle-x", `${x}px`);
+        s.setProperty("--sparkle-y", `${y}px`);
+        s.setProperty("--sparkle-size", `${sizePx}px`);
+        s.setProperty("--sparkle-rotate", `${Math.random() * 360}deg`);
+        s.setProperty("--sparkle-duration", `${durationMs}ms`);
+        s.setProperty("--sparkle-peak-opacity", String(peakOpacity));
+
+        let dismissed = false;
+        const dismiss = () => {
+            if (dismissed) return;
+            dismissed = true;
+            sparkle.remove();
+        };
+        sparkle.addEventListener("animationend", dismiss, { once: true });
+        window.setTimeout(dismiss, durationMs + 120);
 
         document.body.appendChild(sparkle);
-        animateSparkle(sparkle);
-    }, 120); // Jak rychle se jiskry objevuj� (men�� ��slo = v�c jisk�en�)
-}
-
-function animateSparkle(sparkle) {
-    const animeAnimate = window.__animeAnimate;
-    if (typeof animeAnimate !== "function") {
-        sparkle.style.animation = `sparkleAnim ${Math.random() * 0.55 + 0.65}s ease-out forwards`;
-        setTimeout(() => sparkle.remove(), 1100);
-        return;
-    }
-
-    const baseRotation = Math.random() * 360;
-    animeAnimate(sparkle, {
-        rotate: [`${baseRotation}deg`, `${baseRotation + Math.random() * 65 - 32.5}deg`],
-        scale: [0, 1.55, 0],
-        opacity: [0, 1, 0],
-        duration: Math.random() * 260 + 700,
-        ease: "outExpo",
-        onComplete: () => sparkle.remove()
-    });
+    }, 120); // Jak rychle se jiskry objevují (menší číslo = víc jiskření)
 }
 
 // Spust�me jisk�en� pro nadpis a instrukce
@@ -636,10 +624,9 @@ function setupModernScrollbar() {
             x: "hidden",
         },
         scrollbars: {
-            autoHide: "scroll",
-            autoHideDelay: 650,
-            theme: "os-theme-light"
-        }
+            visibility: "hidden",
+            theme: "os-theme-light",
+        },
     });
 }
 

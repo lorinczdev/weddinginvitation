@@ -8,6 +8,12 @@ html {
     overflow-x: hidden;
     overscroll-behavior-x: none;
     touch-action: pan-y pinch-zoom;
+    background: #f4d8e6; /* Stejné jako .screen — žádný „pruh“ pod safe area */
+    scrollbar-width: none;
+}
+
+html::-webkit-scrollbar {
+    display: none;
 }
 
 @supports (overflow-x: clip) {
@@ -17,7 +23,9 @@ html {
 }
 
 :root {
-    --pink-bg: #fae5f1;
+    --page-bg: #f4d8e6;
+    /* Stejné jako .screen — bez „cizího“ odstínu oproti hlavnímu sloupci */
+    --pink-bg: #f4d8e6;
     --pink-bg-soft: #fdf1f8;
     --pink-bg-blush: #f3d6e6;
     --gold-text: #9a7418;
@@ -27,7 +35,7 @@ html {
 }
 
 body {
-    background: var(--pink-bg); /* Pozadí celé stránky */
+    background: var(--page-bg); /* Pozadí celé stránky */
     margin: 0;
     padding: 0;
     min-height: 100vh;
@@ -72,7 +80,7 @@ body.images-ready img {
     position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Drží srdce ve středu */
+    justify-content: flex-start; /* Srdce nahoře; volný prostor bere #instruction přes margin-top: auto */
     align-items: center; /* Vycentruje vodorovně */
     overflow: hidden;
 }
@@ -133,7 +141,7 @@ h1 {
 }
 
 #instruction {
-    margin: 8px 0 0;
+    margin: auto 0 max(10px, env(safe-area-inset-bottom, 0px));
     color: #dab6ca;
     font-style: normal;
     font-family: 'Archivo Narrow', sans-serif;
@@ -387,6 +395,11 @@ canvas {
 @media (min-width: 768px) {
     .screen {
         padding-top: 0; /* Zrušíme ten horní okraj, co jsme dávali kvůli mobilu */
+        justify-content: center; /* Na velké obrazovce znovu vycentrovat hero */
+    }
+
+    #instruction {
+        margin: 8px 0 0; /* Na desktopu bez „pin to bottom“ */
     }
 
     h1 {
@@ -404,10 +417,16 @@ canvas {
 }
 
 .sparkle {
-    position: absolute;
-    width: 6px;
-    height: 6px;
+    position: fixed;
+    left: var(--sparkle-x, 0);
+    top: var(--sparkle-y, 0);
+    width: var(--sparkle-size, 6px);
+    height: var(--sparkle-size, 6px);
     --sparkle-rotate: 0deg;
+    --sparkle-duration: 800ms;
+    --sparkle-peak-opacity: 1;
+    transform-origin: center;
+    opacity: 0;
     background: linear-gradient(180deg, #fffdf3 0%, #f8da8f 48%, #e7b84e 100%);
     clip-path: polygon(50% 0%,
             60% 35%,
@@ -423,6 +442,7 @@ canvas {
     z-index: 5;
     box-shadow: 0 0 10px rgba(255, 248, 218, 0.95), 0 0 16px rgba(240, 201, 106, 0.85);
     filter: drop-shadow(0 0 8px rgba(240, 201, 106, 0.7));
+    animation: sparkleAnim var(--sparkle-duration) ease-out forwards;
 }
 
 /* Animace pro bliknutí jiskry */
@@ -434,7 +454,7 @@ canvas {
 
     50% {
         transform: rotate(var(--sparkle-rotate)) scale(1.5);
-        opacity: 1;
+        opacity: var(--sparkle-peak-opacity);
     }
 
     100% {
@@ -448,7 +468,7 @@ canvas {
     position: absolute;
     display: none;
     flex-direction: column;
-    gap: 15px;
+    gap: 10px;
     bottom: 5vh;
     left: 50%;
     transform: translateX(-50%);
@@ -602,7 +622,7 @@ canvas {
     max-width: 100%;
     min-width: 0; /* Sloupec flexu uvnitř .screen nesmí „natlačit“ šířku stránky */
     height: 100%;
-    background: var(--pink-bg);
+    background: var(--page-bg);
     z-index: 10000; /* Musí být nad vším */
     display: flex;
     flex-direction: column;
@@ -615,11 +635,18 @@ canvas {
     text-align: center;
     box-sizing: border-box; /* Zajistí, že padding "nevyfoukne" stránku do stran */
     overflow-wrap: anywhere;
+    scrollbar-width: none; /* Firefox — skrytý scrollbar, scroll zůstává */
+    -ms-overflow-style: none; /* starší Edge/IE */
+}
+
+#info-page::-webkit-scrollbar {
+    width: 0;
+    height: 0;
 }
 
 
 /* Zajistíme, aby obsah byl nad kytkami */
-.info-content, .header-row, .info-titlet, .fade-image-wrapper, .countdown-container {
+.info-content, .header-row, .info-titlet, .fade-image-wrapper, .info-calendar-cta, .countdown-container {
     position: relative;
     z-index: 2;
 }
@@ -773,7 +800,7 @@ canvas {
     z-index: 1;
     width: 100%;
     /* Vyhrazení místa pod květy (absolutní, přes celou výšku sekce) — ~polovina až 60 % šířky dlaždice */
-    padding-inline: clamp(82px, 24vw, 168px);
+    padding-inline: clamp(168px, 46vw, 360px);
 }
 
 .info-section--side-florals .info-text-airy {
@@ -785,8 +812,8 @@ canvas {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    width: clamp(125px, 44vw, 300px);
-    height: clamp(125px, 44vw, 300px);
+    width: clamp(155px, 52vw, 380px);
+    height: clamp(155px, 52vw, 380px);
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
@@ -916,6 +943,13 @@ canvas {
     flex-direction: column;
     gap: 40px;
     overflow-x: hidden; /* dekorace (srdce) nesmí rozšířit šířku scrollu */
+    scrollbar-width: none; /* scrollbar skrytý — scroll uvnitř tracku zůstane (kolečko/touch) */
+    -ms-overflow-style: none;
+}
+
+.harmonogram-timeline-track::-webkit-scrollbar {
+    width: 0;
+    height: 0;
 }
 
 .harmonogram-timeline-track::before {
@@ -948,7 +982,7 @@ canvas {
     transform: translate(-50%, -50%);
     z-index: 4;
     pointer-events: none;
-    width: min(560px, 168%, 100%);
+    width: min(500px, 122%);
     max-width: none;
     color: #d27285;
     opacity: 0.07;
@@ -1258,7 +1292,7 @@ canvas {
 .dresscode-gender-section {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 8px;
 }
 
 .dresscode-gender-section + .dresscode-gender-section {
@@ -1290,21 +1324,22 @@ h4.dresscode-gender-title {
     width: fit-content;
     max-width: 100%;
     min-width: 0;
-    margin: 4px 0 0;
+    margin-top: clamp(18px, 4.5vw, 28px);
+    margin-bottom: clamp(10px, 2.5vw, 16px);
     text-align: center;
     white-space: normal;
-    padding: 5px 11px;
+    padding: 11px 24px;
     box-sizing: border-box;
     font-family: 'Archivo Narrow', sans-serif;
-    font-size: 0.9rem;
+    font-size: 0.94rem;
     font-weight: 600;
-    letter-spacing: 0.04em;
-    line-height: 1.25;
+    letter-spacing: 0.05em;
+    line-height: 1.35;
     color: var(--gold-text);
-    background: #fff8fc;
-    border: 1px solid rgba(182, 138, 47, 0.22);
-    border-radius: 7px;
-    box-shadow: 0 1px 6px rgba(154, 116, 24, 0.06);
+    background: #fff7fb;
+    border: 1px solid rgba(210, 114, 133, 0.32);
+    border-radius: 999px;
+    box-shadow: 0 6px 18px rgba(210, 114, 133, 0.16);
     cursor: pointer;
     transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease,
         box-shadow 0.2s ease, transform 0.2s ease;
@@ -1313,19 +1348,19 @@ h4.dresscode-gender-title {
 .dress-more-inspo-btn:hover {
     color: var(--gold-text-soft);
     background: #fff;
-    border-color: rgba(154, 116, 24, 0.38);
-    box-shadow: 0 4px 14px rgba(154, 116, 24, 0.12);
+    border-color: rgba(210, 114, 133, 0.48);
+    box-shadow: 0 10px 24px rgba(210, 114, 133, 0.22);
     transform: translateY(-1px);
 }
 
 .dress-more-inspo-btn:active {
-    transform: translateY(0) scale(0.99);
-    box-shadow: 0 1px 6px rgba(154, 116, 24, 0.1);
+    transform: scale(0.98);
+    box-shadow: 0 4px 12px rgba(210, 114, 133, 0.16);
 }
 
 .dress-more-inspo-btn:focus-visible {
-    outline: 2px solid rgba(154, 116, 24, 0.45);
-    outline-offset: 2px;
+    outline: 2px solid rgba(210, 114, 133, 0.45);
+    outline-offset: 3px;
 }
 
 .dress-gallery-img {
@@ -1478,23 +1513,19 @@ h4.dresscode-gender-title {
     overflow: visible;
 }
 
-.rsvp-outer-container::before,
-.rsvp-outer-container::after {
+.rsvp-outer-container::before {
     content: "";
     position: absolute;
     width: min(580px, 100%);
     max-width: calc(100% - 16px);
     height: 370px;
+    background-image: url('kvet_nahoru.png');
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
     opacity: 0.88;
     z-index: 10;
     pointer-events: none;
-}
-
-.rsvp-outer-container::before {
-    background-image: url('kvet_nahoru.png');
     top: -175px;
     left: 50%;
     transform: translateX(-50%);
@@ -1522,9 +1553,9 @@ h4.dresscode-gender-title {
     position: relative;
     width: 100%;
     height: auto;
-    margin: -30px auto;
-    margin-bottom: 28px;
-    overflow: visible; /* Pojistka */
+    margin: 2.25rem auto 28px;
+    border-radius: 10px 10px 0 0;
+    overflow: hidden; /* spolu s maskou na <img> — rohy bez rozbitého ořezu ve WebKitu */
 }
 
 /* Odpočet a další nadpisy uvnitř obsahu */
@@ -1532,26 +1563,48 @@ h4.dresscode-gender-title {
     margin-top: 44px;
 }
 
-/* Fotka pod celým obsahem info stránky */
-#info-page > .info-content + .fade-image-wrapper {
+/* Fotka nad RSVP – stejné odsazení jako dříve pod celým obsahem */
+#info-page .info-content > .fade-image-wrapper.fade-image-wrapper--before-rsvp {
     margin-top: 36px;
 }
 
-/* Samotný obrázek */
+.info-calendar-cta {
+    width: min(320px, 90%);
+    margin: 0 auto 1.25rem;
+    box-sizing: border-box;
+}
+
+/* Samotný obrázek — mask-mode: alpha: bez toho WebKit často bere černou jako luminanci (= prolnutí obráceně) */
 .fade-image {
     width: 100%;
     height: auto;
     display: block;
-    border-radius: 10px 10px 0 0; /* Volitelné: jemně zaoblené rohy, ladí s formulářem */
-    /* Plynulý přechod do ztracena nahoře (společná fotka pod formulářem masku nemá) */
-    -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 100%);
-    mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 60%, rgba(0, 0, 0, 0) 100%);
+    border-radius: 0;
+    -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 80%, rgba(0, 0, 0, 0) 100%);
+    -webkit-mask-size: 100% 100%;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    -webkit-mask-clip: border-box;
+    -webkit-mask-origin: border-box;
+    mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 80%, rgba(0, 0, 0, 0) 100%);
+    mask-size: 100% 100%;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    mask-clip: border-box;
+    mask-origin: border-box;
+    mask-mode: alpha;
+    transform: translateZ(0);
 }
 
-/* Společná fotka pod formulářem — bez masky (tváře zůstávají plně vidět) */
-#info-page > .fade-image-wrapper:last-of-type .fade-image {
-    -webkit-mask-image: none;
-    mask-image: none;
+/*
+ * Starší engine: bez mask-mode berou černou jako luminanci (= „prolnutí“ obráceně).
+ * Bílá + průhlednost sedí jako luminance i alpha.
+ */
+@supports not (mask-mode: alpha) {
+    .fade-image {
+        -webkit-mask-image: linear-gradient(to top, #fff 80%, rgba(255, 255, 255, 0) 100%);
+        mask-image: linear-gradient(to top, #fff 80%, rgba(255, 255, 255, 0) 100%);
+    }
 }
 
 /* OverlayScrollbars theme tweak for invite palette */
@@ -1573,6 +1626,18 @@ h4.dresscode-gender-title {
     overflow-x: hidden !important;
     overscroll-behavior-x: none !important;
     max-width: 100%;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+[data-overlayscrollbars-viewport]::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+/* OverlayScrollbars widget — úplně skrýt kolečko (API visibility:hidden někdy nestačí) */
+#info-page .os-scrollbar {
+    display: none !important;
 }
 
 

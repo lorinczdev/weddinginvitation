@@ -3,7 +3,7 @@
 <html lang="cs">
 <head>
     <meta charset="UTF-8">
-    <title>Save the date</title>
+    <title>Save the Date</title>
 
     <meta name="title" content="Svatba Péti & Aničky">
 
@@ -57,7 +57,7 @@
         <div id="initials" class="initials">Zapište si datum</div>
 
         <div class="heart-wrapper">
-            <img src="listky.png" id="heart-background" alt="pozadi">
+            <img src="listky.png" id="heart-background" alt="Pozadí">
             <div class="invite-container">
                 <div class="invite-text invite-text--save-date">
                     <p class="invite-heart-tagline">Zapište si datum</p>
@@ -95,8 +95,8 @@
 
         <div id="calendar-wrapper" class="hidden">
             <a href="javascript:void(0)" class="calendar-btn calendar-btn-info" onclick="showInfo()">
-                <div class="calendar-icon" aria-hidden="true">i</div>
-                <span>Pro další informace klikněte sem</span>
+                <div class="calendar-icon" aria-hidden="true"></div>
+                <span>Pro další informace klikněte zde</span>
             </a>
 
             <a href="javascript:void(0)" class="calendar-btn calendar-btn-add" onclick="addToCalendar()">
@@ -117,9 +117,12 @@
 
             <h2 class="info-titlet">Budeme se brát!</h2>
             <div class="info-titlett">Milá rodino a přátelé, srdečně Vás zveme na naši svatbu a těšíme se, že náš výjimečný den prožijete spolu s námi.</div>
+
             <div class="fade-image-wrapper">
                 <img src="svatebni.jpg" alt="Svatební fotka" class="fade-image">
             </div>
+
+            <hr class="fade-divider">
 
             <div class="info-content">
                 <!-- Ikony harmonogramu + rozvrhu: sprite musí být před prvním <use> v rozvrhu -->
@@ -199,15 +202,6 @@
                             <circle cx="12" cy="13" r="3"/>
                         </g>
                     </symbol>
-                    <symbol id="info-gift-present" viewBox="0 0 24 24">
-                        <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="20 12 20 22 4 22 4 12"/>
-                            <rect width="20" height="5" x="2" y="7"/>
-                            <line x1="12" x2="12" y1="22" y2="7"/>
-                            <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/>
-                            <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
-                        </g>
-                    </symbol>
                 </svg>
                 <h3 class="info-subtitle">Základní informace</h3>
                 <div class="schedule-box">
@@ -232,7 +226,7 @@
                     <div class="schedule-item">
                         <div class="schedule-time">16:00</div>
                         <div class="schedule-text">
-                            <h4>Slavnostní hostina</h4>
+                            <h4>Svatební hostina</h4>
                             <p>Krušnohorský Maskaron,<br>Teplice</p>
                             <a href="https://www.google.com/maps/place/Kru%C5%A1nohorsk%C3%BD+Maskaron/@50.640093,13.8255481,17z/data=!3m1!4b1!4m6!3m5!1s0x47098e8d13067941:0x53c108908b5c4593!8m2!3d50.640093!4d13.828123!16s%2Fg%2F1tknj4pw?entry=ttu&g_ep=EgoyMDI2MDMxNy4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="map-link">📍 Otevřít v mapách</a>
                         </div>
@@ -249,8 +243,10 @@
 
                 </div>
 
+                <hr class="fade-divider">
+
                 <section class="harmonogram harmonogram-timeline" aria-labelledby="harmonogram-heading">
-                    <h3 id="harmonogram-heading" class="info-title-airy harmonogram-section-title">Harmonogram dne</h3>
+                <h3 id="harmonogram-heading" class="info-title-airy harmonogram-section-title">Harmonogram dne</h3>
 
                     <div class="harmonogram-timeline-track">
                         <article class="harmonogram-timeline-item harmonogram-timeline-item--text-right">
@@ -280,7 +276,7 @@
                         <article class="harmonogram-timeline-item harmonogram-timeline-item--text-left harmonogram-timeline-item--banquet">
                             <div class="harmonogram-timeline-cell harmonogram-timeline-cell--text">
                                 <p class="harmonogram-timeline-time">16:00</p>
-                                <h4 class="harmonogram-timeline-label harmonogram-timeline-label--with-icon"><span class="harmonogram-timeline-title-icon" aria-hidden="true"><svg class="harmonogram-timeline-title-svg" viewBox="0 0 24 24" focusable="false"><use href="#harmonogram-sub-meal"/></svg></span>Slavnostní hostina</h4>
+                                <h4 class="harmonogram-timeline-label harmonogram-timeline-label--with-icon"><span class="harmonogram-timeline-title-icon" aria-hidden="true"><svg class="harmonogram-timeline-title-svg" viewBox="0 0 24 24" focusable="false"><use href="#harmonogram-sub-meal"/></svg></span>Svatební hostina</h4>
                                 <ul class="harmonogram-sub">
                                     <li>
                                         <span class="harmonogram-sub-icon" aria-hidden="true">
@@ -298,7 +294,7 @@
                                         <span class="harmonogram-sub-icon" aria-hidden="true">
                                             <svg class="harmonogram-sub-svg" viewBox="0 0 24 24" focusable="false"><use href="#harmonogram-sub-flower"/></svg>
                                         </span>
-                                        Hod svatební kytice
+                                        Házení svatební kyticí
                                     </li>
                                     <li>
                                         <span class="harmonogram-sub-icon" aria-hidden="true">
@@ -354,6 +350,8 @@
                     </div>
                 </section>
 
+                <hr class="fade-divider">
+
                 <div class="info-section info-section--side-florals">
                     <span class="info-section-floral info-section-floral--left" aria-hidden="true"></span>
                     <div class="info-section__inner">
@@ -361,16 +359,17 @@
                         <div class="info-text-airy">
                         <p>Bude nám potěšením, když se u kostela sv. Jana Křtitele sejdeme již ve <strong>13:00</strong>, abychom se společně připravili na začátek obřadu. Samotný obřad začíná ve <strong>13:30</strong>.</p>
                         <p>Doprava ke kostelu je individuální. Parkování je možné v okolí Zámeckého náměstí (ulice U Zámku, Rooseveltova a Dlouhá).</p>
-                        <p>Po obřadu bude následovat společné focení a poté se přesuneme na místo hostiny, kam je pro Vás doprava zajištěna námi.</p>
-                        <p class="morning-tip">✨ Nezapomeňte se ráno pořádně nasnídat – slavnostní hostina nás čeká až kolem <strong>16:00</strong>.</p>
                         <p>Prosíme hosty, aby během obřadu odložili mobilní telefony a užili si tento okamžik s námi.</p>
+                        <p>Po obřadu bude následovat společné focení a poté se přesuneme na místo hostiny, kam je pro Vás doprava zajištěna námi.</p>
                         </div>
-                        <hr class="fade-divider">
+                        <p class="morning-tip">✨ Nezapomeňte se ráno pořádně nasnídat – slavnostní hostina nás čeká až kolem <strong>16:00</strong>.</p>
                     </div>
                     <span class="info-section-floral info-section-floral--right" aria-hidden="true"></span>
                 </div>
 
-                <h2 class="info-titlet">Užijte si s námi naší svatbu za:</h2>
+                <hr class="fade-divider">
+
+                <h2 class="info-titlet">Do naší svatby zbývá:</h2>
                 <div class="countdown-container" style="display: flex; justify-content: center; gap: 12px; margin-top: 5px; font-family: 'Montserrat', sans-serif;">
                     <div style="text-align: center; min-width: 45px;">
                         <span class="days-val" style="display: block; font-size: 1.4rem; font-weight: bold; color: #d27285;">00</span>
@@ -394,6 +393,8 @@
                     <img src="svatebni2.jpg" alt="Svatební fotka" class="fade-image">
                 </div>
 
+                <hr class="fade-divider">
+
                 <div class="info-section">
                     <h3 class="info-title-airy">Dresscode</h3>
 
@@ -402,13 +403,13 @@
                             <h4 id="dresscode-women-heading" class="dresscode-gender-title">Dámy</h4>
                             <div class="info-text-airy dresscode-women-intro">
                                 <p>Zvolte dlouhé šaty v různých letních barvách.</p>
-                                <p>Vítané jsou světlé i tmavší tóny – důležitá je elegance a pohodlí.</p>
+                                <p>Vítané jsou světlé i tmavší odstíny – důležitá je elegance a pohodlí.</p>
                                 <p>Splývavé materiály, volány či jemné detaily celkový vzhled krásně doplní.</p>
                                 <p>Prosíme, vyhněte se bílé a červené barvě šatů.</p>
                             </div>
                             <img src="dresscode-women-examples.png" class="dress-gallery-img" alt="Ukázky dámského dresscodu">
                             <button type="button" class="dress-more-inspo-btn" data-dress-women-more aria-haspopup="dialog" aria-controls="dress-women-second-img">
-                                Zobrazit další inspirace
+                                Zobrazit další inspiraci
                             </button>
                             <img id="dress-women-second-img" src="dresscode-women-palette.png" class="dress-gallery-img" alt="Barevné inspirace dámských šatů" hidden>
                         </section>
@@ -421,29 +422,31 @@
                             </div>
                             <img src="dresscode-men-palette.png" class="dress-gallery-img" alt="Barevné inspirace pánských obleků">
                             <button type="button" class="dress-more-inspo-btn" data-dress-men-more aria-haspopup="dialog" aria-controls="dress-men-second-img">
-                                Zobrazit další inspirace
+                                Zobrazit další inspiraci
                             </button>
                             <img id="dress-men-second-img" src="dresscode-men-examples.png" class="dress-gallery-img" alt="Ukázky pánského dresscodu" hidden>
                         </section>
                     </div>
 
                 </div>
-                <div><hr class="fade-divider"></div>
 
                 <div class="info-section">
                     <h3 class="info-title-airy">Svatební dary</h3>
                     <div class="info-text-airy">
                         <p>Největším darem pro nás bude, když tento den strávíte s námi a užijete si ho.</p>
-                        <p class="info-gift-line">
-                            <span class="info-gift-line__icon" aria-hidden="true">
-                                <svg class="info-gift-line__svg" viewBox="0 0 24 24" focusable="false"><use href="#info-gift-present"/></svg>
-                            </span>
-                            <span class="info-gift-line__text">Pokud byste nám chtěli něco darovat, budeme rádi za finanční příspěvek na naše první společné bydlení.</span>
-                            <span class="info-gift-line__icon" aria-hidden="true">
-                                <svg class="info-gift-line__svg" viewBox="0 0 24 24" focusable="false"><use href="#info-gift-present"/></svg>
-                            </span>
-                        </p>
+                        <p>Pokud byste nám chtěli něco darovat, budeme rádi za finanční příspěvek na naše společné bydlení. 🎁</p>
                     </div>
+                </div>
+
+                <div class="fade-image-wrapper fade-image-wrapper--before-rsvp">
+                    <img src="bottom-photo.jpg" alt="Společná fotografie" class="fade-image">
+                </div>
+
+                <div class="info-calendar-cta">
+                    <a href="javascript:void(0)" class="calendar-btn calendar-btn-add" onclick="addToCalendar()">
+                        <div class="calendar-icon" aria-hidden="true">6</div>
+                        <span>Přidat do kalendáře</span>
+                    </a>
                 </div>
 
                 <div class="rsvp-outer-container">
@@ -461,9 +464,6 @@
                 </div>
 
 
-            </div>
-            <div class="fade-image-wrapper">
-                <img src="bottom-photo.jpg" alt="Společná fotografie" class="fade-image">
             </div>
         </div>
 
