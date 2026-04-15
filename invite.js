@@ -684,11 +684,16 @@ function addToCalendar() {
     const endDate = "20260606T235900";
 
     const googleUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startDate}/${endDate}&details=${encodeURIComponent(details)}&location=${encodeURIComponent(location)}&sf=true&output=xml`;
-    // Skutečná URL na serveru — vestavěné prohlížeče (Instagram, Zprávy) často blokují blob: a atribut download.
+    // Skutečná URL na serveru — vestavěné prohlížeče často neumí spolehlivě předat .ics do kalendáře.
     const icsUrl = new URL("svatba.ics", window.location.href).href;
-    const isApple = /iPhone|iPad|iPod|Macintosh/i.test(navigator.userAgent);
+    const userAgent = navigator.userAgent;
+    const isApple = /iPhone|iPad|iPod|Macintosh/i.test(userAgent);
+    const isInstagramBrowser = /Instagram|FBAN|FBAV/i.test(userAgent);
+    const targetUrl = isApple && !isInstagramBrowser ? icsUrl : googleUrl;
+    const calendarWindow = window.open(targetUrl, "_blank", "noopener");
 
-    window.location.assign(isApple ? icsUrl : googleUrl);
+    if (calendarWindow) return;
+    window.location.assign(targetUrl);
 }
 
 
