@@ -433,11 +433,19 @@ $music-ring-border-strong: rgba(218, 125, 165, 0.62);
 
 /* Side florals: stacked roses at ~2× base size (overrides style.css) */
 .info-section--side-florals .info-section__inner {
-  padding-inline: clamp(176px, 34vw, 270px);
+  padding-inline: clamp(136px, 30vw, 230px);
 }
 
 .info-section--side-florals .info-section-floral-column {
   padding-bottom: clamp(12px, 3vw, 28px);
+}
+
+.info-section--side-florals .info-section-floral-column--left {
+  left: -20px;
+}
+
+.info-section--side-florals .info-section-floral-column--right {
+  right: -20px;
 }
 
 .info-section--side-florals .info-section-floral-bud {
@@ -524,7 +532,7 @@ $music-ring-border-strong: rgba(218, 125, 165, 0.62);
   }
 
   .info-section--side-florals .info-section__inner {
-    padding-inline: clamp(136px, 31vw, 216px);
+    padding-inline: clamp(96px, 27vw, 176px);
   }
 
   .info-section--side-florals .info-section-floral-bud {
