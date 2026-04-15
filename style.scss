@@ -510,17 +510,19 @@ $music-ring-border-strong: rgba(218, 125, 165, 0.62);
   }
 
   .info-section--side-florals .info-section__inner {
-    padding-inline: clamp(76px, 20vw, 168px);
+    padding-inline: clamp(58px, 14vw, 96px);
   }
 
-  .info-section--side-florals .info-section-floral {
-    opacity: 0.38;
-    width: clamp(72px, 18vw, 148px);
-    background-size: 162% auto;
+  .info-section--side-florals .info-section-floral-bud {
+    opacity: 0.4;
+    width: clamp(40px, 11vw, 58px);
+    height: clamp(48px, 12vw, 68px);
+    background-position: 50% 100%;
+    background-size: contain;
   }
 
-  .info-section--side-florals .info-section-floral--right {
-    background-size: 152% auto;
+  .info-section--side-florals .info-section-floral-bud + .info-section-floral-bud {
+    margin-top: clamp(-22px, -5vw, -10px);
   }
 
   .music-mute-btn {
