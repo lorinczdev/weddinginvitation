@@ -431,18 +431,22 @@ $music-ring-border-strong: rgba(218, 125, 165, 0.62);
   padding-left: max(10px, env(safe-area-inset-left, 0px));
 }
 
-/* Side florals: larger stacked roses (overrides style.css) */
+/* Side florals: stacked roses at ~2× base size (overrides style.css) */
 .info-section--side-florals .info-section__inner {
-  padding-inline: clamp(88px, 17vw, 135px);
+  padding-inline: clamp(176px, 34vw, 270px);
+}
+
+.info-section--side-florals .info-section-floral-column {
+  padding-bottom: clamp(12px, 3vw, 28px);
 }
 
 .info-section--side-florals .info-section-floral-bud {
-  width: clamp(62px, 13.5vw, 92px);
-  height: clamp(72px, 15.5vw, 108px);
+  width: clamp(124px, 27vw, 184px);
+  height: clamp(144px, 31vw, 216px);
 }
 
 .info-section--side-florals .info-section-floral-bud + .info-section-floral-bud {
-  margin-top: clamp(-33px, -5.4vw, -15px);
+  margin-top: clamp(-66px, -10.8vw, -30px);
 }
 
 @media (max-width: 767px) {
@@ -520,19 +524,19 @@ $music-ring-border-strong: rgba(218, 125, 165, 0.62);
   }
 
   .info-section--side-florals .info-section__inner {
-    padding-inline: clamp(68px, 15.5vw, 108px);
+    padding-inline: clamp(136px, 31vw, 216px);
   }
 
   .info-section--side-florals .info-section-floral-bud {
     opacity: 0.4;
-    width: clamp(50px, 13.5vw, 72px);
-    height: clamp(60px, 14.5vw, 84px);
+    width: clamp(100px, 27vw, 144px);
+    height: clamp(120px, 29vw, 168px);
     background-position: 50% 100%;
     background-size: contain;
   }
 
   .info-section--side-florals .info-section-floral-bud + .info-section-floral-bud {
-    margin-top: clamp(-28px, -6.2vw, -13px);
+    margin-top: clamp(-56px, -12.4vw, -26px);
   }
 
   .music-mute-btn {
