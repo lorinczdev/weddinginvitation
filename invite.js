@@ -52,6 +52,9 @@ let infoPageScrollbar = null;
 /** Pixel snapshot of the scratch layer right after drawing heart.png (opaque = stíratelná plocha). */
 let scratchBaseline = null;
 
+/** When setPointerCapture fails (common in some in-app browsers, e.g. Messages), track moves on document. */
+let detachDocPointerScratch = null;
+
 const SCRATCH_SCROLL_LOCK = "scratch-scroll-lock";
 let scratchScrollLockY = 0;
 let scratchScrollLocked = false;
@@ -197,28 +200,77 @@ function dispatchStartupReady() {
     window.dispatchEvent(new Event("invite:ready"));
 }
 
-canvas.addEventListener("pointerdown", (e) => {
-    if (isRevealed) return;
-    if (e.cancelable) e.preventDefault();
-    lockScratchScroll();
-    scratching = true;
-    scratchPointerId = e.pointerId;
-    canvas.setPointerCapture(e.pointerId);
-    scratch(e);
-});
+const scratchPointerOpts = { passive: false };
 
-canvas.addEventListener("pointermove", scratch);
+function clearDocPointerScratch() {
+    if (typeof detachDocPointerScratch === "function") {
+        detachDocPointerScratch();
+    }
+    detachDocPointerScratch = null;
+}
+
+function attachDocPointerScratch(pointerId) {
+    clearDocPointerScratch();
+    const onMove = (ev) => {
+        if (ev.pointerId !== pointerId) return;
+        scratch(ev);
+    };
+    const onEnd = (ev) => {
+        if (ev.pointerId !== pointerId) return;
+        endScratchPointer(ev);
+    };
+    document.addEventListener("pointermove", onMove, scratchPointerOpts);
+    document.addEventListener("pointerup", onEnd);
+    document.addEventListener("pointercancel", onEnd);
+    detachDocPointerScratch = () => {
+        document.removeEventListener("pointermove", onMove, scratchPointerOpts);
+        document.removeEventListener("pointerup", onEnd);
+        document.removeEventListener("pointercancel", onEnd);
+    };
+}
+
+canvas.addEventListener(
+    "pointerdown",
+    (e) => {
+        if (isRevealed) return;
+        if (e.button !== undefined && e.button !== 0) return;
+        if (e.cancelable) e.preventDefault();
+        lockScratchScroll();
+        scratching = true;
+        scratchPointerId = e.pointerId;
+        let captureOk = false;
+        try {
+            canvas.setPointerCapture(e.pointerId);
+            captureOk = canvas.hasPointerCapture(e.pointerId);
+        } catch {
+            captureOk = false;
+        }
+        if (!captureOk) {
+            attachDocPointerScratch(e.pointerId);
+        }
+        scratch(e);
+    },
+    scratchPointerOpts
+);
+
+canvas.addEventListener("pointermove", scratch, scratchPointerOpts);
 
 function endScratchPointer(e) {
+    clearDocPointerScratch();
     scratching = false;
     unlockScratchScroll();
-    if (canvas.hasPointerCapture(e.pointerId)) {
-        canvas.releasePointerCapture(e.pointerId);
+    try {
+        if (canvas.hasPointerCapture(e.pointerId)) {
+            canvas.releasePointerCapture(e.pointerId);
+        }
+    } catch {
+        /* in-app WebViews may throw */
     }
     if (scratchPointerId === e.pointerId) scratchPointerId = null;
 }
 
 function releaseScratchPointerIfHeld() {
+    clearDocPointerScratch();
     if (scratchPointerId === null) return;
     try {
         if (canvas.hasPointerCapture(scratchPointerId)) {
@@ -230,18 +282,10 @@ function releaseScratchPointerIfHeld() {
     scratchPointerId = null;
 }
 
-["pointerup", "pointercancel", "pointerleave"].forEach((evt) =>
-    canvas.addEventListener(evt, endScratchPointer)
-);
+["pointerup", "pointercancel"].forEach((evt) => canvas.addEventListener(evt, endScratchPointer));
 
-function scratch(e) {
-    if (!scratching || isRevealed) return;
-    if (e.cancelable) e.preventDefault();
-    e.stopPropagation();
-
+function scratchAt(clientX, clientY) {
     const rect = canvas.getBoundingClientRect();
-    const clientX = e.clientX;
-    const clientY = e.clientY;
     const x = clientX - rect.left;
     const y = clientY - rect.top;
     const insideCanvas = x >= 0 && y >= 0 && x <= rect.width && y <= rect.height;
@@ -256,6 +300,13 @@ function scratch(e) {
     ctx.fill();
 
     checkReveal();
+}
+
+function scratch(e) {
+    if (!scratching || isRevealed) return;
+    if (e.cancelable) e.preventDefault();
+    e.stopPropagation();
+    scratchAt(e.clientX, e.clientY);
 }
 
 function checkReveal() {
