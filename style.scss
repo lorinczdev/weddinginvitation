@@ -294,9 +294,9 @@ h2.info-titlet:has(+ .countdown-container) {
   transform-origin: center top;
 }
 
-$music-ring-border: rgba(235, 168, 195, 0.5);
-$music-ring-border-mid: rgba(232, 158, 188, 0.44);
-$music-ring-border-strong: rgba(218, 125, 165, 0.62);
+$music-ring-border: rgba(255, 255, 255, 0.52);
+$music-ring-border-mid: rgba(255, 255, 255, 0.45);
+$music-ring-border-strong: rgba(255, 255, 255, 0.88);
 
 @keyframes music-playing-ring {
   0%,
@@ -328,7 +328,7 @@ $music-ring-border-strong: rgba(218, 125, 165, 0.62);
   cursor: pointer;
   color: #5c3d45;
   background: transparent;
-  transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease, border-radius 0.22s ease;
 
   &::before {
     content: "";
@@ -346,6 +346,7 @@ $music-ring-border-strong: rgba(218, 125, 165, 0.62);
     transform: translate(-50%, -50%) scale(0.94);
     background: transparent;
     border: 1.5px solid $music-ring-border;
+    transition: width 0.22s ease, height 0.22s ease;
   }
 
   .music-icon {
@@ -384,6 +385,7 @@ $music-ring-border-strong: rgba(218, 125, 165, 0.62);
   }
 
   &:hover {
+    border-radius: 50%;
     background: rgba(45, 38, 52, 0.06);
     color: #3d252c;
   }
@@ -398,11 +400,16 @@ $music-ring-border-strong: rgba(218, 125, 165, 0.62);
     animation-delay: 0s;
   }
 
+  .music-controls--playing &:hover::before {
+    width: 42px;
+    height: 42px;
+  }
+
   .music-controls--playing &:active::before {
     animation: none;
     opacity: 0.65;
     transform: translate(-50%, -50%) scale(1);
-    border-color: rgba(230, 155, 185, 0.55);
+    border-color: rgba(255, 255, 255, 0.72);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -410,7 +417,7 @@ $music-ring-border-strong: rgba(218, 125, 165, 0.62);
       animation: none;
       opacity: 0.78;
       transform: translate(-50%, -50%) scale(1.04);
-      border-color: rgba(212, 145, 175, 0.55);
+      border-color: rgba(255, 255, 255, 0.62);
     }
 
     .music-icon {
@@ -554,6 +561,11 @@ $music-ring-border-strong: rgba(218, 125, 165, 0.62);
     &::before {
       width: 46px;
       height: 46px;
+    }
+
+    .music-controls--playing &:hover::before {
+      width: 58px;
+      height: 58px;
     }
 
     .music-icon {
