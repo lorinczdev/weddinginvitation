@@ -195,7 +195,7 @@ h1 {
 }
 
 .invite-heart-date .date {
-    font-size: clamp(3rem, 10.5vw, 4.15rem);
+    font-size: clamp(2.35rem, 7.8vw, 3.05rem);
     display: inline-block;
     font-weight: 400;
 }
@@ -681,15 +681,14 @@ canvas {
 }
 
 /* Intro pod hlavičkou — ne #info-page > … (OverlayScrollbars přesune obsah, přímé děti zmizí) */
-#info-page .header-row ~ h2.info-titlet,
-#info-page .info-titlett {
+#info-page .header-row ~ h2.info-titlet {
     color: #000;
 }
 
 .info-titlett {
     font-family: 'Archivo Narrow', sans-serif;
     font-size: 1rem;
-    color: var(--gold-text);
+    color: #000;
     font-weight: normal;
     margin-top: 0;
     margin-bottom: 0;
@@ -1382,6 +1381,7 @@ h4.dresscode-gender-title {
 .dress-gallery-img {
     width: 100%;
     height: auto;
+    margin-top: clamp(20px, 5vw, 36px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.14);
     cursor: zoom-in;
     transition: transform 0.25s ease, box-shadow 0.25s ease;

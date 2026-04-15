@@ -38,13 +38,13 @@ body {
 }
 
 /* Intro pod hlavičkou — ne přímý potomek #info-page (OverlayScrollbars obalí scroll viewportem) */
-#info-page .header-row ~ h2.info-titlet,
-#info-page .info-titlett {
+#info-page .header-row ~ h2.info-titlet {
   color: #000;
 }
 
 .info-titlett {
   padding-bottom: 1rem;
+  color: #000;
 }
 
 /* Nadpis nad odpočtem je uvnitř .info-content, takže neplatí pravidlo výše */
@@ -69,6 +69,10 @@ h2.info-titlet:has(+ .countdown-container) {
 .info-text-airy,
 .dress-note {
   font-family: $font-body;
+}
+
+.info-text-airy {
+  color: var(--text-primary);
 }
 
 #countdown,
@@ -177,15 +181,6 @@ h2.info-titlet:has(+ .countdown-container) {
   align-items: center;
   justify-content: center;
   gap: 0.55em;
-}
-
-.gifts-heading-icon {
-  display: block;
-  width: 1.35rem;
-  height: 1.35rem;
-  flex-shrink: 0;
-  color: var(--accent);
-  opacity: 0.92;
 }
 
 .gifts-footer-icons {
@@ -538,6 +533,19 @@ $music-ring-border-strong: rgba(218, 125, 165, 0.62);
       width: 22px;
       height: 22px;
     }
+  }
+}
+
+// Dresscode: compact lines and paragraph spacing (overrides .info-text-airy mobile line-height)
+.dresscode-women-intro,
+.dresscode-men-intro {
+  line-height: 1.28;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35em;
+
+  p {
+    margin: 0;
   }
 }
 
