@@ -60,10 +60,6 @@ h2.info-titlet:has(+ .countdown-container) {
   #main-title {
     top: max(10vh, calc(env(safe-area-inset-top, 0px) + 4vh)) !important;
   }
-
-  .heart-wrapper {
-    margin-top: clamp(0.85rem, 4.5vmin, 1.75rem);
-  }
 }
 
 #instruction,
@@ -108,9 +104,11 @@ h2.info-titlet:has(+ .countdown-container) {
   box-shadow: none !important;
   transition: transform 0.2s ease, border-color 0.2s ease;
 
-  &:hover {
-    border-color: rgba($color-accent, 0.55);
-    box-shadow: none !important;
+  @media (hover: hover) {
+    &:hover {
+      border-color: rgba($color-accent, 0.55);
+      box-shadow: none !important;
+    }
   }
 
   &:active {
@@ -342,6 +340,7 @@ $music-ring-border-strong: rgba(218, 125, 165, 0.62);
   @include flex-center;
   position: relative;
   z-index: 1;
+  isolation: isolate;
   width: 32px;
   height: 32px;
   padding: 0;
@@ -357,7 +356,7 @@ $music-ring-border-strong: rgba(218, 125, 165, 0.62);
     position: absolute;
     left: 50%;
     top: 50%;
-    z-index: -1;
+    z-index: 0;
     box-sizing: border-box;
     width: 34px;
     height: 34px;
@@ -370,9 +369,28 @@ $music-ring-border-strong: rgba(218, 125, 165, 0.62);
     border: 1.5px solid $music-ring-border;
   }
 
-  svg {
+  .music-icon {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 1;
     width: 17px;
     height: 17px;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+
+  .music-icon--muted {
+    opacity: 0;
+  }
+
+  &.is-muted .music-icon--on {
+    opacity: 0;
+  }
+
+  &.is-muted .music-icon--muted {
+    opacity: 1;
   }
 
   &:hover {
@@ -404,18 +422,10 @@ $music-ring-border-strong: rgba(218, 125, 165, 0.62);
       transform: translate(-50%, -50%) scale(1.04);
       border-color: rgba(212, 145, 175, 0.55);
     }
-  }
 
-  .music-icon--muted {
-    display: none;
-  }
-
-  &.is-muted .music-icon--on {
-    display: none;
-  }
-
-  &.is-muted .music-icon--muted {
-    display: block;
+    .music-icon {
+      transition: none;
+    }
   }
 }
 
@@ -524,7 +534,7 @@ $music-ring-border-strong: rgba(218, 125, 165, 0.62);
       height: 46px;
     }
 
-    svg {
+    .music-icon {
       width: 22px;
       height: 22px;
     }

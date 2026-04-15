@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//lorinczdev.github.io//weddinginvitation//CS
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:20260606-svatba-peta-anicka@lorinczdev.github.io
+DTSTAMP:20260415T120000Z
+URL:https://lorinczdev.github.io/weddinginvitation/
+DTSTART:20260606T130000
+DTEND:20260606T235900
+SUMMARY:Svatba Aničky a Péti
+DESCRIPTION:Zveme Vás na naši svatbu v kostele sv. Jana Křtitele v Teplicích.
+LOCATION:Zámecké nám. 135\, 415 01 Teplice 1
+END:VEVENT
+END:VCALENDAR

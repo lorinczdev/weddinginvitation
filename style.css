@@ -80,7 +80,7 @@ body.images-ready img {
     position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; /* Srdce nahoře; volný prostor bere #instruction přes margin-top: auto */
+    justify-content: center; /* Srdce na střed výšky; návod je position: absolute dole */
     align-items: center; /* Vycentruje vodorovně */
     overflow: hidden;
 }
@@ -141,7 +141,11 @@ h1 {
 }
 
 #instruction {
-    margin: auto 0 max(10px, env(safe-area-inset-bottom, 0px));
+    position: absolute;
+    left: 50%;
+    bottom: max(10px, env(safe-area-inset-bottom, 0px));
+    transform: translateX(-50%);
+    margin: 0;
     color: #dab6ca;
     font-style: normal;
     font-family: 'Archivo Narrow', sans-serif;
@@ -152,12 +156,12 @@ h1 {
     flex-direction: column;
     align-items: center;
     gap: 3px;
-    position: relative;
     width: 100%;
     max-width: 400px;
-    align-self: center;
     z-index: 3;
     flex-shrink: 0;
+    box-sizing: border-box;
+    padding: 0 10px;
 }
 
 #instruction-icon {
@@ -398,10 +402,6 @@ canvas {
         justify-content: center; /* Na velké obrazovce znovu vycentrovat hero */
     }
 
-    #instruction {
-        margin: 8px 0 0; /* Na desktopu bez „pin to bottom“ */
-    }
-
     h1 {
         font-size: 5rem; /* Na velkém monitoru si můžeme dovolit větší nadpis */
         margin-bottom: 30px;
@@ -530,10 +530,13 @@ canvas {
     text-align: left;
 }
 
-.calendar-btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 10px 24px rgba(210, 114, 133, 0.28);
-    border-color: rgba(210, 114, 133, 0.55);
+/* Bez @media (hover: hover) by první tap na mobilu často jen „zapnul“ :hover místo kliknutí. */
+@media (hover: hover) {
+    .calendar-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 10px 24px rgba(210, 114, 133, 0.28);
+        border-color: rgba(210, 114, 133, 0.55);
+    }
 }
 
 .calendar-btn:active {
@@ -702,7 +705,7 @@ canvas {
     line-height: 1.2;
     width: 100%; /* Roztažení na dostupnou šířku */
     min-width: 0; /* Sloupec ve flex #info-page nesmí přetékat přes šířku viewportu */
-    margin: 0 auto; /* Pojistka pro vycentrování bloku */
+    margin: 1.5rem auto 0; /* Horní mezera + vycentrování bloku */
     padding: 0;
     color: var(--gold-text);
     display: block;

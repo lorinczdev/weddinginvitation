@@ -485,40 +485,12 @@ function addToCalendar() {
     const startDate = "20260606T130000";
     const endDate = "20260606T235900";
 
-    // 1. Zjistíme, zda je uživatel na zařízení od Apple (iPhone, iPad, Mac)
+    const googleUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startDate}/${endDate}&details=${encodeURIComponent(details)}&location=${encodeURIComponent(location)}&sf=true&output=xml`;
+    // Skutečná URL na serveru — vestavěné prohlížeče (Instagram, Zprávy) často blokují blob: a atribut download.
+    const icsUrl = new URL("svatba.ics", window.location.href).href;
     const isApple = /iPhone|iPad|iPod|Macintosh/i.test(navigator.userAgent);
 
-    if (isApple) {
-        // Pro Apple vytvoříme soubor .ics (v kalendáři se otevře jako nová událost)
-        const icsContent = [
-            "BEGIN:VCALENDAR",
-            "VERSION:2.0",
-            "BEGIN:VEVENT",
-            "URL:" + document.URL,
-            "DTSTART:" + startDate,
-            "DTEND:" + endDate,
-            "SUMMARY:" + title,
-            "DESCRIPTION:" + details,
-            "LOCATION:" + location,
-            "END:VEVENT",
-            "END:VCALENDAR"
-        ].join("\n");
-
-        const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
-        const url = window.URL.createObjectURL(blob);
-
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', 'svatba.ics');
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    } else {
-        // Pro ostatní (Android, PC) použijeme Google Calendar link
-        const googleUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startDate}/${endDate}&details=${encodeURIComponent(details)}&location=${encodeURIComponent(location)}&sf=true&output=xml`;
-        window.open(googleUrl, '_blank');
-    }
-
+    window.location.assign(isApple ? icsUrl : googleUrl);
 }
 
 
