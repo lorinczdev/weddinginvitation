@@ -62,8 +62,37 @@ let scratchScrollLocked = false;
 /** In-app browsers (Messages, etc.) still rubber-band scroll unless touchmove is cancelled at capture. */
 const SCRATCH_TOUCH_SCROLL_OPTS = { capture: true, passive: false };
 
+/** Only touches that began on the canvas — blanket preventDefault breaks some WebViews’ pointer stream. */
+const canvasScratchTouchIds = new Set();
+
+function trackCanvasTouchStart(e) {
+    if (isRevealed) return;
+    for (const t of e.changedTouches) {
+        canvasScratchTouchIds.add(t.identifier);
+    }
+}
+
+function trackCanvasTouchEnd(e) {
+    for (const t of e.changedTouches) {
+        canvasScratchTouchIds.delete(t.identifier);
+    }
+}
+
+const canvasTouchTrackOpts = { passive: true, capture: true };
+canvas.addEventListener("touchstart", trackCanvasTouchStart, canvasTouchTrackOpts);
+canvas.addEventListener("touchend", trackCanvasTouchEnd, canvasTouchTrackOpts);
+canvas.addEventListener("touchcancel", trackCanvasTouchEnd, canvasTouchTrackOpts);
+
 function blockScratchTouchScroll(e) {
-    if (e.cancelable) e.preventDefault();
+    if (!scratchScrollLocked) return;
+    let block = false;
+    for (let i = 0; i < e.touches.length; i++) {
+        if (canvasScratchTouchIds.has(e.touches[i].identifier)) {
+            block = true;
+            break;
+        }
+    }
+    if (block && e.cancelable) e.preventDefault();
 }
 
 function lockScratchScroll() {
@@ -86,6 +115,7 @@ function unlockScratchScroll() {
     if (!scratchScrollLocked) return;
     document.removeEventListener("touchmove", blockScratchTouchScroll, SCRATCH_TOUCH_SCROLL_OPTS);
     scratchScrollLocked = false;
+    canvasScratchTouchIds.clear();
     document.documentElement.classList.remove(SCRATCH_SCROLL_LOCK);
     document.body.classList.remove(SCRATCH_SCROLL_LOCK);
     document.body.style.position = "";
