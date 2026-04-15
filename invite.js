@@ -369,8 +369,6 @@ function revealEverything() {
 
     setTimeout(() => {
         canvas.style.display = "none";
-        revealWeddingDateDetails();
-        startCountdown();
         revealCalendarButtons();
     }, 1000);
 }
@@ -631,16 +629,6 @@ if (form) {
     });
 }
 
-const WEDDING_DATE_DISPLAY = "06. 06. 2026";
-const WEDDING_DATE_HEADER = "6.6.2026";
-
-function revealWeddingDateDetails() {
-    const dateEl = document.getElementById("wedding-date");
-    if (dateEl) dateEl.textContent = WEDDING_DATE_DISPLAY;
-    const headerDate = document.getElementById("info-header-date");
-    if (headerDate) headerDate.textContent = WEDDING_DATE_HEADER;
-}
-
 function startCountdown() {
     const targetDate = new Date(2026, 5, 6, 10, 0, 0).getTime();
 
@@ -871,6 +859,8 @@ function setupDresscodeLightbox() {
     previewImage.addEventListener("pointerup", stopDragging);
     previewImage.addEventListener("pointercancel", stopDragging);
 }
+
+startCountdown();
 
 window.addEventListener("resize", () => {
     if (!isRevealed) initCanvas();
