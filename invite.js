@@ -676,24 +676,66 @@ function downloadIcs() {
 }
 */
 
+function getCalendarBrowserContext() {
+    const userAgent = navigator.userAgent;
+
+    return {
+        isApple: /iPhone|iPad|iPod|Macintosh/i.test(userAgent),
+        isMetaInAppBrowser: /Instagram|FBAN|FBAV|Messenger/i.test(userAgent)
+    };
+}
+
+function openCalendarTarget(targetUrl) {
+    const calendarWindow = window.open(targetUrl, "_blank", "noopener");
+    if (calendarWindow) return;
+    window.location.assign(targetUrl);
+}
+
+function copyCurrentPageUrl() {
+    const pageUrl = window.location.href;
+    const fallbackPrompt = () => {
+        window.prompt("Zkopírujte si odkaz a otevřete stránku v Safari:", pageUrl);
+    };
+
+    if (!navigator.clipboard || !window.isSecureContext) {
+        fallbackPrompt();
+        return;
+    }
+
+    navigator.clipboard.writeText(pageUrl)
+        .then(() => {
+            window.alert("Odkaz jsme zkopírovali. Otevřete jej v Safari a poté znovu klepněte na Přidat do kalendáře.");
+        })
+        .catch(() => {
+            fallbackPrompt();
+        });
+}
+
+function showSafariCalendarHelp() {
+    const shouldCopyLink = window.confirm(
+        "V Instagramu a Messengeru se Apple Kalendář neotevře spolehlivě.\n\nOtevřete tuto stránku v Safari přes menu ... a poté znovu klepněte na Přidat do kalendáře.\n\nChcete si zkopírovat odkaz stránky?"
+    );
+
+    if (!shouldCopyLink) return;
+    copyCurrentPageUrl();
+}
+
 function addToCalendar() {
     const title = "Svatba Aničky a Péti";
     const details = "Zveme Vás na naši svatbu v kostele sv. Jana Křtitele v Teplicích.";
     const location = "Zámecké nám. 135, 415 01 Teplice 1";
     const startDate = "20260606T130000";
     const endDate = "20260606T235900";
-
     const googleUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startDate}/${endDate}&details=${encodeURIComponent(details)}&location=${encodeURIComponent(location)}&sf=true&output=xml`;
-    // Skutečná URL na serveru — vestavěné prohlížeče často neumí spolehlivě předat .ics do kalendáře.
     const icsUrl = new URL("svatba.ics", window.location.href).href;
-    const userAgent = navigator.userAgent;
-    const isApple = /iPhone|iPad|iPod|Macintosh/i.test(userAgent);
-    const isInstagramBrowser = /Instagram|FBAN|FBAV/i.test(userAgent);
-    const targetUrl = isApple && !isInstagramBrowser ? icsUrl : googleUrl;
-    const calendarWindow = window.open(targetUrl, "_blank", "noopener");
+    const { isApple, isMetaInAppBrowser } = getCalendarBrowserContext();
 
-    if (calendarWindow) return;
-    window.location.assign(targetUrl);
+    if (isApple && isMetaInAppBrowser) {
+        showSafariCalendarHelp();
+        return;
+    }
+
+    openCalendarTarget(isApple ? icsUrl : googleUrl);
 }
 
 
