@@ -771,7 +771,7 @@ canvas {
 .info-text-airy {
     font-family: 'Archivo Narrow', sans-serif;
     font-size: 1.05rem;
-    color: var(--text-muted);
+    color: #2d2d2d;
     line-height: 1.1; /* Volitelné: přitáhne řádky ještě blíž k sobě */
     padding-left: 100px; /* Odsazení zleva */
     padding-right: 100px; /* Odsazení zprava */
