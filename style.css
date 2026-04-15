@@ -143,11 +143,8 @@ h1 {
 }
 
 #instruction {
-    position: absolute;
-    left: 50%;
-    bottom: max(10px, env(safe-area-inset-bottom, 0px));
-    transform: translateX(-50%);
-    margin: 0;
+    position: relative;
+    margin: 0.45rem 0 0;
     color: #dab6ca;
     font-style: normal;
     font-family: 'Archivo Narrow', sans-serif;
@@ -164,8 +161,6 @@ h1 {
     flex-shrink: 0;
     box-sizing: border-box;
     padding: 0 10px;
-    /* z-index nad .heart-wrapper — na nízkých displejích překrývá srdce */
-    pointer-events: none;
 }
 
 #instruction-icon {
