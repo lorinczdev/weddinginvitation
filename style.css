@@ -1657,12 +1657,17 @@ h4.dresscode-gender-title {
 }
 
 
-/* Během stírání srdce: zablokovat scroll stránky (hlavně dotyk/mobil) */
+/* Během stírání srdce: zablokovat scroll stránky (hlavně dotyk/mobil / vestavěné prohlížeče) */
 html.scratch-scroll-lock,
 body.scratch-scroll-lock {
     overflow: hidden !important;
     overscroll-behavior: none;
     touch-action: none;
+}
+
+body.scratch-scroll-lock .screen {
+    touch-action: none;
+    overscroll-behavior: none;
 }
 
 
