@@ -54,6 +54,7 @@ let scratchBaseline = null;
 
 /** When setPointerCapture fails (common in some in-app browsers, e.g. Messages), track moves on document. */
 let detachDocPointerScratch = null;
+let scratchTouchId = null;
 
 const SCRATCH_SCROLL_LOCK = "scratch-scroll-lock";
 let scratchScrollLockY = 0;
@@ -61,6 +62,7 @@ let scratchScrollLocked = false;
 
 /** In-app browsers (Messages, etc.) still rubber-band scroll unless touchmove is cancelled at capture. */
 const SCRATCH_TOUCH_SCROLL_OPTS = { capture: true, passive: false };
+const scratchTouchOpts = { passive: false };
 
 /** Only touches that began on the canvas — blanket preventDefault breaks some WebViews’ pointer stream. */
 const canvasScratchTouchIds = new Set();
@@ -82,6 +84,58 @@ const canvasTouchTrackOpts = { passive: true, capture: true };
 canvas.addEventListener("touchstart", trackCanvasTouchStart, canvasTouchTrackOpts);
 canvas.addEventListener("touchend", trackCanvasTouchEnd, canvasTouchTrackOpts);
 canvas.addEventListener("touchcancel", trackCanvasTouchEnd, canvasTouchTrackOpts);
+
+function findTouchById(touchList, touchId) {
+    for (let i = 0; i < touchList.length; i += 1) {
+        if (touchList[i].identifier === touchId) return touchList[i];
+    }
+    return null;
+}
+
+function clearScratchTouch() {
+    if (scratchTouchId === null) return;
+    canvasScratchTouchIds.delete(scratchTouchId);
+    scratchTouchId = null;
+}
+
+function stopScratchTouch() {
+    clearScratchTouch();
+    scratching = false;
+    unlockScratchScroll();
+}
+
+function beginScratchTouch(e) {
+    if (isRevealed || scratchPointerId !== null || scratchTouchId !== null) return;
+    const touch = e.changedTouches[0];
+    if (!touch) return;
+    scratchTouchId = touch.identifier;
+    canvasScratchTouchIds.add(scratchTouchId);
+    if (e.cancelable) e.preventDefault();
+    lockScratchScroll();
+    scratching = true;
+    scratchAt(touch.clientX, touch.clientY);
+}
+
+function moveScratchTouch(e) {
+    if (!scratching || isRevealed || scratchTouchId === null) return;
+    const touch = findTouchById(e.touches, scratchTouchId) || findTouchById(e.changedTouches, scratchTouchId);
+    if (!touch) return;
+    if (e.cancelable) e.preventDefault();
+    e.stopPropagation();
+    scratchAt(touch.clientX, touch.clientY);
+}
+
+function endScratchTouch(e) {
+    if (scratchTouchId === null) return;
+    const touch = findTouchById(e.changedTouches, scratchTouchId);
+    if (!touch) return;
+    stopScratchTouch();
+}
+
+canvas.addEventListener("touchstart", beginScratchTouch, scratchTouchOpts);
+canvas.addEventListener("touchmove", moveScratchTouch, scratchTouchOpts);
+canvas.addEventListener("touchend", endScratchTouch, scratchTouchOpts);
+canvas.addEventListener("touchcancel", endScratchTouch, scratchTouchOpts);
 
 function blockScratchTouchScroll(e) {
     if (!scratchScrollLocked) return;
@@ -271,7 +325,7 @@ function attachDocPointerScratch(pointerId) {
 canvas.addEventListener(
     "pointerdown",
     (e) => {
-        if (isRevealed) return;
+        if (isRevealed || scratchTouchId !== null) return;
         if (e.button !== undefined && e.button !== 0) return;
         if (e.cancelable) e.preventDefault();
         lockScratchScroll();
@@ -342,7 +396,7 @@ function scratchAt(clientX, clientY) {
 }
 
 function scratch(e) {
-    if (!scratching || isRevealed) return;
+    if (!scratching || isRevealed || scratchTouchId !== null) return;
     if (e.cancelable) e.preventDefault();
     e.stopPropagation();
     scratchAt(e.clientX, e.clientY);
@@ -381,8 +435,7 @@ function checkReveal() {
 function revealEverything() {
     if (isRevealed) return;
     isRevealed = true;
-    scratching = false;
-    unlockScratchScroll();
+    stopScratchTouch();
     releaseScratchPointerIfHeld();
     /* I během mizení nesmí neviditelný canvas brát první tap pod sebou (z-index nad srdcem). */
     canvas.style.pointerEvents = "none";
