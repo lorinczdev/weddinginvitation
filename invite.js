@@ -1,4 +1,8 @@
-﻿const canvas = document.getElementById("scratch");
+﻿import scratchHeartUrl from "./heart.png?url";
+
+window.__inviteScratchHeartUrl = scratchHeartUrl;
+
+const canvas = document.getElementById("scratch");
 const ctx = canvas.getContext("2d", { willReadFrequently: true });
 const instruction = document.getElementById("instruction");
 const container = document.querySelector(".heart-wrapper");
@@ -35,6 +39,8 @@ canvas.addEventListener('dragstart', (e) => e.preventDefault());
 canvas.addEventListener('selectstart', (e) => e.preventDefault());
 
 let scratching = false;
+/** Aktivní pointer po pointerdown na canvasu — uvolníme při přechodu na tlačítka (mobil držel capture). */
+let scratchPointerId = null;
 let isRevealed = false;
 let sparkleIntervalsStarted = false;
 const sparkleIntervalIds = [];
@@ -46,7 +52,39 @@ let infoPageScrollbar = null;
 /** Pixel snapshot of the scratch layer right after drawing heart.png (opaque = stíratelná plocha). */
 let scratchBaseline = null;
 
-// 1. Deklarujeme obr�zek jen JEDNOU
+const SCRATCH_SCROLL_LOCK = "scratch-scroll-lock";
+let scratchScrollLockY = 0;
+let scratchScrollLocked = false;
+
+function lockScratchScroll() {
+    if (scratchScrollLocked) return;
+    scratchScrollLocked = true;
+    scratchScrollLockY = window.scrollY || document.documentElement.scrollTop || 0;
+    document.documentElement.classList.add(SCRATCH_SCROLL_LOCK);
+    document.body.classList.add(SCRATCH_SCROLL_LOCK);
+    Object.assign(document.body.style, {
+        position: "fixed",
+        top: `-${scratchScrollLockY}px`,
+        left: "0",
+        right: "0",
+        width: "100%",
+    });
+}
+
+function unlockScratchScroll() {
+    if (!scratchScrollLocked) return;
+    scratchScrollLocked = false;
+    document.documentElement.classList.remove(SCRATCH_SCROLL_LOCK);
+    document.body.classList.remove(SCRATCH_SCROLL_LOCK);
+    document.body.style.position = "";
+    document.body.style.top = "";
+    document.body.style.left = "";
+    document.body.style.right = "";
+    document.body.style.width = "";
+    window.scrollTo(0, scratchScrollLockY);
+}
+
+// 1. Deklarzek jen JEDNOU
 const heartImg = new Image();
 
 // 2. Po�k�me na na�ten� obr�zku a pak spust�me v�e ostatn�
@@ -59,7 +97,7 @@ heartImg.onerror = () => {
     console.error("Obrázek vrstvy stírání (heart) nebyl nalezen!");
     scheduleCanvasInit();
 };
-heartImg.src = window.__inviteScratchHeartUrl || "heart.png";
+heartImg.src = scratchHeartUrl;
 
 if (heartImg.complete && heartImg.naturalWidth > 0) {
     scheduleCanvasInit();
@@ -162,20 +200,38 @@ function dispatchStartupReady() {
 canvas.addEventListener("pointerdown", (e) => {
     if (isRevealed) return;
     if (e.cancelable) e.preventDefault();
+    lockScratchScroll();
     scratching = true;
+    scratchPointerId = e.pointerId;
     canvas.setPointerCapture(e.pointerId);
     scratch(e);
 });
 
 canvas.addEventListener("pointermove", scratch);
 
-["pointerup", "pointercancel", "pointerleave"].forEach((evt) =>
-    canvas.addEventListener(evt, (e) => {
-        scratching = false;
-        if (canvas.hasPointerCapture(e.pointerId)) {
-            canvas.releasePointerCapture(e.pointerId);
+function endScratchPointer(e) {
+    scratching = false;
+    unlockScratchScroll();
+    if (canvas.hasPointerCapture(e.pointerId)) {
+        canvas.releasePointerCapture(e.pointerId);
+    }
+    if (scratchPointerId === e.pointerId) scratchPointerId = null;
+}
+
+function releaseScratchPointerIfHeld() {
+    if (scratchPointerId === null) return;
+    try {
+        if (canvas.hasPointerCapture(scratchPointerId)) {
+            canvas.releasePointerCapture(scratchPointerId);
         }
-    })
+    } catch (_) {
+        /* pointer už nemusí existovat */
+    }
+    scratchPointerId = null;
+}
+
+["pointerup", "pointercancel", "pointerleave"].forEach((evt) =>
+    canvas.addEventListener(evt, endScratchPointer)
 );
 
 function scratch(e) {
@@ -235,6 +291,11 @@ function checkReveal() {
 function revealEverything() {
     if (isRevealed) return;
     isRevealed = true;
+    scratching = false;
+    unlockScratchScroll();
+    releaseScratchPointerIfHeld();
+    /* I během mizení nesmí neviditelný canvas brát první tap pod sebou (z-index nad srdcem). */
+    canvas.style.pointerEvents = "none";
     createConfetti();
 
     if (instruction) {
@@ -260,7 +321,7 @@ function revealCalendarButtons() {
     calWrapper.style.display = "flex";
     calWrapper.style.visibility = "visible";
     calWrapper.style.opacity = "1";
-    calWrapper.style.pointerEvents = "none";
+    calWrapper.classList.add("visible");
 
     const buttons = Array.from(calWrapper.querySelectorAll(".calendar-btn"));
     buttons.forEach((button) => {
@@ -274,8 +335,6 @@ function revealCalendarButtons() {
             button.style.opacity = "1";
             button.style.transform = "translateY(0) scale(1)";
         });
-        calWrapper.style.pointerEvents = "auto";
-        calWrapper.classList.add("visible");
         return;
     }
 
@@ -286,10 +345,6 @@ function revealCalendarButtons() {
         duration: 850,
         delay: (_target, index) => index * 140,
         ease: "outExpo",
-        onComplete: () => {
-            calWrapper.style.pointerEvents = "auto";
-            calWrapper.classList.add("visible");
-        }
     });
 }
 
@@ -660,7 +715,7 @@ function setupDresscodeLightbox() {
 
     const openLightbox = (sourceImage) => {
         previewImage.src = sourceImage.currentSrc || sourceImage.src;
-        previewImage.alt = sourceImage.alt || "Dress code inspirace";
+        previewImage.alt = sourceImage.alt || "Inspirace na dress code";
         resetView();
         lightbox.classList.add("is-open");
         lightbox.setAttribute("aria-hidden", "false");
@@ -866,9 +921,24 @@ function setupBackgroundMusic() {
     });
 }
 
+function wireHeroIntroCalendarButtons() {
+    const wrap = document.getElementById("calendar-wrapper");
+    if (!wrap || wrap.dataset.heroCalendarWired === "1") return;
+    const infoBtn = wrap.querySelector(".calendar-btn-info");
+    const addBtn = wrap.querySelector(".calendar-btn-add");
+    const on = (el, fn) => {
+        if (!el) return;
+        el.addEventListener("click", fn);
+    };
+    on(infoBtn, () => showInfo());
+    on(addBtn, () => addToCalendar());
+    wrap.dataset.heroCalendarWired = "1";
+}
+
 window.addEventListener("DOMContentLoaded", () => {
     ensureInitOnContainerResize();
     if (!hasInitializedCanvas) scheduleCanvasInit();
+    wireHeroIntroCalendarButtons();
     setupModernScrollbar();
     setupDresscodeLightbox();
     setupBackgroundMusic();
@@ -877,3 +947,6 @@ window.addEventListener("DOMContentLoaded", () => {
 window.addEventListener("load", () => {
     if (!hasInitializedCanvas) scheduleCanvasInit();
 });
+
+window.showInfo = showInfo;
+window.addToCalendar = addToCalendar;

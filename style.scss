@@ -103,6 +103,9 @@ h2.info-titlet:has(+ .countdown-container) {
   color: #2f2531 !important;
   box-shadow: none !important;
   transition: transform 0.2s ease, border-color 0.2s ease;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
 
   @media (hover: hover) {
     &:hover {
@@ -152,12 +155,57 @@ h2.info-titlet:has(+ .countdown-container) {
 
 .map-link {
   color: $color-link;
+  text-decoration: none;
+}
+
+.schedule-text .map-link {
+  text-decoration: none;
 }
 
 .schedule-item {
   &:last-child {
     border-bottom: none;
   }
+}
+
+.gifts-section-title {
+  text-align: center;
+}
+
+.gifts-section-title-inner {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55em;
+}
+
+.gifts-heading-icon {
+  display: block;
+  width: 1.35rem;
+  height: 1.35rem;
+  flex-shrink: 0;
+  color: var(--accent);
+  opacity: 0.92;
+}
+
+.gifts-footer-icons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  margin-top: 0.85rem !important;
+  margin-bottom: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  list-style: none;
+}
+
+.gifts-footer-icon {
+  display: block;
+  width: 1.05rem;
+  height: 1.05rem;
+  color: var(--accent);
+  opacity: 0.85;
 }
 
 .harmonogram-timeline {
@@ -269,72 +317,7 @@ $music-ring-border-strong: rgba(218, 125, 165, 0.62);
   }
 }
 
-.music-controls--playing {
-  &::before,
-  &::after {
-    content: "";
-    position: absolute;
-    left: 50%;
-    top: 16px;
-    z-index: 0;
-    box-sizing: border-box;
-    margin: 0;
-    border-radius: 50%;
-    pointer-events: none;
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.94);
-    background: transparent;
-    border: 1.5px solid $music-ring-border;
-  }
-
-  &::before {
-    width: 44px;
-    height: 44px;
-    animation: music-playing-ring 2.4s ease-in-out infinite;
-    animation-delay: 0.28s;
-  }
-
-  &::after {
-    width: 54px;
-    height: 54px;
-    animation: music-playing-ring 2.4s ease-in-out infinite;
-    animation-delay: 0.56s;
-  }
-
-  &:has(.music-mute-btn:active)::before,
-  &:has(.music-mute-btn:active)::after {
-    animation: none;
-    opacity: 0.55;
-    border-color: rgba(230, 155, 185, 0.55);
-  }
-
-  &:has(.music-mute-btn:active)::before {
-    transform: translate(-50%, -50%) scale(1);
-  }
-
-  &:has(.music-mute-btn:active)::after {
-    transform: translate(-50%, -50%) scale(1);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .music-controls--playing {
-    &::before,
-    &::after {
-      animation: none;
-      opacity: 0.68;
-      border-color: rgba(212, 145, 175, 0.55);
-    }
-
-    &::before {
-      transform: translate(-50%, -50%) scale(1.02);
-    }
-
-    &::after {
-      transform: translate(-50%, -50%) scale(1.04);
-    }
-  }
-}
+// Pulse ring: only .music-mute-btn::before (JS toggles .music-controls--playing on the wrapper).
 
 .music-mute-btn {
   @include flex-center;
@@ -371,26 +354,37 @@ $music-ring-border-strong: rgba(218, 125, 165, 0.62);
 
   .music-icon {
     position: absolute;
-    left: 50%;
-    top: 50%;
+    inset: 0;
     z-index: 1;
     width: 17px;
     height: 17px;
-    transform: translate(-50%, -50%);
+    margin: auto;
     pointer-events: none;
-    transition: opacity 0.2s ease;
+    transform: translateZ(0);
+  }
+
+  .music-icon--on {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.2s ease, visibility 0s linear 0s;
   }
 
   .music-icon--muted {
     opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0s linear 0.2s;
   }
 
   &.is-muted .music-icon--on {
     opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0s linear 0.2s;
   }
 
   &.is-muted .music-icon--muted {
     opacity: 1;
+    visibility: visible;
+    transition: opacity 0.2s ease, visibility 0s linear 0s;
   }
 
   &:hover {
@@ -516,13 +510,17 @@ $music-ring-border-strong: rgba(218, 125, 165, 0.62);
   }
 
   .info-section--side-florals .info-section__inner {
-    padding-inline: clamp(54px, 20vw, 184px);
+    padding-inline: clamp(76px, 20vw, 168px);
   }
 
   .info-section--side-florals .info-section-floral {
-    opacity: 0.42;
-    width: clamp(112px, 42vw, 252px);
-    height: clamp(112px, 42vw, 252px);
+    opacity: 0.38;
+    width: clamp(72px, 18vw, 148px);
+    background-size: 162% auto;
+  }
+
+  .info-section--side-florals .info-section-floral--right {
+    background-size: 152% auto;
   }
 
   .music-mute-btn {

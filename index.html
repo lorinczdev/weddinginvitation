@@ -94,15 +94,15 @@
         </p>
 
         <div id="calendar-wrapper" class="hidden">
-            <a href="javascript:void(0)" class="calendar-btn calendar-btn-info" onclick="showInfo()">
-                <div class="calendar-icon" aria-hidden="true"></div>
+            <button type="button" class="calendar-btn calendar-btn-info">
+                <span class="calendar-icon" aria-hidden="true"></span>
                 <span>Pro další informace klikněte zde</span>
-            </a>
+            </button>
 
-            <a href="javascript:void(0)" class="calendar-btn calendar-btn-add" onclick="addToCalendar()">
-                <div class="calendar-icon" aria-hidden="true">6</div>
+            <button type="button" class="calendar-btn calendar-btn-add">
+                <span class="calendar-icon" aria-hidden="true">6</span>
                 <span>Přidat do kalendáře</span>
-            </a>
+            </button>
         </div>
 
 
@@ -198,6 +198,14 @@
                         <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/>
                             <circle cx="12" cy="13" r="3"/>
+                        </g>
+                    </symbol>
+                    <symbol id="harmonogram-sub-gift" viewBox="0 0 24 24">
+                        <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect width="18" height="4" x="3" y="8" rx="1"/>
+                            <path d="M12 8v13"/>
+                            <path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/>
+                            <path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 4.8 0 0 1 12 8a4.8 4.8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5"/>
                         </g>
                     </symbol>
                 </svg>
@@ -391,6 +399,8 @@
                     <img src="svatebni2.jpg" alt="Svatební fotka" class="fade-image">
                 </div>
 
+                <hr class="fade-divider">
+
                 <div class="info-section">
                     <h3 class="info-title-airy">Dresscode</h3>
 
@@ -428,13 +438,26 @@
 
                 <hr class="fade-divider">
 
-                <div class="info-section">
-                    <h3 class="info-title-airy">Svatební dary</h3>
+                <div class="info-section gifts-section">
+                    <h3 class="info-title-airy gifts-section-title">
+                        <span class="gifts-section-title-inner">
+                            <svg class="gifts-heading-icon" viewBox="0 0 24 24" width="24" height="24" focusable="false" aria-hidden="true"><use href="#harmonogram-sub-gift"/></svg>
+                            <span>Svatební dary</span>
+                            <svg class="gifts-heading-icon" viewBox="0 0 24 24" width="24" height="24" focusable="false" aria-hidden="true"><use href="#harmonogram-sub-gift"/></svg>
+                        </span>
+                    </h3>
                     <div class="info-text-airy">
                         <p>Největším darem pro nás bude, když tento den strávíte s námi a užijete si ho.</p>
-                        <p>Pokud byste nám chtěli něco darovat, budeme rádi za finanční příspěvek na naše společné bydlení. 🎁</p>
+                        <p>Pokud byste nám chtěli něco darovat, budeme rádi za finanční příspěvek na naše společné bydlení.</p>
+                        <p class="gifts-footer-icons" aria-hidden="true">
+                            <svg class="gifts-footer-icon" viewBox="0 0 24 24" focusable="false"><use href="#harmonogram-sub-gift"/></svg>
+                            <svg class="gifts-footer-icon" viewBox="0 0 24 24" focusable="false"><use href="#harmonogram-sub-gift"/></svg>
+                            <svg class="gifts-footer-icon" viewBox="0 0 24 24" focusable="false"><use href="#harmonogram-sub-gift"/></svg>
+                        </p>
                     </div>
                 </div>
+
+                <hr class="fade-divider">
 
                 <div class="fade-image-wrapper fade-image-wrapper--before-rsvp">
                     <img src="bottom-photo.jpg" alt="Společná fotografie" class="fade-image">
@@ -446,6 +469,8 @@
                         <span>Přidat do kalendáře</span>
                     </a>
                 </div>
+
+                <hr class="fade-divider">
 
                 <div class="rsvp-outer-container">
                     <div class="google-form-box">
@@ -492,6 +517,5 @@
 
     <div id="vue-app" style="display: none;"></div>
     <script type="module" src="/main.js"></script>
-    <script src="script.js?v=6.4" defer></script>
 </body>
 </html>
