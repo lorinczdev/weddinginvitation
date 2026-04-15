@@ -59,6 +59,13 @@ const SCRATCH_SCROLL_LOCK = "scratch-scroll-lock";
 let scratchScrollLockY = 0;
 let scratchScrollLocked = false;
 
+/** In-app browsers (Messages, etc.) still rubber-band scroll unless touchmove is cancelled at capture. */
+const SCRATCH_TOUCH_SCROLL_OPTS = { capture: true, passive: false };
+
+function blockScratchTouchScroll(e) {
+    if (e.cancelable) e.preventDefault();
+}
+
 function lockScratchScroll() {
     if (scratchScrollLocked) return;
     scratchScrollLocked = true;
@@ -72,10 +79,12 @@ function lockScratchScroll() {
         right: "0",
         width: "100%",
     });
+    document.addEventListener("touchmove", blockScratchTouchScroll, SCRATCH_TOUCH_SCROLL_OPTS);
 }
 
 function unlockScratchScroll() {
     if (!scratchScrollLocked) return;
+    document.removeEventListener("touchmove", blockScratchTouchScroll, SCRATCH_TOUCH_SCROLL_OPTS);
     scratchScrollLocked = false;
     document.documentElement.classList.remove(SCRATCH_SCROLL_LOCK);
     document.body.classList.remove(SCRATCH_SCROLL_LOCK);
@@ -360,6 +369,8 @@ function revealEverything() {
 
     setTimeout(() => {
         canvas.style.display = "none";
+        revealWeddingDateDetails();
+        startCountdown();
         revealCalendarButtons();
     }, 1000);
 }
@@ -620,6 +631,16 @@ if (form) {
     });
 }
 
+const WEDDING_DATE_DISPLAY = "06. 06. 2026";
+const WEDDING_DATE_HEADER = "6.6.2026";
+
+function revealWeddingDateDetails() {
+    const dateEl = document.getElementById("wedding-date");
+    if (dateEl) dateEl.textContent = WEDDING_DATE_DISPLAY;
+    const headerDate = document.getElementById("info-header-date");
+    if (headerDate) headerDate.textContent = WEDDING_DATE_HEADER;
+}
+
 function startCountdown() {
     const targetDate = new Date(2026, 5, 6, 10, 0, 0).getTime();
 
@@ -850,8 +871,6 @@ function setupDresscodeLightbox() {
     previewImage.addEventListener("pointerup", stopDragging);
     previewImage.addEventListener("pointercancel", stopDragging);
 }
-
-startCountdown();
 
 window.addEventListener("resize", () => {
     if (!isRevealed) initCanvas();
