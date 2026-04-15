@@ -926,12 +926,29 @@ function wireHeroIntroCalendarButtons() {
     if (!wrap || wrap.dataset.heroCalendarWired === "1") return;
     const infoBtn = wrap.querySelector(".calendar-btn-info");
     const addBtn = wrap.querySelector(".calendar-btn-add");
-    const on = (el, fn) => {
+
+    const wireButtonAction = (el, handler) => {
         if (!el) return;
-        el.addEventListener("click", fn);
+        let lastRun = 0;
+        const invoke = () => {
+            const now = Date.now();
+            if (now - lastRun < 400) return;
+            lastRun = now;
+            handler();
+        };
+        el.addEventListener("click", invoke);
+        el.addEventListener(
+            "touchend",
+            (event) => {
+                event.preventDefault();
+                invoke();
+            },
+            { passive: false }
+        );
     };
-    on(infoBtn, () => showInfo());
-    on(addBtn, () => addToCalendar());
+
+    wireButtonAction(infoBtn, showInfo);
+    wireButtonAction(addBtn, addToCalendar);
     wrap.dataset.heroCalendarWired = "1";
 }
 

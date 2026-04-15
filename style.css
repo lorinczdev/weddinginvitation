@@ -531,8 +531,8 @@ canvas {
     text-align: left;
 }
 
-/* Bez @media (hover: hover) by první tap na mobilu často jen „zapnul“ :hover místo kliknutí. */
-@media (hover: hover) {
+/* Jen myš: na dotyku jinak první tap často jen „hover“ a až druhý spustí akci. */
+@media (hover: hover) and (pointer: fine) {
     .calendar-btn:hover {
         transform: translateY(-1px);
         box-shadow: 0 10px 24px rgba(210, 114, 133, 0.28);
